@@ -4,7 +4,7 @@
 	에반유가 만들었으며, React와 Angular의 장점만 모음.
 	현재 FrontEnd 프레임웍으로 인기 있음.
 	
-	Vue.js + Vue-route + Vuex + @ ==> Framework
+	Vue.js + Vue-route + Vuex + @ ==> Framework (여러 ecosystem 환경 구축 되어 있음)
 	React 보다 성능이 좋았지만, 현재 React 또한 개선으로 비슷.
 	
 	장점
@@ -246,13 +246,37 @@
 	@mouseup.left , right, middle
 	
 	
-### 5장 클래스.	
+6. 스타일
+	1) 스타일 적용 및 인라인 표기 
+		스타일 적용 우선 순위 확인 필요 (style 태그 안 순서대로 ==> HTML 태그 인라인 요소)
+		Vue.js 에서도 data 뿐만 아니라 스타일 적용도 가능
+		* v-bind:style 
+		데이터 속성 작성 주의사항 스타일 속성의 경우 반.드.시 카멜 표기법(camel casing) 사용 ! 속성과 속성 사이는 ; 아닌 , 로 구분
+		예시 ) background-color : red; font-size : 12px ==> {backgroundColor:'red' , fontSize:'12px'}
+		속성 개별적으로 바인딩 가능
+		data 속성 == > a : { bc:'yellow', bd:'red'}
+		v-bind:style = {backgroundColor : a.bc, color: a.bd}
+		여러개의 스타일 객체도 배열로 바인딩 가능 
+	2) CSS 클래스 바인딩
+		* v-bind:class= 객체 { 클래스명 : data값 } class의 값들이 true 일경우 적용 됨.
+	3) 계산형 속성 및 메서드를 이용한 스타일 적용
+		* v-bind:class= 함수 로 정의도 가능
+		computed 옵션을 이용하여, 스타일 적용 가능
+	4) 컴포넌트 단위로 스타일 적용
+		<컴포넌트명 v-bind:class=""></컴포넌트명>
+	
+	5-12 예제를 통하여 이때까지 배운 내용 정리 ㄱㄱ
+
+
+
+ 
+
 	
 	
 	
+	git remote add origin https://github.com/byounghoonmoon/study_vue.js.git	
 	
-	
-	
+https://github.com/byounghoonmoon/study_vue.js.git	
 	
 	
 	
