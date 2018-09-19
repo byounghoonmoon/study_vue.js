@@ -1,0 +1,275 @@
+
+
+1. vue 란 ?
+	에반유가 만들었으며, React와 Angular의 장점만 모음.
+	현재 FrontEnd 프레임웍으로 인기 있음.
+	
+	Vue.js + Vue-route + Vuex + @ ==> Framework
+	React 보다 성능이 좋았지만, 현재 React 또한 개선으로 비슷.
+	
+	장점
+		가볍고 유연함
+		- 전체 아키텍처를 새롭게 구성할 필요가 없음
+		- 원한다면 SPA으로 구성 가능 : Router 기능지원
+	
+		완만한 학습 곡선
+		- 진입장벽이 상대적으로 낮음
+		- 잘 정리되어 있는 문서
+		
+		SPA(Single Page Application) 아키텍처 구성 가능
+		- Router 기능 가능
+	
+	특징
+		MVVM 패턴
+		Model - View - ViewModel
+		
+			- Model : 데이터를 관리	(Excel 시트)
+			- ViewModel : 데이터 변화를 감지하여 View 변경 (데이터를 바꿀시 차트 변경)
+			- View : 화면 (Excel 차트)
+			
+		가상 DOM 이용
+		변경된 부분만 변경되도록 하면 속도가 향상
+		
+2. 개발 환경 설정
+	1) Node.js 
+		Google V8 엔진 기반 서버 측 자바스크립트 언어이자 플랫폼
+		npm(Node Package Manager)함께 설치
+	
+		※ Vue.js 관련 도구 설치 및 의존성 라이브러리 관리 (편리)
+		설치파일 : node-v8.11.4-x64.exe
+		※npm install -g npm
+		
+	2)	Visual Studio Code (IDE)
+		플러그인 목록
+		- view-in-browser : html 파일 기본 브라우저로 보기 
+		- vetur : vue 문법 강조, 코드 자동 완성, 디버깅, 린팅 기능
+		- HTML Snippets: HTML 태그 조각을 빠르게 작성 
+		- ESLint : 자바스크립트 문법 체크 기능 제공
+		※ 플러그인 설치후 VSC 재시작 필요
+		설치 파일 : VSCodeUserSetup-x64-1.27.1.exe 
+		
+	3)	크롬 브라우저 및 확장프로그램(Vue.js devtools 설치)
+	
+	4)	Vue-CLI (Vue Command Line Interface)
+		프로젝트 기본 폴더 구조 템플릿 제공
+		설치방법 : 
+		   npm install -g yarn
+		   ※ npm과 비슷한 yarn 설치 (Vue CLI 3.x 버전에서는 yarn 패키지매니저 주로 이용)
+		   npm install -g @vue/cli
+		   
+	5) axios
+	6) vuex
+	7) router
+	
+		
+3. Vue 기초
+	1) 기본구조
+		콧수염 표현식 (Mustache Expression)
+	
+		MVVM 구조 (ch01 예시 참고)
+	
+		View: template 태그
+		View Model : Vue 객체 선언 부분. el은 template id 바인딩, data는 model을 바인딩
+		Model : model 생성 (message 등등) 
+	
+	2) Vue Directive 지시어 
+		* v-text, {{}} : innerText 속성 연결됨. 태그 그대로 보여줌. 단방향
+		* v-html : innerText 속성 그대로 연결됨. 태그 문자열 파싱하여 보여줌. 따라서, XSS 공격에 취약. 단방향
+		* v-bind : Element 요소의 속성을 바인딩. 단방향
+		* v-model : html 반영시, 객체도 반영. 양방향 바인딩 가능 
+					수식어 지원 가능(lazy,number,trim)
+					.lazy ==> <input type="text" v-model:lazy="name" />	: 입력폼에서 이벤트 발생시 데이터 동기화
+					.number ==> v-model.number : number 형태로 자동형변환 되어 저장
+					.trim ==> v-model.trim : 문자열 앞뒤 공백 자동 제거
+		* v-show :	true일때 display:true , false 일때 display:none   rendering은 됨 
+		* v-if , v-else, v-else-if : 조건이 많지 않으면 렌더링 안됨.
+		* v-for : 반복 구문 이용시 사용.
+				. <tr v-for="contact in contacts"> <td> contact </td> </tr> ==> contacts 배열일 경우
+				. <tr v-for="(contact, index) in contacts"> <td> {{index+1}} </td> </tr> ==> contacts 배열일 경우 , index 사용가능 
+				. <tr v-for="(val,key, index) in contacts"> <td> {{index+1}} : {{val}} </td> </tr> ==> contacts 객체일 경우, hashMap 처럼 사용 
+				렌더링 속도를 빠르게 하기 위해선 변경된 부분만 업데이트 해야함.
+				v-for 지시어 안에서는 key속성 바인딩시 더 빠르게 렌더링 가능. (※ 변경된 key만 렌더링 하면 되니깐..)
+				v-bind:key="유일한속성값" 
+		* v-pre : html 요소에 대한 컴파일 수행 안함. <span v-pre>{{message}}</span> 맵핑된 template 문자열을 컴파일 안하고 그대로 내보낼때 사용.
+		* v-once : html렌더링 단 한번만 필요할 경우, Vue 인스턴스 데이터 변경해도 렌더링 수행 안함. 초깃값이 주어지면 변경되지 않을떄 사용.
+		* v-cloak : 콧수염 표현식의 템플릿 문자열이 나올 경우, 클록킹 하도록 하는 옵션 
+					style 태그 안에 [v-cloak] {display:none;}
+					vue 템플릿 속성에 v-cloak 추가 (예제 3-08 응용)
+		
+	3) 계산형 속성 (computed)
+		v-bind 지시어로 데이터를 바인딩 할 수 있지만, 연산로직이 필요할 경우 computed 속성을 사용한다. computed 속성은 동기 처리.
+		computed 내부에 선언하고, template에 속성 맵핑
+		
+		2-15 v-model 디렉티브는 한글 입력 또는 엔터시가 이벤트가 발생함
+		따라서, input 및 keyup 이벤트로 즉각적으로 filter가 되도록 이벤트 처리를 해줄수있음.
+		v-bind:vlaue="countryname" @input="함수"
+		함수 ==> this.countryname = e.target.value
+		
+4. Vue 인스턴스
+	new Vue({
+	})	<== Vue 인스턴스
+	
+	1) data 옵션
+		data 옵션들은 Vue 인스턴스 내부에서 직접 이용되지 않음.
+		- Vue 인스턴스와 Data 옵션에 주어진 객체 사이에 프록시 (define.property) 두어 처리
+		- data 옵션은 Vue 인스턴스가 관찰 ==> 변경 사항 즉시 감지
+		vm.name == vm.$data.name
+	2) el 옵션
+		HTML DOM 요소를 지정
+		다중 요소 바인딩 안됨 (element 하나당 Vue 속성 하나)
+	3) computed 옵션 
+		읽기와 쓰기도 가능 (getter, setter 지정 가능)
+		비동기 처리 불가 ( why? return 하기 때문)
+		종속된 값은 결과값이 캐슁 됨
+	4) methods 옵션
+		Vue 인스턴스를 이용해 직접 호출 가능
+		디렉티브 표현식
+		콧수염 표현식에도 사용가능
+		캐슁 데이터 없고 매번 실행
+		event 처리시에도 사용
+	5) watch 옵션
+		비동기 처리에 적합
+		data에 있는 변수를 써야 함.
+		watch :{
+			"data에 지정한 변수" : function("변경된 값"){
+			
+			}
+		}
+		단점: 갑시 바뀔 때마다 매번 함수가 호출
+	
+		API 호출을 통해 watch 심화
+		API 사용시 라이브러리 : fetch , lodash
+		lodash의 _.debounce 함수 : 지연 시킬수 있음
+		└ debounce : _.debounce( function(){} ,  x) ==> x ms 이후 함수 동작
+		└ Throttle : 300 ms 간격마다 요청
+		
+		fetch() 함수 return 값은 promise 객체 응답후, then() 함수 호출 
+		
+	6) 인스턴스 라이프 사이클 (그림 참고)
+		beforeCreated
+		created	: UI관련 작업 전 ( el 옵션 존재 여부도 모름)
+		beforeMount
+		mounted	: vm.$el 생성후 el로 교체	(UI 작업완료)
+		beforeUpdate
+		updated	: data 변경시 re-Rendering
+		beforeDestroy
+		destroyed
+
+5. 이벤트 처리
+	v-on 디렉티브 사용
+	v-on:click === @click 으로 변경가능
+	인라인으로 작성도 가능 ==> @click="balance += parseInt(amount)"
+	methods안에 함수를 정의하여 이벤트를 핸들러!
+	
+	@click="deposit"
+	methods :{
+		deposit : function(e){
+			.... 로직 
+		}
+	}
+	
+	이벤트 객체 : e
+	
+	이벤트 객체 주요 공통 속성
+		target : 이벤트 발생한 HTML 요소 리턴
+		currentTarget : 이벤트리스너가 이벤트를 발생시키는 HTML 요소 리턴
+		path : 배열값이며, 이벤트 발생 HTML 요소로부터 document, window 객체까지의 경로
+		bubbles : 현재의 이벤트가 버블링을 으키는 이벤트인지 여부 리턴
+		cancelable : 기본 이벤트를 방지할 수 있는지 여부 리턴
+		defaultPrevented : 기본 이벤트가 방지되었는지 여부 리턴
+		eventPhase : 이벤트 흐름 단계 나타냄
+					 1: 포착(CAPTUREING_PHASE)
+					 2: 이벤트발생(AT_TARGET)
+					 3: 버블링(BUBBLING_PHASE)
+		srcElement : IE에서 사용되던 속성으로 target과 동일한 속성
+		
+	키보드 이벤트
+		altKey : ALT 키 눌렀는지 여부
+		metaKey : 메타키가 눌렀는지 여부 (Window : window모양 키)
+		keyCode : 이벤트를 발생시킨 키보드의 고유 키코드 (ex: 13 <Enter>키, 27 <Esc>키, 20 <Caps Lock>키)
+		
+	마우스 이벤트
+		button : 이벤트를 발생시키 마우스 버튼
+				 0 : 마우스 왼쪽 버튼
+				 1 : 마우스 휠
+				 2 : 마우스 오른쪽 버튼
+		buttons : 마우스 이벤트 발생후 눌러져 있는 버튼 값
+				 1  : 마우스 왼쪽 버튼
+				 2  : 마우스 오른쪽 버튼
+				 4  : 마우스 휠
+				 8  : 4번째 마우스 버튼
+				 16 : 5번째 마우스 버튼
+		clientX,Y,layerX,Y, offsetX, offsetY, pageX, pageY, screenX, screenY : 그림으로 설명
+	
+	이벤트 객체 주요 메서드
+		preventDefauilt() : 기본 이벤트의 자동 실행을 중지
+		stopPropagation() : 이벤트의 전파를 막음
+	
+	기본 이벤트
+	<a> 요소 클릭시 href 특성의 경로를 페이지 이동
+	마우스 오른쪽 클릭했을 경우 컨텍스트메뉴 나타남
+	<form> 요소 내부의 submit 버튼 클릭 시 action 특성에 지정된 method 특성
+	<input> 요소에 키보드를 누르면 입력한 문자가 텍스트 박스에 나타남
+	
+	매번 이벤트 메서드 (preventDefault)를 이용하기는 불편하다.
+	따라서, 이벤트 수석어도 이용 가능하다.
+	v-on:contextmenu.prevent
+	
+	이벤트 전파와 버블링
+	HTML 문서의 이벤트 처리 3단계
+	1단계 : HTML 문서 밖에서 발생시킨 요소까지 포착단계 (CAPTURING_PHASE)
+	2단계 : 이벤트 발생 요소에 도달시 이벤트 발생 (RAISING_PHASE)
+	3단계 : 상위요소로 올라가면서 동일 이벤트 호출 (BUBBLING_PHASE)
+	
+	이벤트 전파를 막기 위해서 stopPropagation() 함수 선언 필요
+	하지만, 이것도 귀찮으니깐 이벤트 수식어로 가능
+	@click.stop : 이벤트 전파를 중지
+	@click.capture : 캡쳐링 단계에서만 이벤트 발생
+	@click.self : RAISING_PHASE 단계에서만 이벤트 발생
+	중첩 가능 ( .captuer.stop )
+	
+	onse 수식어 : @click.once == > 최초 한번만 이벤트 발생
+	
+	키코드 수식어
+	v-on:keyup="search"
+	search 함수 내 if(e.keyCode===13) 으로도 처리할 수 있지만 
+	v-on:keyup.13="search" 로 처리 가능
+	
+	* Vue.js에서는 키코드 별칭 제공
+	v-on:keyup.enter
+	enter, tab, delete, esc, space, up, down, left, right, ctrl, alt, shift, meta
+	
+	* 복합 가능 
+	v-on:keyup.ctrl.67="copy"
+	
+	마우스 이벤트 수식어
+	@mouseup.left , right, middle
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
