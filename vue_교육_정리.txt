@@ -246,8 +246,7 @@
 	@mouseup.left , right, middle
 	
 	
-	
-	
+### 5장 클래스.	
 	
 	
 	
