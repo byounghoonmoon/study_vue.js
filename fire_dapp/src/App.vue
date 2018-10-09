@@ -4,10 +4,19 @@
       <h1 class="header Text">자동차 정보 - Block-Chain</h1>
         <ul>
           <li>
-            <a href="#" @click="changeMenu('RepairList')">RepairInfo</a>
+            <a href="#" @click="changeMenu('ApplyAccident')">사고접수 신청</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('User')">UserInfo</a>
+            <a href="#" @click="changeMenu('ApplyRepair')">수리 요청</a>
+          </li>
+          <li>
+            <a href="#" @click="changeMenu('ApplyRepairFee')">수리비 청구</a>
+          </li>
+          <li>
+            <a href="#" @click="changeMenu('ApplyRepairFeeList')">수리비 청구 목록</a>
+          </li>
+          <li>
+            <a href="#" @click="changeMenu('PaymentInsurance')">보험금 지급</a>
           </li>
           <!-- <li>
             <a href="#" @click="changeMenu('contact')">InsuranceInfo</a>
@@ -15,7 +24,7 @@
         </ul>
     </div>
     <div class="container">
-      <keep-alive include="about,home">
+      <keep-alive >
         <component v-bind:is="currentView"></component>
       </keep-alive>
     </div>
@@ -23,14 +32,18 @@
 </template>
 
 <script>
-import RepairList from './components/RepairList.vue'
+import ApplyAccident from './components/ApplyAccident.vue'
+import ApplyRepair from './components/ApplyRepair.vue'
+import ApplyRepairFee from './components/ApplyRepairFee.vue'
+import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
+import PaymentInsurance from './components/PaymentInsurance.vue'
 import User from './components/User.vue'
 
 export default {
   name: 'App',
-  components : { RepairList, User },
+  components : { ApplyAccident, ApplyRepair, ApplyRepairFee, ApplyRepairFeeList,PaymentInsurance, User },
   data() {
-    return { currentView : 'RepairList' }
+    return { currentView : 'ApplyAccident' }
   },
   methods : {
     changeMenu(view) {
@@ -48,4 +61,5 @@ li { float: left; }
 li a { display: block;  text-align: center;
     padding: 14px 16px; text-decoration: none;  }
 li a:hover { background-color: aqua; color:black; }
+
 </style>

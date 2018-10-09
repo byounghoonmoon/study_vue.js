@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import 'expose-loader?$!expose-loader?jQuery!jquery'
-import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
-import VueRouter from 'vue-router'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 new Vue({
   render: h => h(App)
