@@ -3,6 +3,11 @@
   <div>
     <table class="table table-bordered table_list">
       <tbody>
+        
+        <tr>
+          <th>고객번호 </th>
+          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.customCd></td>
+        </tr>
          <tr>
           <th>가입보험사 </th>
           <td>
@@ -32,7 +37,7 @@
        
       </tbody>
     </table>
-    <button type="button" class="btn btn-success" @click="applyRepair()">수리 요청</button>
+    <button type="button" class="btn btn-success" @click="requestRepair()">수리 요청</button>
    
     </div>
 </template>
@@ -41,9 +46,11 @@
 
 
 
-import sampleData from '../sampleData';
+import Constant from '../Constant'
+import { mapActions, mapState } from 'vuex'
 export default {
-  name: 'RepairList', 
+  name: 'request-repair', 
+  computed : mapState(['repairList','insuranceList']),
   data : function() {
       return {
           repairList : sampleData.repairList ,
@@ -54,7 +61,7 @@ export default {
       }
   },
   methods: {
-    applyRepair : function() {
+    requestRepair : function() {
       console.log(" ■ 사고 접수 요청 ")
       console.log(" ■ 사고번호 : " + this.accidentNo)
       console.log(" ■ 공업사명 : " + this.selectedRepair.nm)

@@ -4,32 +4,19 @@
     <table class="table table-bordered table_list">
       <tbody>
         <tr>
-          <th>사고발생 일 </th>
-          <td><input  type="date" class="form-control" placeholder="사고접수번호" v-model=accidentInfo.date></td>
+          <th>고객번호 </th>
+          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.customCd></td>
         </tr>
-         <tr>
-          <th>사고발생 시간 </th>
-          <td><input  type="time" class="form-control" placeholder="사고접수번호" v-model=accidentInfo.time></td>
+        <tr>
+          <th>고객명 </th>
+          <td><input  type="text" class="form-control" placeholder="홍길동" v-model.trim=userInfo.customNm></td>
         </tr>
-         <tr>
-          <th>사고발생 경위 </th>
-          <td> 
-            <b-form-textarea 
-                     v-model=accidentInfo.content
-                     placeholder="육하원칙에 따라 기술"
-                     :rows="3"
-                     :max-rows="6">
-                </b-form-textarea>
-          </td>
-        </tr>
-        
-       
         <tr>
           <th>가입보험사 </th>
           <td>
-             <select v-model="selectedInsurance">
+             <select v-model="selected">
               <option disabled value="">가입보험사를 선택하세요</option>
-              <option  v-for="a in insuranceList" :key="a.id" :value="{ id : a.id, nm: a.insurNm }">
+              <option  v-for="a in insuranceList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
                 {{a.insurNm}}
               </option>
             </select>
@@ -37,7 +24,7 @@
         </tr>
       </tbody>
     </table>
-    <button type="button" class="btn btn-success" @click="applyAccident(accidentInfo)">사고접수 신고</button>
+    <button type="button" class="btn btn-success" @click="checkAuthUser(userInfo)">블록체인 인증여부 확인</button>
    
     </div>
 </template>
@@ -49,17 +36,27 @@
 import Constant from '../Constant'
 import { mapActions, mapState } from 'vuex'
 export default {
-  name: 'apply-accident', 
-  
+  name: 'auth-user', 
+
   data : function() {
         return { 
-          selectedInsurance : "",
-          accidentInfo : { date :"" , time :"", content :""}
+          selected : "",
+          userInfo : {insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""} 
+          
         }
   },
+  watch: { 
+    selected : function(sel) { 
+      this.userInfo.insurCd = sel.insurCd;
+    }
+  },
+
   computed : mapState(['insuranceList']),
   methods : {
-      ...mapActions([ Constant.APPLY_ACCIDENT])
+      // ...mapActions([ Constant.AUTH_USER])
+      checkAuthUser : function(payload) {
+            this.$store.dispatch(Constant.AUTH_USER, payload);
+       }
   }
 
 

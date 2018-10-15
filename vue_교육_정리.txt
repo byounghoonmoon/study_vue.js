@@ -293,7 +293,7 @@
 	
 	git remote add origin https://github.com/byounghoonmoon/study_vue.js.git	
 	
-https://github.com/byounghoonmoon/study_vue.js.git	
+		https://github.com/byounghoonmoon/study_vue.js.git	
 	
 	
 	

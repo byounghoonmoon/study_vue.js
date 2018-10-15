@@ -4,10 +4,13 @@
       <h1 class="header Text">자동차 정보 - Block-Chain</h1>
         <ul>
           <li>
+            <a href="#" @click="changeMenu('AuthUser')">사용자 인증</a>
+          </li>
+          <li>
             <a href="#" @click="changeMenu('ApplyAccident')">사고접수 신청</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('ApplyRepair')">수리 요청</a>
+            <a href="#" @click="changeMenu('RequestRepair')">수리 요청</a>
           </li>
           <li>
             <a href="#" @click="changeMenu('ApplyRepairFee')">수리비 청구</a>
@@ -31,19 +34,21 @@
   </div>
 </template>
 
+
+
 <script>
+import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
-import ApplyRepair from './components/ApplyRepair.vue'
-import ApplyRepairFee from './components/ApplyRepairFee.vue'
+import RequestRepair from './components/RequestRepair.vue'
+import ApplyInsurance from './components/ApplyInsurance.vue'
 import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
 import PaymentInsurance from './components/PaymentInsurance.vue'
-import User from './components/User.vue'
 
 export default {
   name: 'App',
-  components : { ApplyAccident, ApplyRepair, ApplyRepairFee, ApplyRepairFeeList,PaymentInsurance, User },
+  components : {AuthUser, ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
   data() {
-    return { currentView : 'ApplyAccident' }
+    return { currentView : 'AuthUser' }
   },
   methods : {
     changeMenu(view) {
