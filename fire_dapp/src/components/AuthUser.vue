@@ -48,6 +48,7 @@ export default {
   watch: { 
     selected : function(sel) { 
       this.userInfo.insurCd = sel.insurCd;
+      this.userInfo.insurNm = sel.insurNm;
     }
   },
 

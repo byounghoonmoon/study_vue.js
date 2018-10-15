@@ -1,4 +1,5 @@
 import Constant from '../Constant';
+import getWeb3 from './getWeb3';
 
 /* 
     Mutation의 경우, Action 에서 외부 API 호출을 비동기 처리 응답을 받은후 
@@ -8,6 +9,17 @@ import Constant from '../Constant';
 */
 export default {
     
+    [Constant.REGISTER_WEB3_INSTANCE] :(state, payload) => {
+        console.log('registerWeb3instance Mutation being executed', payload);
+        let result = payload;
+        let web3Copy = state.web3;
+        web3Copy.coinbase = result.coinbase;
+        web3Copy.networkId = result.networkId;
+        web3Copy.balance = parseInt(result.balance, 10);
+        web3Copy.isInjected = result.injectedWeb3;
+        web3Copy.web3Instance = result.web3;
+        state.web3 = web3Copy;
+      },
     // 사용자 인증
     [Constant.AUTH_USER] : (state, payload) => {
         if (payload.customCd !== "") {

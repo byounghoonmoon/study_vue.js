@@ -1,4 +1,13 @@
 export default {
+    web3: {
+        isInjected: false,
+        web3Instance: null,
+        networkId: null,
+        coinbase: null,
+        balance: null,
+        error: null
+    },
+    contractInstance: null,
     insuranceList : [
         { insurCd:1, insurNm : "삼성화재", customCd: "", customNm: "", authYn:"N" },
         { insurCd:2, insurNm : "DB 보험",  customCd: "", customNm: "", authYn:"N"  },

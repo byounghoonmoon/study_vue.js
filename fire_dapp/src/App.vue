@@ -46,6 +46,10 @@ import PaymentInsurance from './components/PaymentInsurance.vue'
 
 export default {
   name: 'App',
+  beforeCreate () {
+    console.log('registerWeb3 Action dispatched from App.vue')
+    this.$store.dispatch('registerWeb3')
+  },
   components : {AuthUser, ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
   data() {
     return { currentView : 'AuthUser' }
