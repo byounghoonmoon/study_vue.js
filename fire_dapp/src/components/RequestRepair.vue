@@ -6,7 +6,7 @@
         
         <tr>
           <th>고객번호 </th>
-          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.customCd></td>
+          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim="customCd"></td>
         </tr>
          <tr>
           <th>가입보험사 </th>
@@ -53,9 +53,8 @@ export default {
   computed : mapState(['repairList','insuranceList']),
   data : function() {
       return {
-          repairList : sampleData.repairList ,
-          insuranceList : sampleData.insuranceList,
           accidentNo : "",
+          customCd : "",
           selectedRepair: "",
           selectedInsurance :""
       }

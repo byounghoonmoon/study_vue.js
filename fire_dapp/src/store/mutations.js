@@ -1,5 +1,4 @@
 import Constant from '../Constant';
-import getWeb3 from './getWeb3';
 
 /* 
     Mutation의 경우, Action 에서 외부 API 호출을 비동기 처리 응답을 받은후 

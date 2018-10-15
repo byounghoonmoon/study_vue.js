@@ -13,7 +13,7 @@
             <a href="#" @click="changeMenu('RequestRepair')">수리 요청</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('ApplyRepairFee')">수리비 청구</a>
+            <a href="#" @click="changeMenu('ApplyInsurance')">수리비 청구</a>
           </li>
           <li>
             <a href="#" @click="changeMenu('ApplyRepairFeeList')">수리비 청구 목록</a>
@@ -21,9 +21,6 @@
           <li>
             <a href="#" @click="changeMenu('PaymentInsurance')">보험금 지급</a>
           </li>
-          <!-- <li>
-            <a href="#" @click="changeMenu('contact')">InsuranceInfo</a>
-          </li> -->
         </ul>
     </div>
     <div class="container">
@@ -50,9 +47,9 @@ export default {
     console.log('registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
   },
-  components : {AuthUser, ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
+  components : { AuthUser,ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
   data() {
-    return { currentView : 'AuthUser' }
+    return { currentView : 'ApplyAccident' }
   },
   methods : {
     changeMenu(view) {

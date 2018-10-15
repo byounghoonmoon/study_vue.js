@@ -55,7 +55,7 @@
 
 import sampleData from '../sampleData';
 export default {
-  name: 'RepairList', 
+  name: 'apply-insurance', 
   data : function() {
       return {
           repairList : sampleData.repairList ,
