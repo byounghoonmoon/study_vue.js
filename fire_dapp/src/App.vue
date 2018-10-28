@@ -28,6 +28,8 @@
         <component v-bind:is="currentView"></component>
       </keep-alive>
     </div>
+
+    <hello-metamask/>
   </div>
 </template>
 
@@ -40,6 +42,7 @@ import RequestRepair from './components/RequestRepair.vue'
 import ApplyInsurance from './components/ApplyInsurance.vue'
 import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
 import PaymentInsurance from './components/PaymentInsurance.vue'
+import HelloMetamask from './components/hello-metamask.vue'
 
 export default {
   name: 'App',
@@ -47,7 +50,7 @@ export default {
     console.log('registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
   },
-  components : { AuthUser,ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
+  components : {  HelloMetamask,AuthUser,ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
   data() {
     return { currentView : 'ApplyAccident' }
   },
