@@ -1,9 +1,27 @@
 <template>
    
   <div>
-    <table class="table table-bordered table_list">
+
+    
+    <div>
+      <div id="ContextUserCls">
+        <span>
+          <input type="radio" id="user" value="P" v-model=userInfo.userCls>
+          <label for="user"> 사용자</label>
+        </span>
+        <span>
+          <input type="radio" id="insur" value="I" v-model=userInfo.userCls>
+          <label for="insur"> 보험사 </label>
+        </span>
+        <span>
+          <input type="radio" id="repair" value="R" v-model=userInfo.userCls>
+          <label for="repair"> 공업사 </label>
+        </span>
+      </div>
+    </div>
+    <table v-if="userInfo.userCls=='P'" class="table table-bordered table_list">
       <tbody>
-        <tr>
+        <tr >
           <th>고객번호 </th>
           <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.customCd></td>
         </tr>
@@ -14,10 +32,40 @@
         <tr>
           <th>가입보험사 </th>
           <td>
-             <select v-model="selected">
+            <select v-model="selected">
               <option disabled value="">가입보험사를 선택하세요</option>
               <option  v-for="a in insuranceList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
                 {{a.insurNm}}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table v-else-if="userInfo.userCls=='I'" class="table table-bordered table_list">
+      <tbody>
+        <tr>
+          <th>보험사 선택</th>
+          <td>
+            <select v-model="selected">
+              <option disabled value="">해당 보험사를 선택하세요</option>
+              <option  v-for="a in insuranceList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
+                {{a.insurNm}}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table v-else-if="userInfo.userCls=='R'" class="table table-bordered table_list">
+      <tbody>
+        <tr>
+          <th>공업사 선택</th>
+          <td>
+            <select v-model="selected">
+              <option disabled value="">해당 공업사를 선택하세요</option>
+              <option  v-for="a in repairList" :key="a.repairCd" :value="{ repairCd : a.repairCd, repairNm: a.repairNm }">
+                {{a.repairNm}}
               </option>
             </select>
           </td>
@@ -41,7 +89,7 @@ export default {
   data : function() {
         return { 
           selected : "",
-          userInfo : {insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""} 
+          userInfo : {userCls:"P", insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""} 
           
         }
   },
@@ -52,7 +100,7 @@ export default {
     }
   },
 
-  computed : mapState(['insuranceList']),
+  computed : mapState(['insuranceList','repairList']),
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
       checkAuthUser : function(payload) {
@@ -116,4 +164,14 @@ a {
   width: 60px;
   padding : 10px;
 }
+#ContextUserCls{
+  width: 500px;
+  text-align: center;
+}
+
+#ContextUserCls span{
+  padding-left: 10px;
+}
+
+
 </style>

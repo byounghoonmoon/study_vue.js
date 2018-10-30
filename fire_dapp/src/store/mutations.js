@@ -19,7 +19,12 @@ export default {
         web3Copy.web3Instance = result.web3;
         state.web3 = web3Copy;
         // pollWeb3();
-      }
+    },
+    
+    [Constant.GET_CONTRACT_INSTANCE]  (state, payload) {
+        console.log('CarHub contract instance: ', payload);
+        state.contractInstance = () => payload;
+    }
     
     // [Constant.REGISTER_WEB3_INSTANCE] :(state, payload) => {
     //     console.log('registerWeb3instance Mutation being executed', payload);

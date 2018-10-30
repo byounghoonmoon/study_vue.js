@@ -1,5 +1,6 @@
 import Constant from '../Constant';
 import getWeb3 from './getWeb3';
+import getContract from './getContract';
 
 export default {
     async [Constant.REGISTER_WEB3] (store) {
@@ -11,7 +12,15 @@ export default {
         } catch (err) {
           console.log('error in action registerWeb3', err);
         }
+    },
+    async [Constant.GET_CONTRACT_INSTANCE] (store) {
+      try {
+        let result = await getContract;
+        store.commit('getContractInstance', result);
+      } catch (err) {
+        console.log('error in action getContractInstance', err);
       }
+    }
 
 
     // [Constant.REGISTER_WEB3] : (store)=> {
