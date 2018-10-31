@@ -1,5 +1,8 @@
 export default {
-    AUTH_USER : "authUser",
+    REGISTER_AUTH_USER : "registerAuthUser",
+    IS_AUTH_USER : "isAuthUser",
+    GET_USER_COUNT : "getUserCount",
+    GET_USER : "getUser",
     APPLY_ACCIDENT : "applyAccident",
     REQUEST_REPAIR : "requestRepair",
     COMPLETE_REPAIR : "completeRepair",
@@ -17,7 +20,7 @@ export default {
         '4447': 'Truffle Develop Network',
         '5777': 'Ganache Blockchain'
       },
-    ADDRESS : "0x3ab52ee95ff13550f37630263327b12c821dcd34",
+    ADDRESS : "0x5C5d8444282c4038CDc5e6F1bC7De7E63e7401eb",
     ABI :[
             {
                 "constant": false,

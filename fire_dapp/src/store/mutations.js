@@ -18,12 +18,18 @@ export default {
         web3Copy.isInjected = result.injectedWeb3;
         web3Copy.web3Instance = result.web3;
         state.web3 = web3Copy;
+        console.log(' ★ State 동기화 ', state.web3);
         // pollWeb3();
     },
     
     [Constant.GET_CONTRACT_INSTANCE]  (state, payload) {
         console.log('CarHub contract instance: ', payload);
         state.contractInstance = () => payload;
+        console.log('CarHub contract instance: ', state.contractInstance);
+    },
+    
+    [Constant.GET_USER_COUNT]  (state, payload) {
+        state.userCnt = payload.c[0];
     }
     
     // [Constant.REGISTER_WEB3_INSTANCE] :(state, payload) => {

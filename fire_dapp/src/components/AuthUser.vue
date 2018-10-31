@@ -72,7 +72,9 @@
         </tr>
       </tbody>
     </table>
-    <button type="button" class="btn btn-success" @click="checkAuthUser(userInfo)">블록체인 인증여부 확인</button>
+    <button type="button" class="btn btn-success" @click="registerAuthUser(userInfo)">블록체인 인증 등록하기</button>
+    <button type="button" class="btn btn-success" @click="isAuthUser(userInfo)">블록체인 인증여부 확인</button>
+    <button type="button" class="btn btn-success" @click="getUserCount">사용자수 확인</button>
    
     </div>
 </template>
@@ -89,7 +91,7 @@ export default {
   data : function() {
         return { 
           selected : "",
-          userInfo : {userCls:"P", insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""} 
+          userInfo : {userCls:"P", insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""}
           
         }
   },
@@ -100,35 +102,21 @@ export default {
     }
   },
 
-  computed : mapState(['insuranceList','repairList']),
+  computed : mapState(['insuranceList','repairList','contractInstance','userCnt']),
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
-      checkAuthUser : function(payload) {
-            this.$store.dispatch(Constant.AUTH_USER, payload);
+      registerAuthUser : function(payload) {
+            this.$store.dispatch(Constant.REGISTER_AUTH_USER, payload);
+       },
+      isAuthUser : function(payload) {
+            // console.info("★ ", this.$store.state.contractInstance());
+            // console.info("★ ", this.$store.state.web3.coinbase);
+            this.$store.dispatch(Constant.IS_AUTH_USER, payload);
+       },
+      getUserCount : function() {
+            this.$store.dispatch(Constant.GET_USER_COUNT);
        }
   }
-
-
-
-  // data : function() {
-
-
-  //     return {
-  //         insuranceList : sampleData.insuranceList,
-  //         selectedInsurance : "",
-  //         accidentInfo : { date :"" , time :"", content :""}
-  //     }
-  // },
-  // methods: {
-  //   applyAccident : function() {
-  //     console.log(" ■ 사고 접수 요청 ")
-  //     confirm("하시겠습니까 ? ")
-  //     //  this.$router.push({ name: 'contactbyno', params: { no: no }}, function() {
-  //     //               console.log("/contacts/"+ no + " 로 이동 완료!")
-  //     //   })
-  //   }
-  // }
-
 }
 </script>
 

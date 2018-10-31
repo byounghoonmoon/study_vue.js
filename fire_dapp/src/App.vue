@@ -50,10 +50,6 @@ export default {
     console.log('■ Before Create : registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
   },
-  mounted () {
-    console.log('■ Mounted : dispatching getContractInstance')
-    this.$store.dispatch('getContractInstance')
-  },
   components : {  HelloMetamask,AuthUser,ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
   data() {
     return { currentView : 'ApplyAccident' }
@@ -62,6 +58,10 @@ export default {
     changeMenu(view) {
       this.currentView = view;
     }
+  },
+  mounted () {
+    console.log('■ Mounted : dispatching getContractInstance')
+    this.$store.dispatch('getContractInstance')
   }
 }
 </script>

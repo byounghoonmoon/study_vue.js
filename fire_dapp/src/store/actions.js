@@ -20,52 +20,77 @@ export default {
       } catch (err) {
         console.log('error in action getContractInstance', err);
       }
+    },
+    async [Constant.REGISTER_AUTH_USER] (store,payload) {
+      try {
+        console.log(" ■ Action ==> Register Auth User ", payload);
+        await store.state.contractInstance().authUser(payload.userCls ,payload.customCd,payload.customNm,payload.insurCd,payload.insurNm, {
+          gas: 300000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("■ authUser() Success" , result);  
+            store.dispatch(Constant.GET_USER_COUNT);
+            // 기존 등록여부 확인 필요 
+
+          }
+        });
+        
+      } catch (err) {
+        console.log('■ authUser() Fail', err);
+      }
+    } ,
+    async [Constant.IS_AUTH_USER] (store,payload) {
+      try {
+        console.log(" ■ Action ==> isAuthUser ", payload);
+        await store.state.contractInstance().isUser({
+          gas: 300000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("■ isUser() Success" , result);  
+            store.dispatch(Constant.GET_USER);
+          }
+        });
+      } catch (err) {
+        console.log('■ isUser() Fail', err);
+      }
+    } ,
+    async [Constant.GET_USER_COUNT] (store) {
+      try {
+        await store.state.contractInstance().getUserCount((err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("■ getUserCount() Success" , result);     
+            store.commit(Constant.GET_USER_COUNT, result);    
+          }
+        });
+      }catch (err) {
+        console.log('■ getUserCount() Fail', err);
+      }
+        
+    },
+    async [Constant.GET_USER] (store) {
+      try {
+        console.log(" ■ Action ==> Get User ");
+        await store.state.contractInstance().getUser({
+          gas: 300000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("■ getUser() Success" , result);  
+          }
+        });
+      } catch (err) {
+        console.log('■ getUser() Fail', err);
+      }
     }
 
-
-    // [Constant.REGISTER_WEB3] : (store)=> {
-    //     console.log('registerWeb3 Action being executed');
-    //     try {
-    //       let result = getWeb3;
-    //       console.log('registerWeb3Instance', result);
-    //       store.commit('registerWeb3Instance', result);
-    //     } catch (err) {
-    //       console.log('error in action registerWeb3', err);
-    //     }
-    // },
-    // [Constant.AUTH_USER] : (store, payload) => {
-    //     console.log("### auth User !!!", payload);
-    //    store.commit(Constant.AUTH_USER, payload);
-    // },
-    // [Constant.APPLY_ACCIDENT] : (store, payload) => {
-    //     console.log("### apply Accident !!!!", payload);
-    //     // store.commit(Constant.APPLY_ACCIDENT, payload);
-		
-	// 	/*
-	// 	axios.get("")			블록체인 호출 주소 (사고접수 신청)
-    //         .then((response)=> {
-    //             store.commit(Constant.APPLY_ACCIDENT, { contacts: response.data })
-    //             if (response.data.length > 0)
-    //                 store.dispatch(Constant.ADD_KEYWORD, payload);
-    //     )
-	// 	*/
-		
-		
-    // },
-    // [Constant.REQUEST_REPAIR] : (store, payload) => {
-    //     console.log("### request Repair !!!", payload);
-    //     //store.commit(Constant.REQUEST_REPAIR, payload);
-    // },
-    // [Constant.COMPLETE_REPAIR] : (store, payload) => {
-    //     console.log("### complete Repair !!!", payload);
-    //    // store.commit(Constant.COMPLETE_REPAIR, payload);
-    // },
-    // [Constant.APPLY_INSURANCE] : (store, payload) => {
-    //     console.log("### apply Insurance !!!", payload);
-    //     //store.commit(Constant.APPLY_INSURANCE, payload);
-    // },
-    // [Constant.PAYMENT_INSURACNE] : (store, payload) => {
-    //     console.log("### payment Insurance !!!", payload);
-    //     //store.commit(Constant.PAYMENT_INSURACNE, payload);
-    // }
 }

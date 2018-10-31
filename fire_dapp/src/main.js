@@ -9,8 +9,6 @@ import store from './store'
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false
 
-
-
 new Vue({
   store,
   render: h => h(App)
