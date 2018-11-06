@@ -9,18 +9,43 @@ export default {
     },
     contractInstance: {},
     userCnt : "",
-    insuranceList : [
-        {userCls:"I", insurCd:"I001", insurNm : "보험사1",  customCd: "", customNm: "", authYn:"N" },
-        {userCls:"I", insurCd:"I002", insurNm : "보험사2",  customCd: "", customNm: "", authYn:"N"  },
-        {userCls:"I", insurCd:"I003", insurNm : "보험사3",  customCd: "", customNm: "", authYn:"N" },
-        {userCls:"I", insurCd:"I004", insurNm : "보험사4",  customCd: "", customNm: "", authYn:"N" }
-    ]   ,
-    repairList : [
-        {userCls:"R", repairCd:"R001", repairNm : "공업사1",  repairAccount : "" },
-        {userCls:"R", repairCd:"R002", repairNm : "공업사2",  repairAccount : "" },
-        {userCls:"R", repairCd:"R003", repairNm : "공업사3",  repairAccount : "" },
-        {userCls:"R", repairCd:"R004", repairNm : "공업사4",  repairAccount : "" }
-    ]   ,
+
+
+    // 초기값 정보 셋팅
+    initInsurerInfoList : [
+        {userCls:"I", insurCd:"I001", insurNm : "삼성화재",  addr: ""  },
+        {userCls:"I", insurCd:"I002", insurNm : "DB화재",    addr: ""   }
+    ],
+    initCenterInfoList : [
+        {userCls:"C", repairCd:"C001", repairNm : "삼성센터",  addr : "" },
+        {userCls:"C", repairCd:"C002", repairNm : "미라콤센터",  addr : "" }
+    ],
+    initCarInfoList : [
+        {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
+            accReqNo:"Accident_0001", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 
+            userAddr:"", userId:"7322655", userNm:"문병훈", 
+            insCd:"I001", insNm:"삼성화재", 
+            centerCd:"C001", centerNm:"미라콤센터",
+            repairCost:"", repairInfo:"범퍼", bankCd:"", bankAccount:"", status:"20"} ,
+        {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
+            accReqNo:"Accident_0002", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 
+            userAddr:"", userId:"7322655", userNm:"문병훈", 
+            insCd:"I001", insNm:"삼성화재", 
+            centerCd:"C001", centerNm:"미라콤센터",
+            repairCost:"", repairInfo:"", bankCd:"", bankAccount:"", status:"30"} ,
+        {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
+            accReqNo:"Accident_0003", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 
+            userAddr:"", userId:"7322655", userNm:"문병훈", 
+            insCd:"I001", insNm:"삼성화재", 
+            centerCd:"C001", centerNm:"미라콤센터",
+            repairCost:"", repairInfo:"", bankCd:"", bankAccount:"", status:"40"} ,
+        {   carNo:"34가 3456",  reqTel:"010-4730-5997", 
+            accReqNo:"Accident_0004", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 
+            userAddr:"", userId:"7322655", userNm:"문병훈", 
+            insCd:"I001", insNm:"삼성화재", 
+            centerCd:"C001", centerNm:"미라콤센터",
+            repairCost:"100000", repairInfo:"수리완료", bankCd:"", bankAccount:"카카오뱅크", status:"50"}
+    ],
 
     repairHistoryList :[
         { repairCd:"R001", repairFee : "", repairItem: ["백미러", "상향등"], accidentNo :"", insurCd:"I001",customCd:"", completeYn:"N", applyYn :"N"},
@@ -36,5 +61,13 @@ export default {
             { accidentNo:"201810150004", insurCd : "", customCd :"", accidentDate :"", accidentContents:"", repairCd:"",repairFee:"",completeYn:"N"}
     ]            
     
+
+    // CarHub 최종 state 정의 
+
+    , 
+    CarInfoList :[],
+    UserInfoList :[],
+    InsurerInfoList:[],
+    CenterInfoList:[]
 
 }

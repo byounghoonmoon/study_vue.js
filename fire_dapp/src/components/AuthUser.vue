@@ -1,25 +1,27 @@
 <template>
    
-  <div>
-
-    
+  <div id="Area_AuthUser">
     <div>
-      <div id="ContextUserCls">
-        <span>
-          <input type="radio" id="user" value="P" v-model=userInfo.userCls>
-          <label for="user"> 사용자</label>
-        </span>
+      <div id="Area_AuthUser_Label">
         <span>
           <input type="radio" id="insur" value="I" v-model=userInfo.userCls>
           <label for="insur"> 보험사 </label>
         </span>
         <span>
-          <input type="radio" id="repair" value="R" v-model=userInfo.userCls>
+          <input type="radio" id="user" value="P" v-model=userInfo.userCls>
+          <label for="user"> 사용자</label>
+        </span>
+        <span>
+          <input type="radio" id="repair" value="C" v-model=userInfo.userCls>
           <label for="repair"> 공업사 </label>
         </span>
       </div>
     </div>
     <table v-if="userInfo.userCls=='P'" class="table table-bordered table_list">
+      <colgroup>
+        <col width="30%">
+        <col width="70%">
+      </colgroup>
       <tbody>
         <tr >
           <th>고객번호 </th>
@@ -34,7 +36,7 @@
           <td>
             <select v-model="selected">
               <option disabled value="">가입보험사를 선택하세요</option>
-              <option  v-for="a in insuranceList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
+              <option  v-for="a in initInsurerInfoList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
                 {{a.insurNm}}
               </option>
             </select>
@@ -43,38 +45,66 @@
       </tbody>
     </table>
     <table v-else-if="userInfo.userCls=='I'" class="table table-bordered table_list">
+      <colgroup>
+        <col width="30%">
+        <col width="70%">
+      </colgroup>
       <tbody>
+         <tr >
+          <th>보험사코드 </th>
+          <td><input  type="text" class="form-control" placeholder="I001" v-model.trim=insurerInfo.insCd></td>
+        </tr>
         <tr>
+          <th>보험사명 </th>
+          <td><input  type="text" class="form-control" placeholder="삼성화재" v-model.trim=insurerInfo.insNm></td>
+        </tr>
+        <!-- <tr>
           <th>보험사 선택</th>
           <td>
             <select v-model="selected">
               <option disabled value="">해당 보험사를 선택하세요</option>
-              <option  v-for="a in insuranceList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
+              <option  v-for="a in initInsurerInfoList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
                 {{a.insurNm}}
               </option>
             </select>
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
-    <table v-else-if="userInfo.userCls=='R'" class="table table-bordered table_list">
+    <table v-else-if="userInfo.userCls=='C'" class="table table-bordered table_list">
+      <colgroup>
+        <col width="30%">
+        <col width="70%">
+      </colgroup>
       <tbody>
-        <tr>
+        <!-- <tr>
           <th>공업사 선택</th>
           <td>
             <select v-model="selected">
               <option disabled value="">해당 공업사를 선택하세요</option>
-              <option  v-for="a in repairList" :key="a.repairCd" :value="{ repairCd : a.repairCd, repairNm: a.repairNm }">
+              <option  v-for="a in initCenterInfoList" :key="a.repairCd" :value="{ repairCd : a.repairCd, repairNm: a.repairNm }">
                 {{a.repairNm}}
               </option>
             </select>
           </td>
+        </tr> -->
+        <tr >
+          <th>공업사코드 </th>
+          <td><input  type="text" class="form-control" placeholder="C001" v-model.trim=centerInfo.centerCd></td>
+        </tr>
+        <tr>
+          <th>공업사명 </th>
+          <td><input  type="text" class="form-control" placeholder="삼성센터" v-model.trim=centerInfo.centerNm></td>
         </tr>
       </tbody>
     </table>
-    <button type="button" class="btn btn-success" @click="registerAuthUser(userInfo)">블록체인 인증 등록하기</button>
-    <button type="button" class="btn btn-success" @click="isAuthUser(userInfo)">블록체인 인증여부 확인</button>
-    <button type="button" class="btn btn-success" @click="getUserCount">사용자수 확인</button>
+
+    
+    <div class="bottom_area">
+      <button type="button" class="btn btn-success" @click="registerAuthUser(userInfo)">블록체인 인증 등록하기</button>
+      <button type="button" class="btn btn-success" @click="isAuthUser(userInfo)">블록체인 인증여부 확인</button>
+      <button type="button" class="btn btn-success" @click="getUserCount">사용자수 확인</button>
+    </div>
    
     </div>
 </template>
@@ -91,8 +121,9 @@ export default {
   data : function() {
         return { 
           selected : "",
-          userInfo : {userCls:"P", insurCd: "", insurNm : "", customCd: "", customNm: "", authYn:""}
-          
+          userInfo    : {userCls:"I", userAddr: "", userId:"", userNm:"", },
+          insurerInfo : {userCls:"I", insAddr: "", insCd: "", insNm:""},
+          centerInfo  : {userCls:"I", centerAddr: "", centerCd: "", centerNm:""}
         }
   },
   watch: { 
@@ -102,7 +133,7 @@ export default {
     }
   },
 
-  computed : mapState(['insuranceList','repairList','contractInstance','userCnt']),
+  computed : mapState(['initInsurerInfoList','initCenterInfoList','contractInstance','userCnt']),
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
       registerAuthUser : function(payload) {
@@ -120,7 +151,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only --> 
 <style scoped>
 
 ul {
@@ -134,31 +165,16 @@ a {
   color: #42b983;
 }
 
-.table_list{
-  width: 500px;
-  margin-top : 10px;
-}
-.table_list input{
-  text-align:  left;
-}
-
-.table_list td{
-  text-align: left;
-  width: 50px;
-  padding : 10px;
-}
-.table_list th{
-  text-align: center;
-  width: 60px;
-  padding : 10px;
-}
-#ContextUserCls{
-  width: 500px;
+#Area_AuthUser{
+  width: 700px;
   text-align: center;
 }
 
-#ContextUserCls span{
+#Area_AuthUser_Label span{
   padding-left: 10px;
+}
+.table_list th {
+  text-align: center !important;
 }
 
 

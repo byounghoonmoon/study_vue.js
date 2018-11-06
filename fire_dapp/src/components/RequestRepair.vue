@@ -1,24 +1,8 @@
 <template>
    
-  <div>
+  <div id="Area_RequestRepair">
     <table class="table table-bordered table_list">
       <tbody>
-        
-        <tr>
-          <th>고객번호 </th>
-          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim="customCd"></td>
-        </tr>
-         <tr>
-          <th>가입보험사 </th>
-          <td>
-             <select v-model="selectedInsurance">
-              <option disabled value="">가입보험사를 선택하세요</option>
-              <option  v-for="a in insuranceList" :key="a.id" :value="{ id : a.id, nm: a.insurNm }">
-                {{a.insurNm}}
-              </option>
-            </select>
-          </td>
-        </tr>
         <tr>
           <th>사고접수번호 </th>
           <td><input v-model="accidentNo" type="text" class="form-control" placeholder="사고접수번호" aria-label="accidentNo" aria-describedby="basic-addon1"></td>
@@ -27,17 +11,19 @@
           <th>정비센터 </th>
           <td><select v-model="selectedRepair">
               <option disabled value="">공업사를 선택하세요</option>
-              <option  v-for="a in repairList" :key="a.id" :value="{ id : a.id, nm: a.repairNm }">
+              <option  v-for="a in initCenterInfoList" :key="a.id" :value="{ id : a.id, nm: a.repairNm }">
                   {{a.repairNm}}
               </option>
             </select>
           </td>
         </tr>
-      
-       
       </tbody>
     </table>
-    <button type="button" class="btn btn-success" @click="requestRepair()">수리 요청</button>
+    <div class="bottom_area">
+      <button type="button" class="btn btn-success" @click="requestRepair()">수리 요청</button>
+      <br>
+      <strong class="danger">※ 접속 고객과 사고번호에 등록 된 고객이 다를 경우 처리 불가</strong>
+    </div>
    
     </div>
 </template>
@@ -50,7 +36,7 @@ import Constant from '../Constant'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'request-repair', 
-  computed : mapState(['repairList','insuranceList']),
+  computed : mapState(['initCenterInfoList','initInsurerInfoList']),
   data : function() {
       return {
           accidentNo : "",
@@ -66,48 +52,32 @@ export default {
       console.log(" ■ 공업사명 : " + this.selectedRepair.nm)
       console.log(" ■ 선택 보험사  : " + this.selectedInsurance.nm)
       
-      //  this.$router.push({ name: 'contactbyno', params: { no: no }}, function() {
-      //               console.log("/contacts/"+ no + " 로 이동 완료!")
-      //   })
     }
   }
 
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style>
+
+.danger{
+  color: red;
+  float:  right;
 }
 
-.table_list{
-  width: 500px;
-  margin-top : 10px;
+#Area_RequestRepair{
+  width: 700px;
+  margin-top: 10px;
+}
+
+.table_list th {
+  text-align: center;
 }
 .table_list input{
   text-align:  left;
 }
-
-.table_list td{
-  text-align: left;
-  width: 50px;
-  padding : 10px;
-}
-.table_list th{
+.bottom_area{
   text-align: center;
-  width: 60px;
-  padding : 10px;
 }
+
 </style>

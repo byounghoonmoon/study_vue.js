@@ -4,7 +4,7 @@
       <h1 class="header Text">자동차 정보 - Block-Chain</h1>
         <ul>
           <li>
-            <a href="#" @click="changeMenu('AuthUser')">사용자 인증</a>
+            <a href="#" @click="changeMenu('AuthUser')">블록체인 인증</a>
           </li>
           <li>
             <a href="#" @click="changeMenu('ApplyAccident')">사고접수 신청</a>
@@ -13,7 +13,7 @@
             <a href="#" @click="changeMenu('RequestRepair')">수리 요청</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('ApplyInsurance')">수리비 청구</a>
+            <a href="#" @click="changeMenu('ProcessCenter')">수리완료 및 수리비 청구</a>
           </li>
           <li>
             <a href="#" @click="changeMenu('ApplyRepairFeeList')">수리비 청구 목록</a>
@@ -39,7 +39,7 @@
 import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
 import RequestRepair from './components/RequestRepair.vue'
-import ApplyInsurance from './components/ApplyInsurance.vue'
+import ProcessCenter from './components/ProcessCenter.vue'
 import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
 import PaymentInsurance from './components/PaymentInsurance.vue'
 import HelloMetamask from './components/hello-metamask.vue'
@@ -50,9 +50,9 @@ export default {
     console.log('■ Before Create : registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
   },
-  components : {  HelloMetamask,AuthUser,ApplyAccident, RequestRepair, ApplyInsurance, ApplyRepairFeeList,PaymentInsurance},
+  components : {  HelloMetamask,AuthUser,RequestRepair,ApplyAccident,  ProcessCenter, ApplyRepairFeeList,PaymentInsurance},
   data() {
-    return { currentView : 'ApplyAccident' }
+    return { currentView : 'AuthUser' }
   },
   methods : {
     changeMenu(view) {
@@ -68,11 +68,29 @@ export default {
 <style scoped>
 .header { padding: 10px 0px 0px 0px; text-align: center;}
 .headerText { padding: 0px 20px 0px 20px; } 
-ul { list-style-type: none; margin: 0; padding: 0;
+ul { list-style-type: none; margin: 0; padding: 0; 
     overflow: hidden;  }
 li { float: left; }
 li a { display: block;  text-align: center;
     padding: 14px 16px; text-decoration: none;  }
 li a:hover { background-color: aqua; color:black; }
 
+
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+
 </style>
+
+
