@@ -31,7 +31,7 @@
       </tbody>
     </table>
    
-    <button type="button" class="btn btn-success" @click="paymentInsurance()">보험금 지급</button>
+    <button type="button" class="btn btn-success" @click="paymentInsurance()">수리비 지급</button>
     </div>
 </template>
 

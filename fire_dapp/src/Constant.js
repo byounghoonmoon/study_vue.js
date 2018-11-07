@@ -11,6 +11,8 @@ export default {
     REGISTER_WEB3 : "registerWeb3",
     REGISTER_WEB3_INSTANCE : "registerWeb3Instance",
     GET_CONTRACT_INSTANCE : "getContractInstance",
+    CANCEL_POPUP : "cancelPopup",
+    OPEN_POPUP : "openPopup",
     NETWORKS : {
         '1': 'Main Net',
         '2': 'Deprecated Morden test network',

@@ -52,7 +52,7 @@ export default {
   },
   components : {  HelloMetamask,AuthUser,RequestRepair,ApplyAccident,  ProcessCenter, ApplyRepairFeeList,PaymentInsurance},
   data() {
-    return { currentView : 'AuthUser' }
+    return { currentView : 'ProcessCenter' }
   },
   methods : {
     changeMenu(view) {

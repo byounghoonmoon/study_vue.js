@@ -58,17 +58,6 @@
           <th>보험사명 </th>
           <td><input  type="text" class="form-control" placeholder="삼성화재" v-model.trim=insurerInfo.insNm></td>
         </tr>
-        <!-- <tr>
-          <th>보험사 선택</th>
-          <td>
-            <select v-model="selected">
-              <option disabled value="">해당 보험사를 선택하세요</option>
-              <option  v-for="a in initInsurerInfoList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
-                {{a.insurNm}}
-              </option>
-            </select>
-          </td>
-        </tr> -->
       </tbody>
     </table>
     <table v-else-if="userInfo.userCls=='C'" class="table table-bordered table_list">
@@ -77,17 +66,6 @@
         <col width="70%">
       </colgroup>
       <tbody>
-        <!-- <tr>
-          <th>공업사 선택</th>
-          <td>
-            <select v-model="selected">
-              <option disabled value="">해당 공업사를 선택하세요</option>
-              <option  v-for="a in initCenterInfoList" :key="a.repairCd" :value="{ repairCd : a.repairCd, repairNm: a.repairNm }">
-                {{a.repairNm}}
-              </option>
-            </select>
-          </td>
-        </tr> -->
         <tr >
           <th>공업사코드 </th>
           <td><input  type="text" class="form-control" placeholder="C001" v-model.trim=centerInfo.centerCd></td>
