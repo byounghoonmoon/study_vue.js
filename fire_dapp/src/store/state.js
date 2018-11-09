@@ -7,6 +7,7 @@ export default {
         balance: null,
         error: null
     },
+    userCls:"C",
     contractInstance: {},
     userCnt : "",
     popupView : null, 
@@ -16,8 +17,8 @@ export default {
         {userCls:"I", insurCd:"I002", insurNm : "DB화재",    addr: ""   }
     ],
     initCenterInfoList : [
-        {userCls:"C", repairCd:"C001", repairNm : "삼성센터",  addr : "" },
-        {userCls:"C", repairCd:"C002", repairNm : "미라콤센터",  addr : "" }
+        {userCls:"C", centerCd:"C001", centerNm : "삼성센터",  addr : "" },
+        {userCls:"C", centerCd:"C002", centerNm : "미라콤센터",  addr : "" }
     ],
     initCarInfoList : [
         {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
@@ -25,7 +26,7 @@ export default {
             userAddr:"", userId:"7322655", userNm:"문병훈", 
             insCd:"I001", insNm:"삼성화재", 
             centerCd:"C001", centerNm:"미라콤센터",
-            repairCost:"", repairInfo:"범퍼", bankCd:"", bankAccount:"", status:"20"} ,
+            repairCost:"", repairInfo:"범퍼", bankCd:"", bankAccount:"", status:"10"} ,
             
         {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
             accReqNo:"Accident_0005", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 

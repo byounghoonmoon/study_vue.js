@@ -31,10 +31,36 @@ export default {
     [Constant.GET_USER_COUNT]  (state, payload) {
         state.userCnt = payload.c[0];
     },
+    // 팝업 호출 - 수리요청 하기
+    [Constant.OPEN_POPUP_REPAIR] : (state, payload) => {
+        state.carInfo = payload.carInfo;
+        state.popupView = "PopupRepair";
+    },
+     // 팝업 호출 - 사고접수 상세보기
+     [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
+        state.carInfo = payload.carInfo;
+        state.popupView = "PopupAccidentInfo";
+    },
     // 팝업 호출
     [Constant.OPEN_POPUP] : (state, payload) => {
         state.carInfo = payload.carInfo;
         state.popupView = "PopupCarInfo";
+    },
+     // 수리 요청 (사고접수번호, 고객번호 , 보험사 코드)
+     [Constant.REQUEST_REPAIR] : (state, payload) => {
+        
+        console.log(" ★ Mutation 비교 ", state);
+        console.log(" ★ Mutation 비교 ", payload);
+        
+        // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
+        var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
+        state.initCarInfoList[index].repairCost = payload.repairCost;
+        state.initCarInfoList[index].repairInfo = payload.repairInfo;
+        state.initCarInfoList[index].bankCd     = payload.bankCd;
+        state.initCarInfoList[index].bankAccount= payload.bankAccount;
+        state.initCarInfoList[index].status= "30";
+        state.popupView = null;
+
     },
     // 수리 완료 (사고접수번호, 고객번호 , 보험사 코드)
     [Constant.COMPLETE_REPAIR] : (state, payload) => {
@@ -55,7 +81,12 @@ export default {
     // 팝업 닫기
     [Constant.CANCEL_POPUP] : (state) => {
         state.popupView = null;
-    }
+    } ,
+
+    // 사용자 변경
+    [Constant.CHANGE_USER] : (state,payload) => {
+        state.userCls = payload.userCls;
+    } 
 
 
 }

@@ -92,7 +92,27 @@ export default {
         console.log('■ getUser() Fail', err);
       }
     },
+    // 해당 사고번호 수리요청하기
+    [Constant.OPEN_POPUP_REPAIR] : (store, payload) => {
+      // DApp 호출 필요
+      // 임시로 DApp 호출 했다고 가정 후 수행
+      store.commit(Constant.OPEN_POPUP_REPAIR,payload);
+    },
+
+     // 해당 사고번호 편집(수리,지급) 하기
+     [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (store, payload) => {
+      // DApp 호출 필요
+      /*
+        // 1. 사고접수 번호 DApp 호출 하여, CarInfo 받아오기 (파라미터 : payload.accReqNo)
+        // 2. store.commit(Constant.OPEN_POPUP, {carInfo:response.data});
+      */
+
+      // 임시로 DApp 호출 했다고 가정 후 수행
+      store.commit(Constant.OPEN_POPUP_ACCIDENT_DETAIL,payload);
+    },
+
     
+
     // 해당 사고번호 편집(수리,지급) 하기
     [Constant.OPEN_POPUP] : (store, payload) => {
       // DApp 호출 필요
@@ -105,17 +125,17 @@ export default {
       store.commit(Constant.OPEN_POPUP,payload);
     },
 
+    // 수리요청 
+    [Constant.REQUEST_REPAIR] : (store, payload) => {
+      console.log("### Action , ", payload);
+      store.commit(Constant.REQUEST_REPAIR, payload);
+    },
+
     // 수리완료 
     [Constant.COMPLETE_REPAIR] : (store) => {
       // DApp 호출 필요
-
-      /*
-      // 1. DApp 호출 
-      // 2. store.dispatch(Constant.CANCEL_POPUP);
-      // 3. store.dispatch(정보 조회 - 갱신했기 때문)
-      */
-
       // 임시로 DApp 호출 했다고 가정 후, 
+      
       console.log("### Actions -> Mutation : 수리 완료", store.state.carInfo);
       store.commit(Constant.COMPLETE_REPAIR, store.state.carInfo);
     },

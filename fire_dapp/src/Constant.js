@@ -13,6 +13,9 @@ export default {
     GET_CONTRACT_INSTANCE : "getContractInstance",
     CANCEL_POPUP : "cancelPopup",
     OPEN_POPUP : "openPopup",
+    OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
+    OPEN_POPUP_REPAIR : "openPopupRepair",
+    CHANGE_USER : "changeUser",
     NETWORKS : {
         '1': 'Main Net',
         '2': 'Deprecated Morden test network',

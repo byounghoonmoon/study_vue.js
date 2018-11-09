@@ -21,6 +21,16 @@
           <li>
             <a href="#" @click="changeMenu('PaymentInsurance')">보험금 지급</a>
           </li>
+          
+          <li>
+            <a href="#" @click="changeUser('U')">사용자</a>
+          </li>
+          <li>
+            <a href="#" @click="changeUser('C')">센터</a>
+          </li>
+          <li>
+            <a href="#" @click="changeUser('I')">보험사</a>
+          </li>
         </ul>
     </div>
     <div class="container">
@@ -36,6 +46,7 @@
 
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
 import RequestRepair from './components/RequestRepair.vue'
@@ -43,6 +54,8 @@ import ProcessCenter from './components/ProcessCenter.vue'
 import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
 import PaymentInsurance from './components/PaymentInsurance.vue'
 import HelloMetamask from './components/hello-metamask.vue'
+import StatusAccident from './components/StatusAccident.vue'
+
 
 export default {
   name: 'App',
@@ -50,13 +63,21 @@ export default {
     console.log('■ Before Create : registerWeb3 Action dispatched from App.vue')
     this.$store.dispatch('registerWeb3')
   },
-  components : {  HelloMetamask,AuthUser,RequestRepair,ApplyAccident,  ProcessCenter, ApplyRepairFeeList,PaymentInsurance},
+  
+  computed : mapState(['userCls']),
+
+  components : {  HelloMetamask,AuthUser,RequestRepair,ApplyAccident,  ProcessCenter, ApplyRepairFeeList,PaymentInsurance ,StatusAccident},
   data() {
-    return { currentView : 'ProcessCenter' }
+    return { currentView : 'StatusAccident' }
   },
   methods : {
     changeMenu(view) {
       this.currentView = view;
+    },
+    changeUser(view) {
+      this.currentView = 'StatusAccident';
+      this.$store.commit('changeUser', {userCls : view});
+      
     }
   },
   mounted () {
