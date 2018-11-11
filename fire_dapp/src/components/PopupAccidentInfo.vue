@@ -61,7 +61,7 @@ import { mapState } from 'vuex';
 export default {
     name : "PopupAccidentInfo",
     computed : {
-        ...mapState([ 'popupView', 'carInfo' ,'userCls' ])
+        ...mapState([ 'carInfo'])
     },
     methods : {
         cancelEvent : function() {

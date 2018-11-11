@@ -1,51 +1,36 @@
 <template>
-  <div>
-    <div class="header">
-      <h1 class="header Text">자동차 정보 - Block-Chain</h1>
-        <ul>
-          <li>
-            <a href="#" @click="changeMenu('AuthUser')">블록체인 인증</a>
-          </li>
-          <li>
-            <a href="#" @click="changeMenu('ApplyAccident')">사고접수 신청</a>
-          </li>
-          <li>
-            <a href="#" @click="changeMenu('RequestRepair')">수리 요청</a>
-          </li>
-          <li>
-            <a href="#" @click="changeMenu('ProcessCenter')">수리완료 및 수리비 청구</a>
-          </li>
-          <li>
-            <a href="#" @click="changeMenu('ApplyRepairFeeList')">수리비 청구 목록</a>
-          </li>
-          <li>
-            <a href="#" @click="changeMenu('PaymentInsurance')">보험금 지급</a>
-          </li>
-          
-          <li>
-            <a href="#" @click="changeUser('U')">사용자</a>
-          </li>
-          <li>
-            <a href="#" @click="changeUser('C')">센터</a>
-          </li>
-          <li>
-            <a href="#" @click="changeUser('I')">보험사</a>
-          </li>
-        </ul>
-    </div>
-    <div class="container">
-      <keep-alive >
-        <component v-bind:is="currentView"></component>
-      </keep-alive>
-    </div>
-
-    <hello-metamask/>
+  <div id="main-wrap">
+    <Reveal noOverlay reveal>
+      <a href="#" @click="changeMenu('AuthUser')"><span>블록체인 인증</span></a>
+      <a href="#" @click="changeMenu('ApplyAccident')"><span>사고접수 신청</span></a>
+      <a href="#" @click="changeMenu('RequestRepair')"><span>수리 요청</span></a>
+      <a href="#" @click="changeMenu('ProcessCenter')"><span>수리완료 및 수리비 청구</span></a>
+      <a href="#" @click="changeMenu('ApplyRepairFeeList')"><span>수리비 청구 목록</span></a>
+      <a href="#" @click="changeMenu('PaymentInsurance')"><span>보험금 지급</span></a>
+      <a href="#" @click="changeUser('U')"><span>----------------------------------</span></a>
+      <a href="#" @click="changeUser('U')"><span>사용자</span></a>
+      <a href="#" @click="changeUser('C')"><span>센터</span></a>
+      <a href="#" @click="changeUser('I')"><span>보험사</span></a>
+    </Reveal>
+     
+    <main id="page-wrap">
+      <div class="header">
+        <h1 class="header Text">자동차 정보 - Block-Chain</h1>
+      </div>
+      <div class="container">
+        <keep-alive >
+          <component v-bind:is="currentView"></component>
+        </keep-alive>
+      <hello-metamask/>
+      </div>
+    </main>
   </div>
 </template>
 
 
 
 <script>
+import { Slide, Reveal } from 'vue-burger-menu'
 import { mapActions, mapState } from 'vuex'
 import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
@@ -66,7 +51,7 @@ export default {
   
   computed : mapState(['userCls']),
 
-  components : {  HelloMetamask,AuthUser,RequestRepair,ApplyAccident,  ProcessCenter, ApplyRepairFeeList,PaymentInsurance ,StatusAccident},
+  components : { Slide,Reveal, HelloMetamask,AuthUser,RequestRepair,ApplyAccident,ProcessCenter, ApplyRepairFeeList,PaymentInsurance ,StatusAccident},
   data() {
     return { currentView : 'StatusAccident' }
   },
@@ -95,8 +80,6 @@ li { float: left; }
 li a { display: block;  text-align: center;
     padding: 14px 16px; text-decoration: none;  }
 li a:hover { background-color: aqua; color:black; }
-
-
 h3 {
   margin: 40px 0 0;
 }
@@ -111,7 +94,13 @@ li {
 a {
   color: #42b983;
 }
-
+#main-wrap{
+  width : 1200px;
+}
+.container{
+  width : 1000px;
+  margin-top : 10px;
+}
 </style>
 
 

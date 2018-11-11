@@ -2,7 +2,7 @@
    
   <div id="StatusAccident">
     <keep-alive >
-          <component v-bind:is="popupView"></component>
+          <component v-bind:is="popupView" style="width:1200px;"></component>
     </keep-alive>
       <table class="table table_list">
         <thead>
@@ -30,35 +30,58 @@
             </td>
             <td v-if="userCls==='U'" >
                 <span v-if="a.status<20"> 
-                  <div><button type="button" class="btn btn-primary btn-sm" @click="openPopupRepair(a)">수리요청</button> </div>
+                  <div><button type="button" class="btn btn-primary btn-sm" @click="openPopupRequestRepair(a)">수리요청</button> </div>
                 </span>
                 <span v-else-if="a.status<30"> 
-                  <button disabled="disabled" class="btn btn-warning btn-sm" @click="openPopup(a)">수리중</button>  
+                  <button disabled="disabled" class="btn btn-warning btn-sm" >수리중</button>  
+                </span>
+                <span v-else>
+                  <button disabled="disabled" class="btn btn-secondary btn-sm" >수리완료</button>  
+                </span>
+            </td>
+            <td v-if="userCls==='C'" >
+                <span v-if="a.status<20"> 
+                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
+                </span>
+                <span v-else-if="a.status<30"> 
+                  <button type="button" class="btn btn-primary btn-sm" @click="openPopupRepairInfo(a,'1')">수리시작</button> 
+                </span>
+                <span v-else-if="a.status==30"> 
+                  <button type="button" class="btn btn-warning btn-sm" @click="openPopupRepairInfo(a,'2')">내용수정</button>  
                 </span>
                 <span v-else>
                   <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">수리완료</button>  
                 </span>
             </td>
-            <td v-if="userCls==='C'" >
-                <span v-if="a.status<30"> 
-                  <button type="button" class="btn btn-primary btn-sm" @click="openPopup(a)">수리시작</button> 
+             <td v-if="userCls==='I'" >
+                <span v-if="a.status<20"> 
+                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
                 </span>
-                <span v-else-if="a.status==30"> 
-                  <button type="button" class="btn btn-warning btn-sm" @click="openPopup(a)">내용수정</button>  
+                <span v-else-if="a.status<30"> 
+                  <button disabled="disabled"  type="button" class="btn btn-secondary btn-sm" >수리중</button> 
+                </span>
+                <span v-else-if="a.status<40"> 
+                  <button disabled="disabled"  type="button" class="btn btn-warning btn-sm" >수리완료</button>  
+                </span>
+                <span v-else-if="a.status<50"> 
+                  <button type="button" class="btn btn-primary btn-sm" >지급하기</button>  
                 </span>
                 <span v-else>
-                  <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">수리완료</button>  
+                  <button disabled="disabled" class="btn btn-danger btn-sm">지급완료</button>  
                 </span>
             </td>
             <td v-if="userCls==='C'" >
-                <span v-if="a.status<30"> 
-                  <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">수리완료</button>  
+                <span v-if="a.status<20"> 
+                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
+                </span>
+                <span v-else-if="a.status<30"> 
+                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리전</button> 
                 </span>
                 <span v-else-if="a.status==30"> 
-                  <button type="button" class="btn btn-warning btn-sm" @click="openPopup(a)">수리비 청구</button>  
+                  <button type="button" class="btn btn-primary btn-sm" @click="openPopupRepairInfo(a,'3')">수리비 청구</button>  
                 </span>
                 <span v-else-if="a.status==40"> 
-                  <button type="button" class="btn btn-warning btn-sm" @click="openPopup(a)">심사중</button>  
+                  <button disabled="disabled" type="button" class="btn btn-danger btn-sm" @click="openPopup(a)">심사중</button>  
                 </span>
                 <span v-else>
                   <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">지급완료</button>  
@@ -81,13 +104,13 @@
 
 import { mapActions, mapState } from 'vuex'
 import Constant from '../Constant'
-import PopupCarInfo from './PopupCarInfo.vue'
 import PopupAccidentInfo from './PopupAccidentInfo.vue'
-import PopupRepair from './PopupRepair.vue'
+import PopupRequestRepair from './PopupRequestRepair.vue'
+import PopupRepairInfo from './PopupRepairInfo.vue'
 
 export default {
   name: 'apply-insurance', 
-  components : {PopupCarInfo,PopupAccidentInfo,PopupRepair},
+  components : {PopupAccidentInfo,PopupRequestRepair,PopupRepairInfo},
   data : function() {
       return {
           checkRow : "",
@@ -95,7 +118,7 @@ export default {
           selectedInsurance :""
       }
   },
-  computed : mapState(['initCenterInfoList','initCarInfoList','popupView','userCls']),
+  computed : mapState(['initCenterInfoList','initCarInfoList','popupView','userCls','centerMode']),
   watch : {
     selectedRepair : function(sel) { 
       console.log("### selected Center ", sel);
@@ -110,16 +133,15 @@ export default {
       console.log("## 상세보기 사고현황", carInfo)
         this.$store.dispatch(Constant.OPEN_POPUP_ACCIDENT_DETAIL, {carInfo : carInfo});
     },
-    openPopupRepair : function(carInfo) {
-        this.$store.dispatch(Constant.OPEN_POPUP_REPAIR, {carInfo : carInfo});
+    // 고객전용
+    openPopupRequestRepair : function(carInfo) {
+        this.$store.dispatch(Constant.OPEN_POPUP_REQUEST_REPAIR, {carInfo : carInfo});
     },
-    openPopup : function(carInfo) {
-        // 원래는 DaPP 에서 사고번호로 조회후 , 조회된 데이터를 넘겨줘야 함.
+    // 공업사전용 - 수리하기, 수리비청구
+    openPopupRepairInfo : function(carInfo,mode) {
+        this.$store.commit(Constant.CHANGE_CENTER_MODE, {centerMode : mode});
         console.log("## Check Function ",  carInfo);
-        this.$store.dispatch(Constant.OPEN_POPUP, {carInfo : carInfo});
-    },
-    requestRepair :function(carInfo){
-      console.log("## 수리요청 ", carInfo)
+        this.$store.dispatch(Constant.OPEN_POPUP_REPAIR_INFO, {carInfo : carInfo});
     },
     checked : function(no){
       if(no < 40) return false
@@ -158,10 +180,6 @@ a {
   color: #42b983;
 }
 
-#Area_ProcessCenter{
-  width: 700px;
-  margin-top: 10px;
-}
 
 .table_list th,td {
   text-align: center;

@@ -66,11 +66,11 @@
 
 import { mapActions, mapState } from 'vuex'
 import Constant from '../Constant'
-import PopupCarInfo from './PopupCarInfo.vue'
+import PopupRepairInfo from './PopupRepairInfo.vue'
 
 export default {
   name: 'apply-insurance', 
-  components : {PopupCarInfo},
+  components : {PopupRepairInfo},
   data : function() {
       return {
           checkRow : "",

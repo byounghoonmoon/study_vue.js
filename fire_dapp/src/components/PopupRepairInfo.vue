@@ -27,27 +27,38 @@
 
                 <tr>
                 <th>수리 비용</th>
-                <td colspan="3">
-                    <input  type="number" class="" placeholder="1,000,000" v-model=carInfo.repairCost style="width:200px">
-                </td>
+                    <td v-if="centerMode==3" colspan="3">
+                        {{carInfo.repairCost}}
+                    </td>
+                    <td v-else colspan="3">
+                        <input  type="number" class="" placeholder="1,000,000" v-model=carInfo.repairCost style="width:200px">
+                    </td>
                 </tr>
                 <tr>
                 <th>수리 내용 </th>
-                    <td colspan="3">
+                    <td v-if="centerMode==3" colspan="3">
+                        <b-form-textarea disabled v-model=carInfo.repairInfo placeholder="범퍼, 백미러" :rows="3" :max-rows="6"></b-form-textarea>
+                    </td>
+                    <td v-else colspan="3">
                         <b-form-textarea v-model=carInfo.repairInfo placeholder="범퍼, 백미러" :rows="3" :max-rows="6"></b-form-textarea>
                     </td>
                 </tr>
                 <tr>
                 <th>은행 계좌</th>
-                <td colspan="3">
-                    <input  type="text" class="" placeholder="국민 760702-04-178719" v-model=carInfo.bankAccount>
-                </td>
+                    <td v-if="centerMode==3" colspan="3">
+                        {{carInfo.bankAccount}}
+                    </td>
+                    <td v-else colspan="3">
+                        <input  type="text" class="" placeholder="국민 760702-04-178719" v-model=carInfo.bankAccount>
+                    </td>
                 </tr>
             </tbody>
          </table>
         
         <div class="bottom_area">
-            <input type="button" class="btn btn-primary" value="수리완료" @click="completeRepair()" />
+            <input v-if="centerMode==1" type="button" class="btn btn-primary" value="수리완료" @click="completeRepair()" />
+            <input v-else-if="centerMode==2" type="button" class="btn btn-primary" value="내용수정" @click="completeRepair()" />
+            <input v-else-if="centerMode==3" type="button" class="btn btn-primary" value="수리비청구" @click="requestRepairFee()" />
             <input type="button" class="btn btn-primary" value="취 소"   @click="cancelEvent()" />
         </div>
         
@@ -60,13 +71,22 @@ import Constant from '../Constant';
 import { mapState } from 'vuex';
 
 export default {
-    name : "popupCarInfo",
+    name : "PopupRepairInfo",
     computed : {
-        ...mapState([ 'popupView', 'carInfo' ])
+        ...mapState([ 'popupView', 'carInfo' ,'centerMode' ])
     },
     methods : {
         completeRepair : function(){
+            if(this.$store.state.carInfo.repairCost=="" || this.$store.state.carInfo.bankAccount=="")
+            {
+                alert("수리비용 또는 은행계좌를 반드시 입력하세요.");
+                return;
+            }
             this.$store.dispatch(Constant.COMPLETE_REPAIR);
+               
+        },
+        requestRepairFee : function(){
+            this.$store.dispatch(Constant.REQUEST_REPAIR_FEE);
         },
         cancelEvent : function() {
             this.$store.dispatch(Constant.CANCEL_POPUP);

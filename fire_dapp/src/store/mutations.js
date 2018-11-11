@@ -31,20 +31,20 @@ export default {
     [Constant.GET_USER_COUNT]  (state, payload) {
         state.userCnt = payload.c[0];
     },
-    // 팝업 호출 - 수리요청 하기
-    [Constant.OPEN_POPUP_REPAIR] : (state, payload) => {
-        state.carInfo = payload.carInfo;
-        state.popupView = "PopupRepair";
-    },
      // 팝업 호출 - 사고접수 상세보기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
         state.carInfo = payload.carInfo;
         state.popupView = "PopupAccidentInfo";
     },
-    // 팝업 호출
-    [Constant.OPEN_POPUP] : (state, payload) => {
+    // 팝업 호출 - 수리요청 하기
+    [Constant.OPEN_POPUP_REQUEST_REPAIR] : (state, payload) => {
         state.carInfo = payload.carInfo;
-        state.popupView = "PopupCarInfo";
+        state.popupView = "PopupRequestRepair";
+    },
+    // 팝업 호출 - 수리하기/수리비 청구하기
+    [Constant.OPEN_POPUP_REPAIR_INFO] : (state, payload) => {
+        state.carInfo = payload.carInfo;
+        state.popupView = "PopupRepairInfo";
     },
      // 수리 요청 (사고접수번호, 고객번호 , 보험사 코드)
      [Constant.REQUEST_REPAIR] : (state, payload) => {
@@ -52,6 +52,17 @@ export default {
         console.log(" ★ Mutation 비교 ", state);
         console.log(" ★ Mutation 비교 ", payload);
         
+        // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
+        var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
+        state.initCarInfoList[index].centerCd = payload.centerCd;
+        state.initCarInfoList[index].centerNm = payload.centerNm;
+        state.initCarInfoList[index].status= "20";
+        state.popupView = null;
+
+    },
+    // 수리 완료 (사고접수번호, 고객번호 , 보험사 코드)
+    [Constant.COMPLETE_REPAIR] : (state, payload) => {
+
         // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
         var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
         state.initCarInfoList[index].repairCost = payload.repairCost;
@@ -62,11 +73,8 @@ export default {
         state.popupView = null;
 
     },
-    // 수리 완료 (사고접수번호, 고객번호 , 보험사 코드)
-    [Constant.COMPLETE_REPAIR] : (state, payload) => {
-        
-        console.log(" ★ Mutation 비교 ", state);
-        console.log(" ★ Mutation 비교 ", payload);
+    // 수리비 청구 (상태코드만 변경:40)
+    [Constant.REQUEST_REPAIR_FEE] : (state, payload) => {
         
         // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
         var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
@@ -74,7 +82,7 @@ export default {
         state.initCarInfoList[index].repairInfo = payload.repairInfo;
         state.initCarInfoList[index].bankCd     = payload.bankCd;
         state.initCarInfoList[index].bankAccount= payload.bankAccount;
-        state.initCarInfoList[index].status= "30";
+        state.initCarInfoList[index].status= "40";
         state.popupView = null;
 
     },
@@ -86,7 +94,13 @@ export default {
     // 사용자 변경
     [Constant.CHANGE_USER] : (state,payload) => {
         state.userCls = payload.userCls;
+    } ,
+
+    // 센터 모드 변경 
+    [Constant.CHANGE_CENTER_MODE] : (state,payload) => {
+        state.centerMode = payload.centerMode;
     } 
+    
 
 
 }

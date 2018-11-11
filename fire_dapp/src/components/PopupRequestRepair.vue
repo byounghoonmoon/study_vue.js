@@ -34,9 +34,9 @@
                     <tr >
                         <th>정비 센터</th>
                         <td colspan="3">
-                            <select v-model="carInfo.centerCd">
-                                <option disabled value="">공업사를 선택하세요</option>
-                                <option  v-for="a in initCenterInfoList" :key="a.id" :value="{ centerCd : a.centerCd, centerNm: a.centerNm }">
+                            <select v-model="selected">
+                                <option disabled value="" >공업사를 선택하세요</option>
+                                <option  v-for="a in initCenterInfoList" :key="a.centerCd" :value="{ centerCd : a.centerCd, centerNm: a.centerNm }" >
                                     {{a.centerNm}}
                                 </option>
                             </select>
@@ -46,8 +46,8 @@
             </table>
             
             <div class="bottom_area">
-                <input type="button" class="btn btn-primary" value="취 소"   @click="cancelEvent()" />
-                <input type="button" class="btn btn-primary" value="수리요청"   @click="requestRepair(selectedRepair)" />
+                <input type="button" class="btn btn-primary" value="취 소"      @click="cancelEvent()" />
+                <input type="button" class="btn btn-primary" value="수리요청"   @click="requestRepair()" />
             </div>
             
         </div>
@@ -59,29 +59,38 @@ import Constant from '../Constant';
 import { mapState } from 'vuex';
 
 export default {
-    name : "PopupRepair",
+    name : "PopupRequestRepair",
     data : function() {
       return {
-          selectedRepair: ""
+          selected: "",
+          formData: ""
       }
     },
     computed : {
         ...mapState([ 'initCenterInfoList','popupView', 'carInfo' ,'userCls' ])
     },
     watch : {
-        selectedRepair : function(sel) { 
-
-            console.log("### selected Center ", sel);
-            console.log("### Car Info ", this.$store.state.carInfo)
-        }
+        selected : function(sel) { 
+            this.carInfo.centerCd = sel.centerCd;
+            this.carInfo.centerNm = sel.centerNm;
+    }
     },
     methods : {
         cancelEvent : function() {
             this.$store.dispatch(Constant.CANCEL_POPUP);
         },
-        requestRepair : function(selectedRepair){
-            this.$store.dispatch(Constant.REQUEST_REPAIR, {center : selectedRepair});
+        requestRepair : function(){
+            if(this.selected==""){
+                alert("공업사를 선택하세요! ")
+                return;
+            }
+            console.info(" ■ 수리요청 트랜잭션 : ", this.$store.state.carInfo)
+            this.$store.dispatch(Constant.REQUEST_REPAIR);
         }
+    },
+    mounted () {
+         console.log('■ Mounted : ', this.$store.state.carInfo);
+     //this.$store.dispatch('getContractInstance')
     }
 }
 </script>

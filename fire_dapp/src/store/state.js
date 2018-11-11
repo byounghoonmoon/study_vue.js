@@ -7,10 +7,11 @@ export default {
         balance: null,
         error: null
     },
-    userCls:"C",
+    userCls:"I",
     contractInstance: {},
     userCnt : "",
-    popupView : null, 
+    popupView : null,
+    centerMode : null,
     // 초기값 정보 셋팅
     initInsurerInfoList : [
         {userCls:"I", insurCd:"I001", insurNm : "삼성화재",  addr: ""  },
@@ -32,7 +33,7 @@ export default {
             accReqNo:"Accident_0005", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 
             userAddr:"", userId:"7322655", userNm:"문병훈", 
             insCd:"I001", insNm:"삼성화재", 
-            centerCd:"C001", centerNm:"미라콤센터",
+            centerCd:"C002", centerNm:"삼성센터",
             repairCost:"", repairInfo:"범퍼", bankCd:"", bankAccount:"", status:"20"} ,
         {   carNo:"12가 3456",  reqTel:"010-4730-5997", 
             accReqNo:"Accident_0002", accInfo:"강남역사거리", accReqDate:"2018-11-06 07:05:30", 

@@ -92,13 +92,6 @@ export default {
         console.log('■ getUser() Fail', err);
       }
     },
-    // 해당 사고번호 수리요청하기
-    [Constant.OPEN_POPUP_REPAIR] : (store, payload) => {
-      // DApp 호출 필요
-      // 임시로 DApp 호출 했다고 가정 후 수행
-      store.commit(Constant.OPEN_POPUP_REPAIR,payload);
-    },
-
      // 해당 사고번호 편집(수리,지급) 하기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (store, payload) => {
       // DApp 호출 필요
@@ -111,10 +104,16 @@ export default {
       store.commit(Constant.OPEN_POPUP_ACCIDENT_DETAIL,payload);
     },
 
-    
+    // 해당 사고번호 수리요청하기
+    [Constant.OPEN_POPUP_REQUEST_REPAIR] : (store, payload) => {
+      // DApp 호출 필요
+      // 임시로 DApp 호출 했다고 가정 후 수행
+      store.commit(Constant.OPEN_POPUP_REQUEST_REPAIR,payload);
+    },
 
+    
     // 해당 사고번호 편집(수리,지급) 하기
-    [Constant.OPEN_POPUP] : (store, payload) => {
+    [Constant.OPEN_POPUP_REPAIR_INFO] : (store, payload) => {
       // DApp 호출 필요
       /*
         // 1. 사고접수 번호 DApp 호출 하여, CarInfo 받아오기 (파라미터 : payload.accReqNo)
@@ -122,13 +121,16 @@ export default {
       */
 
       // 임시로 DApp 호출 했다고 가정 후 수행
-      store.commit(Constant.OPEN_POPUP,payload);
+      store.commit(Constant.OPEN_POPUP_REPAIR_INFO,payload);
     },
 
     // 수리요청 
-    [Constant.REQUEST_REPAIR] : (store, payload) => {
-      console.log("### Action , ", payload);
-      store.commit(Constant.REQUEST_REPAIR, payload);
+    [Constant.REQUEST_REPAIR] : (store) => {
+      console.log("### Request Repair Action ");
+      // DAPP 호출 필요 - 수리요청 - 파라미터 : carInfo
+
+      // 정상처리후, 상태값 변경
+      store.commit(Constant.REQUEST_REPAIR, store.state.carInfo);
     },
 
     // 수리완료 
@@ -138,6 +140,14 @@ export default {
       
       console.log("### Actions -> Mutation : 수리 완료", store.state.carInfo);
       store.commit(Constant.COMPLETE_REPAIR, store.state.carInfo);
+    },
+
+    // 수리비청구 
+    [Constant.REQUEST_REPAIR_FEE] : (store) => {
+      // DApp 호출 필요 - 수리비 청구 
+      // 임시로 DApp 호출 했다고 가정 후, 
+      console.log("### Actions -> Mutation : 수리비 청구", store.state.carInfo);
+      store.commit(Constant.REQUEST_REPAIR_FEE, store.state.carInfo);
     },
     
 
