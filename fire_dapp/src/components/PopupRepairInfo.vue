@@ -83,7 +83,6 @@ export default {
                 return;
             }
             this.$store.dispatch(Constant.COMPLETE_REPAIR);
-               
         },
         requestRepairFee : function(){
             this.$store.dispatch(Constant.REQUEST_REPAIR_FEE);

@@ -9,7 +9,7 @@ import Constant from '../Constant';
 export default {
 
     [Constant.REGISTER_WEB3_INSTANCE]  (state, payload) {
-        console.log('registerWeb3instance Mutation being executed', payload);
+        
         let result = payload;
         let web3Copy = state.web3;
         web3Copy.coinbase = result.coinbase;
@@ -31,26 +31,29 @@ export default {
     [Constant.GET_USER_COUNT]  (state, payload) {
         state.userCnt = payload.c[0];
     },
-     // 팝업 호출 - 사고접수 상세보기
+     // 팝업 호출 - (공통) 사고접수 상세보기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
         state.carInfo = payload.carInfo;
         state.popupView = "PopupAccidentInfo";
     },
-    // 팝업 호출 - 수리요청 하기
+    // 팝업 호출 - (고객) 수리요청 하기
     [Constant.OPEN_POPUP_REQUEST_REPAIR] : (state, payload) => {
         state.carInfo = payload.carInfo;
         state.popupView = "PopupRequestRepair";
     },
-    // 팝업 호출 - 수리하기/수리비 청구하기
+    // 팝업 호출 - (공업사) 수리하기/수리비 청구하기
     [Constant.OPEN_POPUP_REPAIR_INFO] : (state, payload) => {
         state.carInfo = payload.carInfo;
         state.popupView = "PopupRepairInfo";
     },
-     // 수리 요청 (사고접수번호, 고객번호 , 보험사 코드)
+    // 팝업 호출 - (보험사) 지급하기
+    [Constant.OPEN_POPUP_PAYMENT_FEE] : (state, payload) => {
+        state.carInfo = payload.carInfo;
+        state.popupView = "PopupPaymentFee";
+    },
+
+     // 고객 - 수리 요청 (사고접수번호, 고객번호 , 보험사 코드)
      [Constant.REQUEST_REPAIR] : (state, payload) => {
-        
-        console.log(" ★ Mutation 비교 ", state);
-        console.log(" ★ Mutation 비교 ", payload);
         
         // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
         var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
@@ -83,6 +86,15 @@ export default {
         state.initCarInfoList[index].bankCd     = payload.bankCd;
         state.initCarInfoList[index].bankAccount= payload.bankAccount;
         state.initCarInfoList[index].status= "40";
+        state.popupView = null;
+
+    },
+    // 보험금 지급 (상태코드만 변경:50)
+    [Constant.PAYMENT_REPAIR_FEE] : (state, payload) => {
+        
+        // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
+        var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
+        state.initCarInfoList[index].status= "50";
         state.popupView = null;
 
     },

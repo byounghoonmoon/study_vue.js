@@ -3,12 +3,11 @@ import getWeb3 from './getWeb3';
 import getContract from './getContract';
 
 export default {
-    async [Constant.REGISTER_WEB3] (store) {
+    async [Constant.REGISTER_WEB3_INSTANCE] (store) {
         console.log('registerWeb3 Action being executed');
         try {
           let result = await getWeb3;
-          console.log('registerWeb3Instance', result);
-          store.commit('registerWeb3Instance', result);
+          store.commit(Constant.REGISTER_WEB3_INSTANCE, result);
         } catch (err) {
           console.log('error in action registerWeb3', err);
         }
@@ -92,62 +91,96 @@ export default {
         console.log('■ getUser() Fail', err);
       }
     },
-     // 해당 사고번호 편집(수리,지급) 하기
+
+     // 사고상세 팝업 호출
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (store, payload) => {
       // DApp 호출 필요
       /*
-        // 1. 사고접수 번호 DApp 호출 하여, CarInfo 받아오기 (파라미터 : payload.accReqNo)
-        // 2. store.commit(Constant.OPEN_POPUP, {carInfo:response.data});
+        // 1. DApp 호출 : CarInfo 정보 받아오기 (파라미터 : 사고접수번호, 사용자정보 ?)
+        // 2. 팝업화면 호출 (Response 데이터로 , 데이터 바인딩)
       */
-
+      
       // 임시로 DApp 호출 했다고 가정 후 수행
       store.commit(Constant.OPEN_POPUP_ACCIDENT_DETAIL,payload);
     },
 
-    // 해당 사고번호 수리요청하기
+    // 고객전용 - 수리요청하기 팝업 호출
     [Constant.OPEN_POPUP_REQUEST_REPAIR] : (store, payload) => {
       // DApp 호출 필요
+      /*
+        // 1. DApp 호출 : CarInfo 정보 받아오기 (파라미터 : 사고접수번호, 사용자정보 ?)
+        // 2. 팝업화면 호출 (Response 데이터로 , 데이터 바인딩)
+      */     
       // 임시로 DApp 호출 했다고 가정 후 수행
       store.commit(Constant.OPEN_POPUP_REQUEST_REPAIR,payload);
     },
 
     
-    // 해당 사고번호 편집(수리,지급) 하기
+    // 공업사전용 - 수리하기, 수리비청구 팝업 호출
     [Constant.OPEN_POPUP_REPAIR_INFO] : (store, payload) => {
       // DApp 호출 필요
       /*
-        // 1. 사고접수 번호 DApp 호출 하여, CarInfo 받아오기 (파라미터 : payload.accReqNo)
-        // 2. store.commit(Constant.OPEN_POPUP, {carInfo:response.data});
-      */
+        // 1. DApp 호출 : CarInfo 정보 받아오기 (파라미터 : 사고접수번호, 사용자정보 ?)
+        // 2. 팝업화면 호출 (Response 데이터로 , 데이터 바인딩)
+      */     
 
       // 임시로 DApp 호출 했다고 가정 후 수행
+      console.log("팝업창 띄우기 ", Constant.OPEN_POPUP_REPAIR_INFO)
       store.commit(Constant.OPEN_POPUP_REPAIR_INFO,payload);
     },
 
-    // 수리요청 
+    // 보험사전용 - 지급하기 팝업 호출
+    [Constant.OPEN_POPUP_PAYMENT_FEE] : (store, payload) => {
+      // DApp 호출 필요
+      /*
+        // 1. DApp 호출 : CarInfo 정보 받아오기 (파라미터 : 사고접수번호, 사용자정보 ?)
+        // 2. 팝업화면 호출 (Response 데이터로 , 데이터 바인딩)
+      */     
+
+      // 임시로 DApp 호출 했다고 가정 후 수행
+      store.commit(Constant.OPEN_POPUP_PAYMENT_FEE,payload);
+    },
+
+    // 고객 - 수리요청 
     [Constant.REQUEST_REPAIR] : (store) => {
       console.log("### Request Repair Action ");
-      // DAPP 호출 필요 - 수리요청 - 파라미터 : carInfo
-
-      // 정상처리후, 상태값 변경
+      /* DApp 트랜잭션 발생
+        1. 파라미터 : 사고번호 , 선택 공업사 정보
+        2. 정상처리후, 상태값 변경 -> 패치 필요
+      */
       store.commit(Constant.REQUEST_REPAIR, store.state.carInfo);
     },
 
-    // 수리완료 
+    // 공업사 - 수리완료 
     [Constant.COMPLETE_REPAIR] : (store) => {
-      // DApp 호출 필요
-      // 임시로 DApp 호출 했다고 가정 후, 
+      /* DApp 트랜잭션 발생
+        1. 파라미터 : 사고번호, 수리 비용, 수리 내용, 은행 계좌 
+        2. 정상처리후, 상태값 변경 -> 패치 필요
+      */
       
       console.log("### Actions -> Mutation : 수리 완료", store.state.carInfo);
       store.commit(Constant.COMPLETE_REPAIR, store.state.carInfo);
     },
 
-    // 수리비청구 
+    // 공업사 - 수리비청구 
     [Constant.REQUEST_REPAIR_FEE] : (store) => {
-      // DApp 호출 필요 - 수리비 청구 
-      // 임시로 DApp 호출 했다고 가정 후, 
+      
+      /* DApp 트랜잭션 발생
+        1. 파라미터 : 사고번호
+        2. 정상처리후, 상태값 변경 -> 패치 필요
+      */
       console.log("### Actions -> Mutation : 수리비 청구", store.state.carInfo);
       store.commit(Constant.REQUEST_REPAIR_FEE, store.state.carInfo);
+    },
+
+    // 보험사 - 보험금 지급
+    [Constant.PAYMENT_REPAIR_FEE] : (store) => {
+      
+      /* DApp 트랜잭션 발생
+        1. 파라미터 : 사고번호
+        2. 정상처리후, 상태값 변경(50) -> 패치 필요
+      */
+      store.commit(Constant.PAYMENT_REPAIR_FEE, store.state.carInfo);
     },
     
 

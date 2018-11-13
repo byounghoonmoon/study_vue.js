@@ -13,7 +13,7 @@
           <th>차량번호</th>
           <td><input  type="text" class="form-control" placeholder="12가 5678" v-model.trim=carInfo.carNo></td>
           <th>전화번호</th>
-          <td><input  type="text" class="form-control" placeholder="010-0000-0000" v-model.trim=carInfo.carNo></td>
+          <td><input  type="text" class="form-control" placeholder="010-0000-0000" v-model.trim=carInfo.reqTel></td>
         </tr>
         <tr >
           <th>고객번호</th>
@@ -24,10 +24,10 @@
         <tr>
           <th>가입보험사 </th>
           <td colspan="3">
-             <select v-model="selectedInsurance">
+             <select v-model="selected">
               <option disabled value="">가입보험사를 선택하세요</option>
-              <option  v-for="a in initInsurerInfoList" :key="a.id" :value="{ id : a.id, nm: a.insurNm }">
-                {{a.insurNm}}
+              <option  v-for="a in initInsurerInfoList" :key="a.id" :value="{ insCd : a.insCd, insNm: a.insNm }">
+                {{a.insNm}}
               </option>
             </select>
           </td>
@@ -36,15 +36,15 @@
         <tr>
           <th>사고발생 시간</th>
           <td colspan="3">
-              <input  type="date" class="" placeholder="2018-11-06" v-model=accidentInfo.date style="width:200px">
-              <input  type="time" class="" placeholder="사고접수번호" v-model=accidentInfo.time style="width:200px">
+              <input  type="date" class="" v-model=accidentInfo.date style="width:200px">
+              <input  type="time" class="" v-model=accidentInfo.time style="width:200px">
           </td>
         </tr>
         <tr>
           <th>사고발생 경위 </th>
           <td colspan="3">
             <b-form-textarea 
-                     v-model=accidentInfo.content
+                     v-model=carInfo.accInfo
                      placeholder="육하원칙에 따라 기술"
                      :rows="3"
                      :max-rows="6">
@@ -73,9 +73,8 @@ export default {
   
   data : function() {
         return { 
-          selectedInsurance : "",
-          accidentInfo : { date :"" , time :"", content :""},
-
+          selected : "",
+          accidentInfo :{ date:"", time:""},
           carInfo :{  carNo:"",  reqTel:"", 
                       accReqNo:"", accInfo:"", accReqDate:"", 
                       userAddr:"", userId:"", userNm:"", 
@@ -85,31 +84,30 @@ export default {
           }
         }
   },
+  watch : {
+      selected : function(sel) { 
+          this.carInfo.insCd = sel.insCd;
+          this.carInfo.insNm = sel.insNm;
+      },
+      accidentInfo: {
+        handler(chg) {
+          this.carInfo.accReqDate = chg.date +" "+ chg.time;
+          },
+          deep: true
+      }
+  },
   computed : mapState(['initInsurerInfoList']),
+ 
   methods : {
-      ...mapActions([ Constant.APPLY_ACCIDENT])
+    applyAccident : function(){
+        if(this.selected==""){
+            alert("공업사를 선택하세요! ")
+            return;
+        }
+        this.$store.dispatch(Constant.APPLY_ACCIDENT);
+    }
   }
 
-
-
-  // data : function() {
-
-
-  //     return {
-  //         insuranceList : sampleData.insuranceList,
-  //         selectedInsurance : "",
-  //         accidentInfo : { date :"" , time :"", content :""}
-  //     }
-  // },
-  // methods: {
-  //   applyAccident : function() {
-  //     console.log(" ■ 사고 접수 요청 ")
-  //     confirm("하시겠습니까 ? ")
-  //     //  this.$router.push({ name: 'contactbyno', params: { no: no }}, function() {
-  //     //               console.log("/contacts/"+ no + " 로 이동 완료!")
-  //     //   })
-  //   }
-  // }
 
 }
 </script>

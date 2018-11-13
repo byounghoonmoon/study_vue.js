@@ -50,24 +50,7 @@
                   <button type="button" class="btn btn-warning btn-sm" @click="openPopupRepairInfo(a,'2')">내용수정</button>  
                 </span>
                 <span v-else>
-                  <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">수리완료</button>  
-                </span>
-            </td>
-             <td v-if="userCls==='I'" >
-                <span v-if="a.status<20"> 
-                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
-                </span>
-                <span v-else-if="a.status<30"> 
-                  <button disabled="disabled"  type="button" class="btn btn-secondary btn-sm" >수리중</button> 
-                </span>
-                <span v-else-if="a.status<40"> 
-                  <button disabled="disabled"  type="button" class="btn btn-warning btn-sm" >수리완료</button>  
-                </span>
-                <span v-else-if="a.status<50"> 
-                  <button type="button" class="btn btn-primary btn-sm" >지급하기</button>  
-                </span>
-                <span v-else>
-                  <button disabled="disabled" class="btn btn-danger btn-sm">지급완료</button>  
+                  <button disabled="disabled" class="btn btn-secondary btn-sm" >수리완료</button>  
                 </span>
             </td>
             <td v-if="userCls==='C'" >
@@ -81,10 +64,27 @@
                   <button type="button" class="btn btn-primary btn-sm" @click="openPopupRepairInfo(a,'3')">수리비 청구</button>  
                 </span>
                 <span v-else-if="a.status==40"> 
-                  <button disabled="disabled" type="button" class="btn btn-danger btn-sm" @click="openPopup(a)">심사중</button>  
+                  <button disabled="disabled" type="button" class="btn btn-danger btn-sm" @>심사중</button>  
                 </span>
                 <span v-else>
-                  <button disabled="disabled" class="btn btn-secondary btn-sm" @click="openPopup(a)">지급완료</button>  
+                  <button disabled="disabled" class="btn btn-secondary btn-sm" >지급완료</button>  
+                </span>
+            </td>
+             <td v-if="userCls==='I'" >
+                <span v-if="a.status<20"> 
+                  <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
+                </span>
+                <span v-else-if="a.status<30"> 
+                  <button disabled="disabled"  type="button" class="btn btn-secondary btn-sm" >수리중</button> 
+                </span>
+                <span v-else-if="a.status<40"> 
+                  <button disabled="disabled"  type="button" class="btn btn-warning btn-sm" >수리완료</button>  
+                </span>
+                <span v-else-if="a.status<50"> 
+                  <button type="button" class="btn btn-primary btn-sm" @click="openPopupPaymentFee(a,'3')">지급하기</button>  
+                </span>
+                <span v-else>
+                  <button disabled="disabled" class="btn btn-danger btn-sm" >지급완료</button>  
                 </span>
             </td>
             <td>
@@ -107,10 +107,12 @@ import Constant from '../Constant'
 import PopupAccidentInfo from './PopupAccidentInfo.vue'
 import PopupRequestRepair from './PopupRequestRepair.vue'
 import PopupRepairInfo from './PopupRepairInfo.vue'
+import PopupPaymentFee from './PopupPaymentFee.vue'
+
 
 export default {
   name: 'apply-insurance', 
-  components : {PopupAccidentInfo,PopupRequestRepair,PopupRepairInfo},
+  components : {PopupAccidentInfo,PopupRequestRepair,PopupRepairInfo,PopupPaymentFee},
   data : function() {
       return {
           checkRow : "",
@@ -127,37 +129,26 @@ export default {
   },
 
   methods: {
-
     // 사고상세 팝업
     openPopupAccidentDetail : function(carInfo) {
       console.log("## 상세보기 사고현황", carInfo)
         this.$store.dispatch(Constant.OPEN_POPUP_ACCIDENT_DETAIL, {carInfo : carInfo});
     },
-    // 고객전용
+    // 고객전용 - 수리요청하기
     openPopupRequestRepair : function(carInfo) {
         this.$store.dispatch(Constant.OPEN_POPUP_REQUEST_REPAIR, {carInfo : carInfo});
     },
     // 공업사전용 - 수리하기, 수리비청구
     openPopupRepairInfo : function(carInfo,mode) {
+        // state의 센터 모드 변경 (1:수리시작, 2:내용편집, 3:수리비청구)
         this.$store.commit(Constant.CHANGE_CENTER_MODE, {centerMode : mode});
-        console.log("## Check Function ",  carInfo);
         this.$store.dispatch(Constant.OPEN_POPUP_REPAIR_INFO, {carInfo : carInfo});
     },
-    checked : function(no){
-      if(no < 40) return false
-      else  return true
+    // 보험사전용 - 지급하기
+    openPopupPaymentFee : function(carInfo) {
+        this.$store.dispatch(Constant.OPEN_POPUP_PAYMENT_FEE, {carInfo : carInfo});
     },
-    checkStatus : function(no){
-      if(no < 40) return 'N'
-      else if(no < 50) return '청구중'
-      else return '지급완료'
-    },
-    checkNull : function(str){
-      if(str!="")
-        return false;
-      else
-        return true;
-    }
+  
   }
 
 }

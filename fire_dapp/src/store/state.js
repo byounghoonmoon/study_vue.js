@@ -1,4 +1,5 @@
 export default {
+    // 블록체인 관련
     web3: {
         isInjected: false,
         web3Instance: null,
@@ -7,15 +8,18 @@ export default {
         balance: null,
         error: null
     },
-    userCls:"I",
     contractInstance: {},
-    userCnt : "",
+
+    // 현재사용자유형
+    userCls:"I",
     popupView : null,
     centerMode : null,
+
+    
     // 초기값 정보 셋팅
     initInsurerInfoList : [
-        {userCls:"I", insurCd:"I001", insurNm : "삼성화재",  addr: ""  },
-        {userCls:"I", insurCd:"I002", insurNm : "DB화재",    addr: ""   }
+        {userCls:"I", insCd:"I001", insNm : "삼성화재",  addr: ""  },
+        {userCls:"I", insCd:"I002", insNm : "DB화재",    addr: ""   }
     ],
     initCenterInfoList : [
         {userCls:"C", centerCd:"C001", centerNm : "삼성센터",  addr : "" },
@@ -54,25 +58,10 @@ export default {
             centerCd:"C001", centerNm:"미라콤센터",
             repairCost:"100000", repairInfo:"수리완료", bankCd:"", bankAccount:"카카오뱅크", status:"50"}
     ],
-
-    repairHistoryList :[
-        { repairCd:"R001", repairFee : "", repairItem: ["백미러", "상향등"], accidentNo :"", insurCd:"I001",customCd:"", completeYn:"N", applyYn :"N"},
-        { repairCd:"R002", repairFee : "", repairItem: ["백미러", "상향등"], accidentNo :"", insurCd:"I001",customCd:"", completeYn:"N", applyYn :"N"},
-        { repairCd:"R003", repairFee : "", repairItem: ["백미러", "상향등"], accidentNo :"", insurCd:"I001",customCd:"", completeYn:"N", applyYn :"N"},       
-        { repairCd:"R004", repairFee : "", repairItem: ["백미러", "상향등"], accidentNo :"", insurCd:"I001",customCd:"", completeYn:"N", applyYn :"N"} 
-    ] ,
-    
-    accidentHistoryList :[
-            { accidentNo:"201810150001", insurCd : "", customCd :"", accidentDate :"", accidentContents:"", repairCd:"",repairFee:"",completeYn:"N"}, 
-            { accidentNo:"201810150002", insurCd : "", customCd :"", accidentDate :"", accidentContents:"", repairCd:"",repairFee:"",completeYn:"N"},
-            { accidentNo:"201810150003", insurCd : "", customCd :"", accidentDate :"", accidentContents:"", repairCd:"",repairFee:"",completeYn:"N"},
-            { accidentNo:"201810150004", insurCd : "", customCd :"", accidentDate :"", accidentContents:"", repairCd:"",repairFee:"",completeYn:"N"}
-    ]            
+  
     
 
     // CarHub 최종 state 정의 
-
-    , 
     CarInfoList :[],
     UserInfoList :[],
     InsurerInfoList:[],

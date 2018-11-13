@@ -1,23 +1,7 @@
 export default {
-    REGISTER_AUTH_USER : "registerAuthUser",
-    IS_AUTH_USER : "isAuthUser",
-    GET_USER_COUNT : "getUserCount",
-    GET_USER : "getUser",
-    APPLY_ACCIDENT : "applyAccident",
-    REQUEST_REPAIR : "requestRepair",
-    COMPLETE_REPAIR : "completeRepair",
-    REQUEST_REPAIR_FEE : "requestRepairFee",
-    APPLY_INSURANCE : "applyInsurance",
-    PAYMENT_INSURACNE : "paymentInsurance",
-    REGISTER_WEB3 : "registerWeb3",
+    // 블록체인 관련 정보
     REGISTER_WEB3_INSTANCE : "registerWeb3Instance",
     GET_CONTRACT_INSTANCE : "getContractInstance",
-    CANCEL_POPUP : "cancelPopup",
-    OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
-    OPEN_POPUP_REQUEST_REPAIR : "openPopupRequestRepair",
-    OPEN_POPUP_REPAIR_INFO : "openPopupRepairInfo",
-    CHANGE_USER : "changeUser",
-    CHANGE_CENTER_MODE : "changeCenterMode",
     NETWORKS : {
         '1': 'Main Net',
         '2': 'Deprecated Morden test network',
@@ -26,7 +10,32 @@ export default {
         '42': 'Kovan test network',
         '4447': 'Truffle Develop Network',
         '5777': 'Ganache Blockchain'
-      },
+    },
+    
+    // 팝업관련 정보
+    OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
+    OPEN_POPUP_REQUEST_REPAIR : "openPopupRequestRepair",
+    OPEN_POPUP_REPAIR_INFO : "openPopupRepairInfo",
+    OPEN_POPUP_PAYMENT_FEE : "openPopupPaymentFee",
+    CANCEL_POPUP : "cancelPopup",
+
+    CHANGE_USER : "changeUser",
+    CHANGE_CENTER_MODE : "changeCenterMode",
+
+    // DApp 조회 관련
+    IS_AUTH_USER : "isAuthUser",
+    GET_USER_COUNT : "getUserCount",
+    GET_USER : "getUser",
+
+    // DApp 트랜잭션 발생 관련 
+    REGISTER_AUTH_USER : "registerAuthUser",
+    APPLY_ACCIDENT : "applyAccident",
+    REQUEST_REPAIR : "requestRepair",
+    COMPLETE_REPAIR : "completeRepair",
+    REQUEST_REPAIR_FEE : "requestRepairFee",
+    PAYMENT_REPAIR_FEE : "paymentRepairFee",
+
+    // 컨트랙트 정보
     ADDRESS : "0x5C5d8444282c4038CDc5e6F1bC7De7E63e7401eb",
     ABI :[
             {

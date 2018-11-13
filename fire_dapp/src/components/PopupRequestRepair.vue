@@ -46,8 +46,8 @@
             </table>
             
             <div class="bottom_area">
-                <input type="button" class="btn btn-primary" value="취 소"      @click="cancelEvent()" />
                 <input type="button" class="btn btn-primary" value="수리요청"   @click="requestRepair()" />
+                <input type="button" class="btn btn-primary" value="취 소"      @click="cancelEvent()" />
             </div>
             
         </div>
@@ -62,12 +62,11 @@ export default {
     name : "PopupRequestRepair",
     data : function() {
       return {
-          selected: "",
-          formData: ""
+          selected: ""
       }
     },
     computed : {
-        ...mapState([ 'initCenterInfoList','popupView', 'carInfo' ,'userCls' ])
+        ...mapState([ 'initCenterInfoList','popupView', 'carInfo' ])
     },
     watch : {
         selected : function(sel) { 
@@ -87,10 +86,6 @@ export default {
             console.info(" ■ 수리요청 트랜잭션 : ", this.$store.state.carInfo)
             this.$store.dispatch(Constant.REQUEST_REPAIR);
         }
-    },
-    mounted () {
-         console.log('■ Mounted : ', this.$store.state.carInfo);
-     //this.$store.dispatch('getContractInstance')
     }
 }
 </script>

@@ -3,10 +3,6 @@
     <Reveal noOverlay reveal>
       <a href="#" @click="changeMenu('AuthUser')"><span>블록체인 인증</span></a>
       <a href="#" @click="changeMenu('ApplyAccident')"><span>사고접수 신청</span></a>
-      <a href="#" @click="changeMenu('RequestRepair')"><span>수리 요청</span></a>
-      <a href="#" @click="changeMenu('ProcessCenter')"><span>수리완료 및 수리비 청구</span></a>
-      <a href="#" @click="changeMenu('ApplyRepairFeeList')"><span>수리비 청구 목록</span></a>
-      <a href="#" @click="changeMenu('PaymentInsurance')"><span>보험금 지급</span></a>
       <a href="#" @click="changeUser('U')"><span>----------------------------------</span></a>
       <a href="#" @click="changeUser('U')"><span>사용자</span></a>
       <a href="#" @click="changeUser('C')"><span>센터</span></a>
@@ -30,28 +26,28 @@
 
 
 <script>
-import { Slide, Reveal } from 'vue-burger-menu'
+import { Reveal } from 'vue-burger-menu'
 import { mapActions, mapState } from 'vuex'
 import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
-import RequestRepair from './components/RequestRepair.vue'
-import ProcessCenter from './components/ProcessCenter.vue'
-import ApplyRepairFeeList from './components/ApplyRepairFeeList.vue'
-import PaymentInsurance from './components/PaymentInsurance.vue'
 import HelloMetamask from './components/hello-metamask.vue'
 import StatusAccident from './components/StatusAccident.vue'
+import Constant from './Constant'
+
 
 
 export default {
   name: 'App',
+  components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident},
+
   beforeCreate () {
-    console.log('■ Before Create : registerWeb3 Action dispatched from App.vue')
-    this.$store.dispatch('registerWeb3')
+    this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
+  },
+  mounted () {
+    this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
   },
   
-  computed : mapState(['userCls']),
-
-  components : { Slide,Reveal, HelloMetamask,AuthUser,RequestRepair,ApplyAccident,ProcessCenter, ApplyRepairFeeList,PaymentInsurance ,StatusAccident},
+  computed : mapState(['userCls']),  
   data() {
     return { currentView : 'StatusAccident' }
   },
@@ -62,12 +58,7 @@ export default {
     changeUser(view) {
       this.currentView = 'StatusAccident';
       this.$store.commit('changeUser', {userCls : view});
-      
     }
-  },
-  mounted () {
-    console.log('■ Mounted : dispatching getContractInstance')
-    this.$store.dispatch('getContractInstance')
   }
 }
 </script>
