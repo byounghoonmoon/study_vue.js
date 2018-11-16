@@ -4,15 +4,15 @@
     <div>
       <div id="Area_AuthUser_Label">
         <span>
-          <input type="radio" id="insur" value="I" v-model=userInfo.userCls>
+          <input type="radio" id="insur" value="I" v-model=type>
           <label for="insur"> 보험사 </label>
         </span>
         <span>
-          <input type="radio" id="user" value="P" v-model=userInfo.userCls>
+          <input type="radio" id="user" value="P" v-model=type>
           <label for="user"> 사용자</label>
         </span>
         <span>
-          <input type="radio" id="repair" value="C" v-model=userInfo.userCls>
+          <input type="radio" id="repair" value="C" v-model=type>
           <label for="repair"> 공업사 </label>
         </span>
       </div>
@@ -25,19 +25,19 @@
       <tbody>
         <tr >
           <th>고객번호 </th>
-          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.customCd></td>
+          <td><input  type="number" class="form-control" placeholder="12345678" v-model.trim=userInfo.userId></td>
         </tr>
         <tr>
           <th>고객명 </th>
-          <td><input  type="text" class="form-control" placeholder="홍길동" v-model.trim=userInfo.customNm></td>
+          <td><input  type="text" class="form-control" placeholder="홍길동" v-model.trim=userInfo.userNm></td>
         </tr>
         <tr>
           <th>가입보험사 </th>
           <td>
             <select v-model="selected">
               <option disabled value="">가입보험사를 선택하세요</option>
-              <option  v-for="a in initInsurerInfoList" :key="a.insurCd" :value="{ insurCd : a.insurCd, insurNm: a.insurNm }">
-                {{a.insurNm}}
+              <option  v-for="a in initInsurerInfoList" :key="a.insCd" :value="{ insCd : a.insCd, insNm: a.insNm }">
+                {{a.insNm}}
               </option>
             </select>
           </td>
@@ -52,11 +52,11 @@
       <tbody>
          <tr >
           <th>보험사코드 </th>
-          <td><input  type="text" class="form-control" placeholder="I001" v-model.trim=insurerInfo.insCd></td>
+          <td><input  type="text" class="form-control" placeholder="I001" v-model.trim=userInfo.insCd></td>
         </tr>
         <tr>
           <th>보험사명 </th>
-          <td><input  type="text" class="form-control" placeholder="삼성화재" v-model.trim=insurerInfo.insNm></td>
+          <td><input  type="text" class="form-control" placeholder="삼성화재" v-model.trim=userInfo.insNm></td>
         </tr>
       </tbody>
     </table>
@@ -68,11 +68,11 @@
       <tbody>
         <tr >
           <th>공업사코드 </th>
-          <td><input  type="text" class="form-control" placeholder="C001" v-model.trim=centerInfo.centerCd></td>
+          <td><input  type="text" class="form-control" placeholder="C001" v-model.trim=userInfo.centerCd></td>
         </tr>
         <tr>
           <th>공업사명 </th>
-          <td><input  type="text" class="form-control" placeholder="삼성센터" v-model.trim=centerInfo.centerNm></td>
+          <td><input  type="text" class="form-control" placeholder="삼성센터" v-model.trim=userInfo.centerNm></td>
         </tr>
       </tbody>
     </table>
@@ -98,20 +98,28 @@ export default {
 
   data : function() {
         return { 
-          selected : "",
-          userInfo    : {userCls:"I", userAddr: "", userId:"", userNm:"", },
-          insurerInfo : {userCls:"I", insAddr: "", insCd: "", insNm:""},
-          centerInfo  : {userCls:"I", centerAddr: "", centerCd: "", centerNm:""}
+          type:"P",
+          selected : ""
         }
   },
   watch: { 
+    type : function(sel){
+      this.userInfo.userCls = sel;    
+      this.userInfo.userId = "";
+      this.userInfo.userNm = "";
+      this.userInfo.insCd = "";
+      this.userInfo.insNm = "";
+      this.userInfo.centerCd = "";
+      this.userInfo.centerNm = "";
+      
+    },
     selected : function(sel) { 
-      this.userInfo.insurCd = sel.insurCd;
-      this.userInfo.insurNm = sel.insurNm;
+      this.userInfo.insCd = sel.insCd;
+      this.userInfo.insNm = sel.insNm;
     }
   },
 
-  computed : mapState(['initInsurerInfoList','initCenterInfoList','contractInstance','userCnt']),
+  computed : mapState(['initInsurerInfoList','initCenterInfoList','contractInstance','userCnt','userInfo']),
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
       registerAuthUser : function(payload) {

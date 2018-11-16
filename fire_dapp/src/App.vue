@@ -49,7 +49,7 @@ export default {
   
   computed : mapState(['userCls']),  
   data() {
-    return { currentView : 'StatusAccident' }
+    return { currentView : 'AuthUser' }
   },
   methods : {
     changeMenu(view) {

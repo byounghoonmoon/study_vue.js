@@ -22,15 +22,17 @@ export default {
     },
     async [Constant.REGISTER_AUTH_USER] (store,payload) {
       try {
+
+        // authUser(string _userId, string _userNm, string _insCd, string _insNm)
         console.log(" ■ Action ==> Register Auth User ", payload);
-        await store.state.contractInstance().authUser(payload.userCls ,payload.customCd,payload.customNm,payload.insurCd,payload.insurNm, {
-          gas: 300000,
+        await store.state.contractInstance().authUser(payload.userId,payload.userNm,payload.insCd,payload.insNm, {
+          gas: 1000000,
           from: store.state.web3.coinbase
         }, (err, result) => {
           if (err) {
             console.log(err)
           } else {
-            console.log("■ authUser() Success" , result);  
+            console.log(" ■ Register Auth User() Success" , result);  
             store.dispatch(Constant.GET_USER_COUNT);
             // 기존 등록여부 확인 필요 
 
@@ -45,18 +47,18 @@ export default {
       try {
         console.log(" ■ Action ==> isAuthUser ", payload);
         await store.state.contractInstance().isUser({
-          gas: 300000,
+          gas: 100000,
           from: store.state.web3.coinbase
         }, (err, result) => {
           if (err) {
             console.log(err)
           } else {
-            console.log("■ isUser() Success" , result);  
+            console.log(" ■ isAuthUser() Success" , result);  
             store.dispatch(Constant.GET_USER);
           }
         });
       } catch (err) {
-        console.log('■ isUser() Fail', err);
+        console.log(' ■ isAuthUser() Fail', err);
       }
     } ,
     async [Constant.GET_USER_COUNT] (store) {
@@ -65,12 +67,12 @@ export default {
           if (err) {
             console.log(err)
           } else {
-            console.log("■ getUserCount() Success" , result);     
+            console.log(" ■ getUserCount() Success" , result);     
             store.commit(Constant.GET_USER_COUNT, result);    
           }
         });
       }catch (err) {
-        console.log('■ getUserCount() Fail', err);
+        console.log(' ■ getUserCount() Fail', err);
       }
         
     },

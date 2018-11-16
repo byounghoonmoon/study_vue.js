@@ -73,7 +73,8 @@ export default {
                 insCd:"", insNm:"", 
                 centerCd:"", centerNm:"",
                 repairCost:"", repairInfo:"", bankCd:"", bankAccount:"", status:""
-    }
+    },
+    userInfo :{userCls:"P", userId:"", userNm:"", insCd:"", insNm:"",centerCd:"",centerNm:""}
 
 
 }
