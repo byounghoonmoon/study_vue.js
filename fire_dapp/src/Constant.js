@@ -11,6 +11,7 @@ export default {
         '4447': 'Truffle Develop Network',
         '5777': 'Ganache Blockchain'
     },
+    IS_AUTH_USER_CHECK :"isAuthUserCheck",
     
     // 팝업관련 정보
     OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
@@ -19,7 +20,7 @@ export default {
     OPEN_POPUP_PAYMENT_FEE : "openPopupPaymentFee",
     CANCEL_POPUP : "cancelPopup",
 
-    CHANGE_USER : "changeUser",
+    CHANGE_VIEW_AND_TYPE : "changeViewAndType",
     CHANGE_CENTER_MODE : "changeCenterMode",
 
     // DApp 조회 관련

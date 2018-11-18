@@ -1,12 +1,12 @@
 <template>
   <div id="main-wrap">
     <Reveal noOverlay reveal>
-      <a href="#" @click="changeMenu('AuthUser')"><span>블록체인 인증</span></a>
-      <a href="#" @click="changeMenu('ApplyAccident')"><span>사고접수 신청</span></a>
-      <a href="#" @click="changeUser('U')"><span>----------------------------------</span></a>
-      <a href="#" @click="changeUser('U')"><span>사용자</span></a>
-      <a href="#" @click="changeUser('C')"><span>센터</span></a>
-      <a href="#" @click="changeUser('I')"><span>보험사</span></a>
+      <a href="#" @click="change({'currentView':'AuthUser','userCls':userCls})"><span>블록체인 인증</span></a>
+      <a href="#" @click="change({'currentView':'ApplyAccident','userCls':userCls})"><span>사고접수 신청</span></a>
+      <a href="#" ><span>----------------------------------</span></a>
+      <a href="#" @click="change({'currentView':'StatusAccident','userCls':'U'})"><span>사용자</span></a>
+      <a href="#" @click="change({'currentView':'StatusAccident','userCls':'C'})"><span>센터</span></a>
+      <a href="#" @click="change({'currentView':'StatusAccident','userCls':'I'})"><span>보험사</span></a>
     </Reveal>
      
     <main id="page-wrap">
@@ -41,23 +41,16 @@ export default {
   components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident},
 
   beforeCreate () {
-    this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
-  },
-  mounted () {
-    this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
+     this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
+     this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
   },
   
-  computed : mapState(['userCls']),  
-  data() {
-    return { currentView : 'AuthUser' }
-  },
+  computed : mapState(['userCls','currentView','isAuthUserCheck']),  
   methods : {
-    changeMenu(view) {
-      this.currentView = view;
-    },
-    changeUser(view) {
-      this.currentView = 'StatusAccident';
-      this.$store.commit('changeUser', {userCls : view});
+    change(param) {
+      //this.currentView = view;
+      this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
+      console.log(' ■ 변경 ', param)
     }
   }
 }

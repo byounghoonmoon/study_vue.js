@@ -1,0 +1,14 @@
+
+
+
+## 2018.11.17 
+
+Q1. 인증된 사용자 유형 판별 어떻게 ? 
+    userId 있을경우 ==> 사용자 
+    userId 없을경우 ==> 보험사, 공업사
+        centerId 있을경우 ==> 공업사
+        insurId 있을경우 ==> 보험사 
+
+Q2. 최초 구동 될때 "GET_CONTRACT_INSTANCE" 호출 후, 
+    isAUthUser 및 getUser 진행하여도 Contract 배포 계정 정보를 들고 옴. (이해안됨)
+    해결방안, hello0metamask.vue 의 coinbase 를 watch 적용하여 변경되었을때 isAuthUser 호출

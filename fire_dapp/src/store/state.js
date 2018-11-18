@@ -11,7 +11,9 @@ export default {
     contractInstance: {},
 
     // 현재사용자유형
+    currentView :'AuthUser',
     userCls:"I",
+    isAuthUserCheck:false,
     popupView : null,
     centerMode : null,
 
@@ -62,10 +64,9 @@ export default {
     
 
     // CarHub 최종 state 정의 
-    CarInfoList :[],
-    UserInfoList :[],
-    InsurerInfoList:[],
-    CenterInfoList:[],
+
+    // 블록체인 등록수
+    userCnt : "",
 
     carInfo :{  carNo:"",  reqTel:"", 
                 accReqNo:"", accInfo:"", accReqDate:"", 

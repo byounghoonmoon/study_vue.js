@@ -9,7 +9,6 @@ import Constant from '../Constant';
 export default {
 
     [Constant.REGISTER_WEB3_INSTANCE]  (state, payload) {
-        
         let result = payload;
         let web3Copy = state.web3;
         web3Copy.coinbase = result.coinbase;
@@ -18,18 +17,28 @@ export default {
         web3Copy.isInjected = result.injectedWeb3;
         web3Copy.web3Instance = result.web3;
         state.web3 = web3Copy;
-        console.log(' ★ State 동기화 ', state.web3);
+        // console.log(' ★ State 동기화 ', state.web3);
         // pollWeb3();
     },
     
     [Constant.GET_CONTRACT_INSTANCE]  (state, payload) {
-        console.log('CarHub contract instance: ', payload);
         state.contractInstance = () => payload;
-        console.log('CarHub contract instance: ', state.contractInstance);
+        //console.log(' ■ Mutation ==> CarHub contract instance: ', payload);
+    },
+    
+    [Constant.IS_AUTH_USER_CHECK]  (state, payload) {
+        console.log(' ■ Mutation ==> isAuthUserCheck ', payload)
+        state.isAuthUserCheck = payload;
     },
     
     [Constant.GET_USER_COUNT]  (state, payload) {
+        // console.log(" ■ Mutation ==> GetUserCount : ", payload.c[0])
         state.userCnt = payload.c[0];
+    },
+    
+    [Constant.GET_USER]  (state, payload) {
+        console.log(" ■ Mutation ==> GetUser , userInfo Setting : ", payload)
+        state.userInfo = payload;
     },
      // 팝업 호출 - (공통) 사고접수 상세보기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
@@ -103,8 +112,9 @@ export default {
         state.popupView = null;
     } ,
 
-    // 사용자 변경
-    [Constant.CHANGE_USER] : (state,payload) => {
+    // 화면 및 사용자 유형 변경
+    [Constant.CHANGE_VIEW_AND_TYPE] : (state,payload) => {
+        state.currentView = payload.currentView;
         state.userCls = payload.userCls;
     } ,
 

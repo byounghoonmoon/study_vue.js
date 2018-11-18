@@ -4,18 +4,59 @@ import getContract from './getContract';
 
 export default {
     async [Constant.REGISTER_WEB3_INSTANCE] (store) {
-        console.log('registerWeb3 Action being executed');
         try {
+          console.log (" ■ Step 2 . Get Web3 ==> Action")
           let result = await getWeb3;
+          console.log (" ■ Step 2 . Get Web3 ==> Commit")
           store.commit(Constant.REGISTER_WEB3_INSTANCE, result);
+          console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action")
+          let authYn = await store.dispatch(Constant.IS_AUTH_USER); 
+          console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action" , authYn)
+          setTimeout(12000);
+          if(authYn=="true")
+           console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result" , authYn)
+          else
+           console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result x" , authYn)
+
+            //store.dispatch(Constant.IS_AUTH_USER); 
+          /*
+          let authYn = await store.dispatch(Constant.IS_AUTH_USER); 
+          
+            
+          // 인증된 사용자의 경우, 사용자 정보 가져오기
+          if(authYn){
+            console.log(" ■ Step 3 . Action 인증자 ")
+            // let type = await store.dispatch(Constant.GET_USER);
+            let type = async () => {
+              await store.dispatch(Constant.GET_USER);
+            }
+
+            console.log(" ■ Step 4 . ",type)
+
+            if(type.userCls=='U'){
+              console.log(" ■ 인증된 사용자 타입 ", type.userCls)
+              store.commit(Constant.CHANGE_VIEW_AND_TYPE, {'currentView':'StatusAccident','userCls':type.userCls});
+            } else if(type.userCls=='C'){
+              store.commit(Constant.CHANGE_VIEW_AND_TYPE, {'currentView':'StatusAccident','userCls':type.userCls});
+            } else if(type.userCls=='I'){
+              store.commit(Constant.CHANGE_VIEW_AND_TYPE, {'currentView':'StatusAccident','userCls':type.userCls});
+            }
+          }
+          else{
+            console.log (" ● 미인증 ")
+          }*/
+
         } catch (err) {
           console.log('error in action registerWeb3', err);
         }
     },
     async [Constant.GET_CONTRACT_INSTANCE] (store) {
       try {
+        console.log (" ■ Step 1 . Get Contract Instance ==> Action")
         let result = await getContract;
-        store.commit('getContractInstance', result);
+        store.commit(Constant.GET_CONTRACT_INSTANCE, result);
+        console.log (" ■ Step 1-1. Get Contract Instance ==> Commit")
+        store.dispatch(Constant.GET_USER_COUNT);
       } catch (err) {
         console.log('error in action getContractInstance', err);
       }
@@ -40,12 +81,15 @@ export default {
         });
         
       } catch (err) {
-        console.log('■ authUser() Fail', err);
+        console.log(' ■ authUser() Fail', err);
       }
     } ,
-    async [Constant.IS_AUTH_USER] (store,payload) {
+    async [Constant.IS_AUTH_USER] (store) {
       try {
-        console.log(" ■ Action ==> isAuthUser ", payload);
+        
+        console.log(" ■ Step 3 ")
+        // console.log(" ■ Action ==> isAuthUser ", store.state.web3.coinbase);
+
         await store.state.contractInstance().isUser({
           gas: 100000,
           from: store.state.web3.coinbase
@@ -53,8 +97,18 @@ export default {
           if (err) {
             console.log(err)
           } else {
-            console.log(" ■ isAuthUser() Success" , result);  
-            store.dispatch(Constant.GET_USER);
+            
+            console.log(" ■ Step 3-1 " , result)
+            // console.log(" ■ isAuthUser() Success" , result);  
+            // 인증여부 저장 
+            store.commit(Constant.IS_AUTH_USER_CHECK,result);
+
+            // // 인증된 사용자의 경우, 사용자 정보 가져오기
+            // if(result){
+            //   let resp = store.dispatch(Constant.GET_USER);
+            //   console.log(" ■ isAuthUser() Success" , resp);  
+            //   // await store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
+            // }
           }
         });
       } catch (err) {
@@ -63,11 +117,14 @@ export default {
     } ,
     async [Constant.GET_USER_COUNT] (store) {
       try {
+        
+        console.log (" ■ Step 1-2. Get User Count ==> Action")
         await store.state.contractInstance().getUserCount((err, result) => {
           if (err) {
             console.log(err)
           } else {
-            console.log(" ■ getUserCount() Success" , result);     
+            console.log (" ■ Step 1-2. Get User Count ==> Commit")
+            // console.log(" ■ getUserCount() Success" , result);     
             store.commit(Constant.GET_USER_COUNT, result);    
           }
         });
@@ -86,11 +143,40 @@ export default {
           if (err) {
             console.log(err)
           } else {
-            console.log("■ getUser() Success" , result);  
+            
+            /*
+            
+            userId 있을경우 ==> 사용자 
+            userId 없을경우 ==> 보험사, 공업사
+            centerId 있을경우 ==> 공업사
+            insurId 있을경우 ==> 보험사 
+            */ 
+            let paramUserInfo ={};
+            if(result[1] !=""){
+              paramUserInfo.userCls = "U"
+              paramUserInfo.userId  = result[1]
+              paramUserInfo.userNm  = result[2]
+              paramUserInfo.insCd   = result[3]
+              paramUserInfo.insNm   = result[4]
+            }else{
+              if(result[3] !=""){
+                paramUserInfo.userCls = "I"
+                paramUserInfo.insCd   = result[3]
+                paramUserInfo.insNm   = result[4]
+              }
+              else{
+                paramUserInfo.userCls = "C"
+                paramUserInfo.insCd   = result[3]
+                paramUserInfo.insNm   = result[4]
+              }
+                
+            }
+
+            store.commit(Constant.GET_USER, paramUserInfo); 
           }
         });
       } catch (err) {
-        console.log('■ getUser() Fail', err);
+        console.log(' ■ getUser() Fail', err);
       }
     },
 
