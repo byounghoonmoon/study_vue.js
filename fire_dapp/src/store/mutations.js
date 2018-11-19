@@ -27,7 +27,7 @@ export default {
     },
     
     [Constant.IS_AUTH_USER_CHECK]  (state, payload) {
-        console.log(' ■ Mutation ==> isAuthUserCheck ', payload)
+        //console.log(' ■ Mutation ==> isAuthUserCheck ', payload)
         state.isAuthUserCheck = payload;
     },
     

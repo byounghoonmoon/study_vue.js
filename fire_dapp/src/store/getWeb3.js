@@ -4,9 +4,9 @@ import Web3 from 'web3';
 let getWeb3 = new Promise((resolve, reject) => {
 	var web3js = window.web3;
 	if(typeof web3js !== 'undefined') {
-		console.log('### getWeb3.js STEP 1' + web3js);
+		console.log('### getWeb3.js STEP 1',web3js);
 		let web3 = new Web3(web3js.currentProvider);
-		console.log('### getWeb3.js STEP 2' + web3js.currentProvider);
+		console.log('### getWeb3.js STEP 2',web3js.currentProvider);
 		resolve({
 		injectedWeb3: web3.isConnected(),
 		web3 () {

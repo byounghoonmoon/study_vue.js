@@ -1,8 +1,8 @@
 <template>
    
   <div id="Area_AuthUser">
-    <h2>현재 블록체인 등록수 : {{userCnt}}</h2>
-      <div v-if="this.$store.state.isAuthUserCheck==false">
+    <h3 style="text-align:right">현재 블록체인 등록수 : {{userCnt}}</h3>
+      <div>
         <span>본인의 유형을 선택하세요</span>
         <div id="Area_AuthUser_Label">
           <span>
@@ -81,8 +81,8 @@
       
       <div class="bottom_area">
         <button type="button" class="btn btn-success" @click="registerAuthUser(userInfo)">블록체인 인증 등록하기</button>
-        <button type="button" class="btn btn-success" @click="isAuthUser()">블록체인 인증여부 확인</button>
-        <button type="button" class="btn btn-success" @click="getUserCount">사용자수 확인</button>
+        <button type="button" class="btn btn-danger" @click="isAuthUser()">블록체인 인증여부 확인</button>
+        <button type="button" class="btn btn-danger" @click="getUserCount">사용자수 확인</button>
       </div>
 
     </div>
@@ -129,13 +129,10 @@ export default {
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
       registerAuthUser : function(payload) {
-            console.log( " ★ 화면 - REGISTER_AUTH_USER")
             this.$store.dispatch(Constant.REGISTER_AUTH_USER, payload);
-            console.log( " ★ 화면 - GET_USER_COUNT")
-            this.$store.dispatch(Constant.GET_USER_COUNT);
        },
       isAuthUser : function() {
-            this.$store.dispatch(Constant.IS_AUTH_USER);
+            this.$store.dispatch(Constant.GET_USERS);
        },
       getUserCount : function() {
             this.$store.dispatch(Constant.GET_USER_COUNT);
@@ -165,6 +162,7 @@ a {
 
 #Area_AuthUser_Label span{
   padding-left: 10px;
+  font-size : 20px;
 }
 .table_list th {
   text-align: center !important;

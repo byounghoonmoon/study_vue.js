@@ -1,5 +1,6 @@
 
-
+web3 1.0 버전 docs
+https://web3js.readthedocs.io/en/1.0/web3-eth.html
 
 ## 2018.11.17 
 
@@ -12,3 +13,29 @@ Q1. 인증된 사용자 유형 판별 어떻게 ?
 Q2. 최초 구동 될때 "GET_CONTRACT_INSTANCE" 호출 후, 
     isAUthUser 및 getUser 진행하여도 Contract 배포 계정 정보를 들고 옴. (이해안됨)
     해결방안, hello0metamask.vue 의 coinbase 를 watch 적용하여 변경되었을때 isAuthUser 호출
+
+
+Q3. 인증 여부 체크 -> 사용자 유형 판단 후, 화면전환 어떻게 ? 
+
+Q4. 초기 화면 프로세스 
+    1) 등록여부 확인 (web3 Instance 주소로 등록된 사용자인지)
+    2-1) 미등록자일 경우, 등록하기 화면으로 전환
+    2-2) 등록자일 경우, 해당 주소 정보가져오기 
+    3) 유형 파악
+    3-1) 고객이면 사고접수신청, 사고접수현황 선택 기능 
+    3-2) 보험사, 공업사일 경우 -> 사고접수현황 
+
+
+    같은 성격이지만 Function 을 나눠야 함. (초기용, 일반용)
+    1. INIT_USER_CHECK 
+    2. INIT_GET_USER
+    3. INIT_GET_ACCIDENT_STATUS
+
+
+Q5. 사고접수 신청시 폼 관련 
+    1) 고객아이디, 고객명 존재 유무 ? 
+    2) 보험사의 경우, 본인이 인증한 보험사만 셀렉트 ? 
+
+
+Q6. Get Uers 할 경우 "invalid solidity type!: tuple[]"  에러발생 
+    web3 1.0 이상에서만 tuple 지원하는듯 (remix 는 잘됨 , web3 1.0.0 사용 )

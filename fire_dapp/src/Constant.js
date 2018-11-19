@@ -12,6 +12,12 @@ export default {
         '5777': 'Ganache Blockchain'
     },
     IS_AUTH_USER_CHECK :"isAuthUserCheck",
+
+    // 초기 구동시 필요 함수 
+    
+    INIT_USER_CHECK : "initUserCheck",
+    INIT_GET_USER   : "initGetUser",
+    INIT_GET_ACCIDENT_STATUS    : "initGetAccidentStatus",
     
     // 팝업관련 정보
     OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
@@ -27,6 +33,7 @@ export default {
     IS_AUTH_USER : "isAuthUser",
     GET_USER_COUNT : "getUserCount",
     GET_USER : "getUser",
+    GET_USERS : "getUsers",
 
     // DApp 트랜잭션 발생 관련 
     REGISTER_AUTH_USER : "registerAuthUser",
@@ -37,294 +44,400 @@ export default {
     PAYMENT_REPAIR_FEE : "paymentRepairFee",
 
     // 컨트랙트 정보
-    ADDRESS : "0x5C5d8444282c4038CDc5e6F1bC7De7E63e7401eb",
+    ADDRESS : "0xd7E2eD78d90612760C36979a83f5456C0EAb5A4d",
     ABI :[
-        
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_carNo",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_reqTel",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_insCd",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_insNm",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_accInfo",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_accReqDate",
-                        "type": "string"
-                    }
-                ],
-                "name": "accRequest",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_userId",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_userNm",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_insCd",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_insNm",
-                        "type": "string"
-                    }
-                ],
-                "name": "authUser",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "constant": false,
-                "inputs": [
-                    {
-                        "name": "_accReqNo",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "_centerCd",
-                        "type": "string"
-                    },
-                    {
-                        "name": "_centerNm",
-                        "type": "string"
-                    }
-                ],
-                "name": "repairRequest",
-                "outputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "_name",
-                        "type": "string"
-                    },
-                    {
-                        "indexed": false,
-                        "name": "_value",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "printUint",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "name": "_name",
-                        "type": "string"
-                    },
-                    {
-                        "indexed": false,
-                        "name": "_value",
-                        "type": "string"
-                    }
-                ],
-                "name": "printString",
-                "type": "event"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "getAccReqNo",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [
-                    {
-                        "name": "_accReqNo",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "getCarInfoStatus",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "getUser",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [
-                    {
-                        "name": "_id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "getUser",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "getUserCount",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "getUsers",
-                "outputs": [
-                    {
-                        "components": [
-                            {
-                                "name": "userAddr",
-                                "type": "address"
-                            },
-                            {
-                                "name": "userId",
-                                "type": "string"
-                            },
-                            {
-                                "name": "userNm",
-                                "type": "string"
-                            },
-                            {
-                                "name": "insCd",
-                                "type": "string"
-                            },
-                            {
-                                "name": "insNm",
-                                "type": "string"
-                            }
-                        ],
-                        "name": "",
-                        "type": "tuple[]"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "isUser",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ]
-    
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_carNo",
+                    "type": "string"
+                },
+                {
+                    "name": "_reqTel",
+                    "type": "string"
+                },
+                {
+                    "name": "_insCd",
+                    "type": "string"
+                },
+                {
+                    "name": "_insNm",
+                    "type": "string"
+                },
+                {
+                    "name": "_accInfo",
+                    "type": "string"
+                },
+                {
+                    "name": "_accReqDate",
+                    "type": "string"
+                }
+            ],
+            "name": "accRequest",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_userCls",
+                    "type": "string"
+                },
+                {
+                    "name": "_userId",
+                    "type": "string"
+                },
+                {
+                    "name": "_userNm",
+                    "type": "string"
+                },
+                {
+                    "name": "_insCd",
+                    "type": "string"
+                },
+                {
+                    "name": "_insNm",
+                    "type": "string"
+                },
+                {
+                    "name": "_centerCd",
+                    "type": "string"
+                },
+                {
+                    "name": "_centerNm",
+                    "type": "string"
+                }
+            ],
+            "name": "authUser",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "_accReqNo",
+                    "type": "uint256"
+                },
+                {
+                    "name": "_centerCd",
+                    "type": "string"
+                },
+                {
+                    "name": "_centerNm",
+                    "type": "string"
+                }
+            ],
+            "name": "repairRequest",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "name": "_value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "printUint",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "name": "_value",
+                    "type": "string"
+                }
+            ],
+            "name": "printString",
+            "type": "event"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getAccReqNo",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getCarInfos",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "name": "carNo",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reqTel",
+                            "type": "string"
+                        },
+                        {
+                            "name": "accReqNo",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "userAddr",
+                            "type": "address"
+                        },
+                        {
+                            "name": "userId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "userNm",
+                            "type": "string"
+                        },
+                        {
+                            "name": "insCd",
+                            "type": "string"
+                        },
+                        {
+                            "name": "insNm",
+                            "type": "string"
+                        },
+                        {
+                            "name": "accInfo",
+                            "type": "string"
+                        },
+                        {
+                            "name": "accReqDate",
+                            "type": "string"
+                        },
+                        {
+                            "name": "centerCd",
+                            "type": "string"
+                        },
+                        {
+                            "name": "centerNm",
+                            "type": "string"
+                        },
+                        {
+                            "name": "repairCost",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "repairInfo",
+                            "type": "string"
+                        },
+                        {
+                            "name": "bankAccount",
+                            "type": "string"
+                        },
+                        {
+                            "name": "status",
+                            "type": "string"
+                        },
+                        {
+                            "name": "idx",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_accReqNo",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCarInfoStatus",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getUser",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "_id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getUser",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                },
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getUserCount",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "getUsers",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "name": "userAddr",
+                            "type": "address"
+                        },
+                        {
+                            "name": "userCls",
+                            "type": "string"
+                        },
+                        {
+                            "name": "userId",
+                            "type": "string"
+                        },
+                        {
+                            "name": "userNm",
+                            "type": "string"
+                        },
+                        {
+                            "name": "insCd",
+                            "type": "string"
+                        },
+                        {
+                            "name": "insNm",
+                            "type": "string"
+                        },
+                        {
+                            "name": "centerCd",
+                            "type": "string"
+                        },
+                        {
+                            "name": "centerNm",
+                            "type": "string"
+                        }
+                    ],
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isUser",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
     
 }

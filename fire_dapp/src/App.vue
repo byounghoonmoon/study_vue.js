@@ -32,26 +32,20 @@ import AuthUser from './components/AuthUser.vue'
 import ApplyAccident from './components/ApplyAccident.vue'
 import HelloMetamask from './components/hello-metamask.vue'
 import StatusAccident from './components/StatusAccident.vue'
+import SelectMenuForUser from './components/SelectMenuForUser.vue'
 import Constant from './Constant'
 
 
 
 export default {
   name: 'App',
-  components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident},
+  components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident,SelectMenuForUser},
 
   async beforeCreate () {
     await this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
-    await this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
-    await this.$store.dispatch(Constant.IS_AUTH_USER);
-     
-    /* 
-    if(result)
-      await this.$store.dispatch(Constant.GET_USER);
-    else
-      console.log (" ■ Step 3-1 . IS AUTH USER 미인증", result)
-      */
-     
+    //await this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
+    //await this.$store.dispatch(Constant.INIT_USER_CHECK);
+    
   },
   
   computed : mapState(['userCls','currentView','isAuthUserCheck']),  

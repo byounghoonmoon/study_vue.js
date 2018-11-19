@@ -56,7 +56,7 @@
     </table>
     
     <div class="bottom_area">
-      <button type="button" class="btn btn-success" @click="applyAccident(accidentInfo)">사고접수 신고</button>
+      <button type="button" class="btn btn-success" @click="applyAccident(carInfo)">사고접수 신고</button>
     </div>
    
     </div>
@@ -74,14 +74,7 @@ export default {
   data : function() {
         return { 
           selected : "",
-          accidentInfo :{ date:"", time:""},
-          carInfo :{  carNo:"",  reqTel:"", 
-                      accReqNo:"", accInfo:"", accReqDate:"", 
-                      userAddr:"", userId:"", userNm:"", 
-                      insCd:"", insNm:"", 
-                      centerCd:"", centerNm:"",
-                      repairCost:"", repairInfo:"", bankCd:"", bankAccount:"", status:""
-          }
+          accidentInfo :{ date:"", time:""}
         }
   },
   watch : {
@@ -96,15 +89,15 @@ export default {
           deep: true
       }
   },
-  computed : mapState(['initInsurerInfoList']),
+  computed : mapState(['initInsurerInfoList','carInfo']),
  
   methods : {
-    applyAccident : function(){
+    applyAccident : function(payload){
         if(this.selected==""){
-            alert("공업사를 선택하세요! ")
+            alert("보험사를 선택하세요! ")
             return;
         }
-        this.$store.dispatch(Constant.APPLY_ACCIDENT);
+        this.$store.dispatch(Constant.APPLY_ACCIDENT,payload);
     }
   }
 
