@@ -129,7 +129,10 @@ export default {
   methods : {
       // ...mapActions([ Constant.AUTH_USER])
       registerAuthUser : function(payload) {
+            console.log( " ★ 화면 - REGISTER_AUTH_USER")
             this.$store.dispatch(Constant.REGISTER_AUTH_USER, payload);
+            console.log( " ★ 화면 - GET_USER_COUNT")
+            this.$store.dispatch(Constant.GET_USER_COUNT);
        },
       isAuthUser : function() {
             this.$store.dispatch(Constant.IS_AUTH_USER);

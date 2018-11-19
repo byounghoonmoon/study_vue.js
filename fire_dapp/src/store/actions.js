@@ -9,14 +9,15 @@ export default {
           let result = await getWeb3;
           console.log (" ■ Step 2 . Get Web3 ==> Commit")
           store.commit(Constant.REGISTER_WEB3_INSTANCE, result);
-          console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action")
-          let authYn = await store.dispatch(Constant.IS_AUTH_USER); 
-          console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action" , authYn)
-          setTimeout(12000);
-          if(authYn=="true")
-           console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result" , authYn)
-          else
-           console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result x" , authYn)
+
+
+          // console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action")
+          // let authYn = await store.dispatch(Constant.IS_AUTH_USER); 
+          // console.log (" ■ Step 2-1 . IS_AUTH_USER ==> Action" , authYn)
+          // if(authYn=="true")
+          //  console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result" , authYn)
+          // else
+          //  console.log (" ■ Step 2-2 . IS_AUTH_USER ==> Result x" , authYn)
 
             //store.dispatch(Constant.IS_AUTH_USER); 
           /*
@@ -64,7 +65,6 @@ export default {
     async [Constant.REGISTER_AUTH_USER] (store,payload) {
       try {
 
-        // authUser(string _userId, string _userNm, string _insCd, string _insNm)
         console.log(" ■ Action ==> Register Auth User ", payload);
         await store.state.contractInstance().authUser(payload.userId,payload.userNm,payload.insCd,payload.insNm, {
           gas: 1000000,
@@ -74,12 +74,11 @@ export default {
             console.log(err)
           } else {
             console.log(" ■ Register Auth User() Success" , result);  
-            store.dispatch(Constant.GET_USER_COUNT);
-            // 기존 등록여부 확인 필요 
+            //store.dispatch(Constant.GET_USER_COUNT);
 
           }
         });
-        
+
       } catch (err) {
         console.log(' ■ authUser() Fail', err);
       }
@@ -87,8 +86,7 @@ export default {
     async [Constant.IS_AUTH_USER] (store) {
       try {
         
-        console.log(" ■ Step 3 ")
-        // console.log(" ■ Action ==> isAuthUser ", store.state.web3.coinbase);
+        console.log(" ■ Step 3. IS AUTH USER ==> Action ")
 
         await store.state.contractInstance().isUser({
           gas: 100000,
@@ -98,17 +96,11 @@ export default {
             console.log(err)
           } else {
             
-            console.log(" ■ Step 3-1 " , result)
-            // console.log(" ■ isAuthUser() Success" , result);  
-            // 인증여부 저장 
             store.commit(Constant.IS_AUTH_USER_CHECK,result);
-
-            // // 인증된 사용자의 경우, 사용자 정보 가져오기
-            // if(result){
-            //   let resp = store.dispatch(Constant.GET_USER);
-            //   console.log(" ■ isAuthUser() Success" , resp);  
-            //   // await store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
-            // }
+            console.log(" ■ Step 3. IS AUTH USER ==> Commit " , result)
+            if(result)
+              store.dispatch(Constant.GET_USER);
+            
           }
         });
       } catch (err) {

@@ -32,7 +32,7 @@ export default {
     },
     
     [Constant.GET_USER_COUNT]  (state, payload) {
-        // console.log(" ■ Mutation ==> GetUserCount : ", payload.c[0])
+        console.log(" ■ Mutation ==> GetUserCount : ", payload.c[0])
         state.userCnt = payload.c[0];
     },
     

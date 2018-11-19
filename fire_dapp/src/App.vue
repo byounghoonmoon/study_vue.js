@@ -40,15 +40,23 @@ export default {
   name: 'App',
   components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident},
 
-  beforeCreate () {
-     this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
-     this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
+  async beforeCreate () {
+    await this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
+    await this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
+    await this.$store.dispatch(Constant.IS_AUTH_USER);
+     
+    /* 
+    if(result)
+      await this.$store.dispatch(Constant.GET_USER);
+    else
+      console.log (" ■ Step 3-1 . IS AUTH USER 미인증", result)
+      */
+     
   },
   
   computed : mapState(['userCls','currentView','isAuthUserCheck']),  
   methods : {
     change(param) {
-      //this.currentView = view;
       this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
       console.log(' ■ 변경 ', param)
     }
