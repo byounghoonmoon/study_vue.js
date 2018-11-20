@@ -43,8 +43,8 @@ export default {
 
   async beforeCreate () {
     await this.$store.dispatch(Constant.GET_CONTRACT_INSTANCE);
-    //await this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
-    //await this.$store.dispatch(Constant.INIT_USER_CHECK);
+    await this.$store.dispatch(Constant.REGISTER_WEB3_INSTANCE);
+    await this.$store.dispatch(Constant.INIT_USER_CHECK);
     
   },
   

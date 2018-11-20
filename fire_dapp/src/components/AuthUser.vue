@@ -132,7 +132,7 @@ export default {
             this.$store.dispatch(Constant.REGISTER_AUTH_USER, payload);
        },
       isAuthUser : function() {
-            this.$store.dispatch(Constant.GET_USERS);
+            this.$store.dispatch(Constant.IS_AUTH_USER);
        },
       getUserCount : function() {
             this.$store.dispatch(Constant.GET_USER_COUNT);

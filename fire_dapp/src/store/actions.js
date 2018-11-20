@@ -20,7 +20,7 @@ export default {
         let result = await getContract;
         store.commit(Constant.GET_CONTRACT_INSTANCE, result);
         console.log (" ■ Step 1-1. Get Contract Instance ==> Commit")
-        store.dispatch(Constant.GET_USER_COUNT);
+        //store.dispatch(Constant.GET_USER_COUNT);
       } catch (err) {
         console.log('error in action getContractInstance', err);
       }
@@ -29,7 +29,7 @@ export default {
     async [Constant.INIT_USER_CHECK] (store) {
       try {
         console.log(" ■ Step 3. INIT_USER_CHECK ==> Action ")
-        await store.state.contractInstance().isUser({
+        await store.state.contractInstance().methods.isUser().call({
           gas: 100000,
           from: store.state.web3.coinbase
         }, (err, result) => {
@@ -54,7 +54,7 @@ export default {
     async [Constant.INIT_GET_USER] (store) {
       try {
         console.log(" ■ Action ==> INIT_GET_USER ");
-        await store.state.contractInstance().getUser({
+        await store.state.contractInstance().methods.getUser().call({
           gas: 300000,
           from: store.state.web3.coinbase
         }, (err, result) => {
@@ -105,10 +105,8 @@ export default {
       try {
 
         console.log(" ■ Action ==> Register Auth User ", payload);
-        await store.state.contractInstance().authUser(payload.userCls,payload.userId,payload.userNm,payload.insCd,payload.insNm,payload.centerCd, payload.centerNm, {
-          gas: 1000000,
-          from: store.state.web3.coinbase
-        }, (err, result) => {
+        await store.state.contractInstance().methods.authUser(payload.userCls,payload.userId,payload.userNm,payload.insCd,payload.insNm,payload.centerCd, payload.centerNm)
+            .send({gas: 1000000,from: store.state.web3.coinbase}, (err, result) => {
           if (err) {
             console.log(err)
           } else {
@@ -124,24 +122,13 @@ export default {
     async [Constant.IS_AUTH_USER] (store) {
       try {
         console.log(" ■ Step 3. IS AUTH USER ==> Action ")
-        await store.state.contractInstance().isUser({
-          gas: 100000,
-          from: store.state.web3.coinbase
-        }, (err, result) => {
+        await store.state.contractInstance().methods.isUser().call({from: store.state.web3.coinbase},(err, result) => {
           if (err) {
             console.log(err)
           } else {
             
             store.commit(Constant.IS_AUTH_USER_CHECK,result);
             console.log(" ■ Step 3. IS AUTH USER ==> Commit " , result)
-
-            // 인증된 사용자라면 정보 가져온 후 화면 전환
-            if(result){
-              store.dispatch(Constant.GET_USER);
-              console.log (" ■ Step 4. User Info Detail " ,store.state.userInfo)
-            }
-              
-            
           }
         });
       } catch (err) {
@@ -152,12 +139,11 @@ export default {
       try {
         
         console.log (" ■ Step 1-2. Get User Count ==> Action")
-        await store.state.contractInstance().getUserCount((err, result) => {
+        await store.state.contractInstance().methods.getUserCount().call((err, result) => {
           if (err) {
             console.log(err)
           } else {
-            console.log (" ■ Step 1-2. Get User Count ==> Commit")
-            // console.log(" ■ getUserCount() Success" , result);     
+            console.log (" ■ Step 1-2. Get User Count ==> Commit", result)
             store.commit(Constant.GET_USER_COUNT, result);    
           }
         });
@@ -166,13 +152,24 @@ export default {
       }
         
     },
+    async [Constant.GET_USER] (store) {
+      try {
+        console.log(" ■ Action ==> Get User ");
+        await store.state.contractInstance().methods.getUser().call({from: store.state.web3.coinbase},(err, result) => {
+          if (err) {
+            console.log(" ■ Get Users Error !! ", err)
+          } else {
+            console.log (" GET USER ", result)
+          }
+        });
+      } catch (err) {
+        console.log(' ■ getUser() Fail', err);
+      }
+    },
     async [Constant.GET_USERS] (store) {
       try {
         console.log(" ■ Action ==> Get Users ");
-        await store.state.contractInstance().getUsers({
-          gas: 300000,
-          from: store.state.web3.coinbase
-        }, (err, result) => {
+        await store.state.contractInstance().methods.getUsers().call( (err, result) => {
           if (err) {
             console.log(" ■ Get Users Error !! ", err)
           } else {
@@ -188,7 +185,7 @@ export default {
       try {
         console.log(" ■ Action ==> APPLY_ACCIDENT ", payload);
 
-        await store.state.contractInstance().accRequest(payload.carNo,payload.reqTel,payload.insCd,payload.insNm,payload.accInfo,payload.accReqDate, {
+        await store.state.contractInstance().methods.accRequest(payload.carNo,payload.reqTel,payload.insCd,payload.insNm,payload.accInfo,payload.accReqDate).send({
           gas: 1000000,
           from: store.state.web3.coinbase
         }, (err, result) => {
@@ -203,6 +200,22 @@ export default {
 
       } catch (err) {
         console.log(' ■ authUser() Fail', err);
+      }
+    },
+
+    async [Constant.GET_ACCIDENTS] (store) {
+      try {
+        console.log(" ■ Action ==> GET_ACCIDENTS ");
+        await store.state.contractInstance().methods.getCarInfos().call( (err, result) => {
+          if (err) {
+            console.log(" ■ GET_ACCIDENTS Error !! ", err)
+          } else {
+            console.log (" GET_ACCIDENTS ", result)
+            store.commit(Constant.GET_ACCIDENTS,result);
+          }
+        });
+      } catch (err) {
+        console.log(' ■ GET_ACCIDENTS() Fail', err);
       }
     },
 

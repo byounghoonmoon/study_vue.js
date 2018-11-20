@@ -34,6 +34,7 @@ export default {
     GET_USER_COUNT : "getUserCount",
     GET_USER : "getUser",
     GET_USERS : "getUsers",
+    GET_ACCIDENTS : "getAccidents",
 
     // DApp 트랜잭션 발생 관련 
     REGISTER_AUTH_USER : "registerAuthUser",
@@ -44,7 +45,7 @@ export default {
     PAYMENT_REPAIR_FEE : "paymentRepairFee",
 
     // 컨트랙트 정보
-    ADDRESS : "0xd7E2eD78d90612760C36979a83f5456C0EAb5A4d",
+    ADDRESS : "0x5d36ecF98104B31E64fFEf41eEca227F0c379125",
     ABI :[
         {
             "constant": false,

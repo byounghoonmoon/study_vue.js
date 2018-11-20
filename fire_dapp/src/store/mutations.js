@@ -32,13 +32,39 @@ export default {
     },
     
     [Constant.GET_USER_COUNT]  (state, payload) {
-        console.log(" ■ Mutation ==> GetUserCount : ", payload.c[0])
-        state.userCnt = payload.c[0];
+        console.log(" ■ Mutation ==> GetUserCount : ", payload)
+        state.userCnt = payload;
     },
     
     [Constant.GET_USER]  (state, payload) {
         console.log(" ■ Mutation ==> GetUser , userInfo Setting : ", payload)
         state.userInfo = payload;
+    },
+
+    
+    // 전체 사고접수현황 가져오기 
+    [Constant.GET_ACCIDENTS]  (state, payload) {
+        console.log(" ■ Mutation ==> Get Accidents , userInfo Setting : ", payload)
+        // var carInfo = {accInfo	:	payload[0].accInfo
+        //     ,accReqDate	:	payload[0].accReqDate
+        //     ,accReqNo	:	payload[0].accReqNo
+        //     ,bankAccount	:	payload[0].bankAccount
+        //     ,carNo	:	payload[0].carNo
+        //     ,centerCd	:	payload[0].centerCd
+        //     ,centerNm	:	payload[0].centerNm
+        //     ,idx	:	payload[0].idx
+        //     ,insCd	:	payload[0].insCd
+        //     ,insNm	:	payload[0].insNm
+        //     ,repairCost	:	payload[0].repairCost
+        //     ,repairInfo	:	payload[0].repairInfo
+        //     ,reqTel	:	payload[0].reqTel
+        //     ,status	:	payload[0].status
+        //     ,userAddr	:	payload[0].userAddr
+        //     ,userId	:	payload[0].userId
+        //     ,userNm	:	payload[0].userNm
+            
+        // };
+        state.initCarInfoList= payload;
     },
      // 팝업 호출 - (공통) 사고접수 상세보기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
