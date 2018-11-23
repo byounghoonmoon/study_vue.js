@@ -11,15 +11,15 @@
             <th scope="col">고객명</th>
             <th scope="col">차량번호</th>
             <th scope="col">사고내용</th>
-            <th v-if="userCls==='U'" scope="col">수리요청</th>
-            <th v-if="userCls==='C'" scope="col">수리내용</th>
-            <th v-if="userCls==='C'" scope="col">수리비청구</th>
-            <th v-if="userCls==='I'" scope="col">보험금지급</th>
+            <th v-if="userInfo.userCls==='U'" scope="col">수리요청</th>
+            <th v-if="userInfo.userCls==='C'" scope="col">수리내용</th>
+            <th v-if="userInfo.userCls==='C'" scope="col">수리비청구</th>
+            <th v-if="userInfo.userCls==='I'" scope="col">보험금지급</th>
             <th scope="col">현황</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="a in initCarInfoList" :key="a.accReqNo" :id="a.accReqNo">
+          <tr v-for="a in carInfos" :key="a.accReqNo" :id="a.accReqNo">
             <td scope="row">{{a.accReqNo}}</td>
             <td>{{a.userNm}}</td>
             <td>{{a.carNo}}</td>
@@ -28,7 +28,7 @@
                   <button type="button" class="btn btn-success btn-sm" @click="openPopupAccidentDetail(a)">상세보기</button> 
                 </span>
             </td>
-            <td v-if="userCls==='U'" >
+            <td v-if="userInfo.userCls==='U'" >
                 <span v-if="a.status<20"> 
                   <div><button type="button" class="btn btn-primary btn-sm" @click="openPopupRequestRepair(a)">수리요청</button> </div>
                 </span>
@@ -39,7 +39,7 @@
                   <button disabled="disabled" class="btn btn-secondary btn-sm" >수리완료</button>  
                 </span>
             </td>
-            <td v-if="userCls==='C'" >
+            <td v-if="userInfo.userCls==='C'" >
                 <span v-if="a.status<20"> 
                   <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
                 </span>
@@ -53,7 +53,7 @@
                   <button disabled="disabled" class="btn btn-secondary btn-sm" >수리완료</button>  
                 </span>
             </td>
-            <td v-if="userCls==='C'" >
+            <td v-if="userInfo.userCls==='C'" >
                 <span v-if="a.status<20"> 
                   <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
                 </span>
@@ -70,7 +70,7 @@
                   <button disabled="disabled" class="btn btn-secondary btn-sm" >지급완료</button>  
                 </span>
             </td>
-             <td v-if="userCls==='I'" >
+             <td v-if="userInfo.userCls==='I'" >
                 <span v-if="a.status<20"> 
                   <button disabled="disabled" type="button" class="btn btn-secondary btn-sm" >수리요청전</button> 
                 </span>
@@ -95,6 +95,10 @@
           </tr>
         </tbody>
       </table>
+      
+      <div class="bottom_area" v-if="userInfo.userCls=='U'">
+        <button type="button" class="btn btn-primary" @click="goToBack()">뒤로가기</button>
+      </div>
     </div>
 </template>
 
@@ -117,10 +121,10 @@ export default {
       return {
           checkRow : "",
           selectedRepair: "",
-          selectedInsurance :""
+          selectedInsurance :""          
       }
   },
-  computed : mapState(['initCenterInfoList','initCarInfoList','popupView','userCls','centerMode']),
+  computed : mapState(['initCenterInfoList','initCarInfoList','popupView','userCls','centerMode','carInfos','userInfo']),
   watch : {
     selectedRepair : function(sel) { 
       console.log("### selected Center ", sel);
@@ -129,6 +133,9 @@ export default {
   },
 
   methods: {
+    goToBack : function(payload){
+        this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"SelectMenuForUser",userCls:this.userInfo.userCls});
+    },
     // 사고상세 팝업
     openPopupAccidentDetail : function(carInfo) {
       console.log("## 상세보기 사고현황", carInfo)

@@ -38,34 +38,79 @@ export default {
     
     [Constant.GET_USER]  (state, payload) {
         console.log(" ■ Mutation ==> GetUser , userInfo Setting : ", payload)
-        state.userInfo = payload;
+        const userInfo = {};
+        userInfo.userAddr   = payload.userAddr;
+        userInfo.userId     = payload.userId;
+        userInfo.userNm     = payload.userNm;
+        userInfo.userCls    = payload.userCls; 
+        userInfo.insCd      = payload.insCd;
+        userInfo.insNm      = payload.insNm;
+        userInfo.centerCd      = payload.centerCd;
+        userInfo.centerNm      = payload.centerNm;
+        state.userInfo = userInfo;        
     },
-
+    // 사고 접수 신청
+    [Constant.APPLY_ACCIDENT]  (state, payload) {
+        console.log(" ■ Mutation ==> CarInfoList push : ", payload)
+        state.initCarInfoList.push(payload);
+        state.carInfo = {  carNo:"",  reqTel:"", 
+        accReqNo:"", accInfo:"", accReqDate:"", 
+        userAddr:"", userId:"", userNm:"", 
+        insCd:"", insNm:"", 
+        centerCd:"", centerNm:"",
+        repairCost:"", repairInfo:"", bankCd:"", bankAccount:"", status:""}
+    
+    },
     
     // 전체 사고접수현황 가져오기 
     [Constant.GET_ACCIDENTS]  (state, payload) {
-        console.log(" ■ Mutation ==> Get Accidents , userInfo Setting : ", payload)
-        // var carInfo = {accInfo	:	payload[0].accInfo
-        //     ,accReqDate	:	payload[0].accReqDate
-        //     ,accReqNo	:	payload[0].accReqNo
-        //     ,bankAccount	:	payload[0].bankAccount
-        //     ,carNo	:	payload[0].carNo
-        //     ,centerCd	:	payload[0].centerCd
-        //     ,centerNm	:	payload[0].centerNm
-        //     ,idx	:	payload[0].idx
-        //     ,insCd	:	payload[0].insCd
-        //     ,insNm	:	payload[0].insNm
-        //     ,repairCost	:	payload[0].repairCost
-        //     ,repairInfo	:	payload[0].repairInfo
-        //     ,reqTel	:	payload[0].reqTel
-        //     ,status	:	payload[0].status
-        //     ,userAddr	:	payload[0].userAddr
-        //     ,userId	:	payload[0].userId
-        //     ,userNm	:	payload[0].userNm
-            
-        // };
-        state.initCarInfoList= payload;
+        console.log("############## ", payload.length)
+        state.initCarInfoList = [];
+        payload.forEach(element => {
+            const carInfo ={};
+            carInfo.accInfo 	=	element.accInfo	;
+            carInfo.accReqDate	=	element.accReqDate	;
+            carInfo.accReqNo	=	element.accReqNo	;
+            carInfo.bankAccount	=	element.bankAccount	;
+            carInfo.bankCd  	=	element.bankCd	;
+            carInfo.carNo   	=	element.carNo	;
+            carInfo.centerCd	=	element.centerCd	;
+            carInfo.centerNm	=	element.centerNm	;
+            carInfo.idx     	=	element.idx	;
+            carInfo.insCd   	=	element.insCd	;
+            carInfo.insNm   	=	element.insNm	;
+            carInfo.repairCost	=	element.repairCost	;
+            carInfo.repairInfo	=	element.repairInfo	;
+            carInfo.reqTel  	=	element.reqTel	;
+            carInfo.status  	=	element.status	;
+            carInfo.userAddr	=	element.userAddr	;
+            carInfo.userId  	=	element.userId	;
+            carInfo.userNm  	=	element.userNm	;
+            state.initCarInfoList.push(carInfo);
+        });
     },
+    // 사고접수현황 필터
+    [Constant.GET_FILTER_ACCIDENTS]  (state, payload) {
+        
+
+        if(payload.userCls =='U'){
+            state.carInfos = state.initCarInfoList.filter(function(item){
+                return item.userAddr== payload.userAddr;
+            });
+        }else if(payload.userCls=='C'){
+            state.carInfos = state.initCarInfoList.filter(function(item){
+                return item.centerCd== payload.centerCd;
+            });
+        }else if(payload.userCls =='I'){
+            console.log(" 보험사 필터적용 ")
+            state.carInfos = state.initCarInfoList.filter(function(item){
+                return item.insCd== payload.insCd;
+            });
+        }
+        // 전체사고리스트 삭제
+        state.initCarInfoList = [];
+    },
+
      // 팝업 호출 - (공통) 사고접수 상세보기
      [Constant.OPEN_POPUP_ACCIDENT_DETAIL] : (state, payload) => {
         state.carInfo = payload.carInfo;
@@ -89,14 +134,7 @@ export default {
 
      // 고객 - 수리 요청 (사고접수번호, 고객번호 , 보험사 코드)
      [Constant.REQUEST_REPAIR] : (state, payload) => {
-        
-        // 블록체인 연동하지 않았기 때문에, initCarInfo에 셋팅
-        var index = state.initCarInfoList.findIndex((item)=>item.accReqNo === payload.accReqNo);
-        state.initCarInfoList[index].centerCd = payload.centerCd;
-        state.initCarInfoList[index].centerNm = payload.centerNm;
-        state.initCarInfoList[index].status= "20";
         state.popupView = null;
-
     },
     // 수리 완료 (사고접수번호, 고객번호 , 보험사 코드)
     [Constant.COMPLETE_REPAIR] : (state, payload) => {
@@ -147,7 +185,27 @@ export default {
     // 센터 모드 변경 
     [Constant.CHANGE_CENTER_MODE] : (state,payload) => {
         state.centerMode = payload.centerMode;
-    } 
+    } ,
+     // 센터 및 보험사 추가
+     [Constant.INIT_SELECT_DATA] : (state,payload) => {
+        
+        state.centerInfos = state.initCenterInfoList;
+        state.insurerInfos = state.initInsurerInfoList;
+
+        payload.forEach(item => {
+            if(item.userCls=='C')
+                state.centerInfos.push({'centerCd':item.centerCd,'centerNm':item.centerNm})
+            else if(item.userCls=='I')
+                state.insurerInfos.push({'insCd':item.insCd,'insNm':item.insNm})
+        });
+    }  ,
+
+    // 사고 신청 초기화 
+    ['initCarinfo'] :(state)=>{
+        state.carInfo = {};
+    }
+
+
     
 
 

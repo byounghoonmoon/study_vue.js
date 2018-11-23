@@ -6,15 +6,15 @@
         <span>본인의 유형을 선택하세요</span>
         <div id="Area_AuthUser_Label">
           <span>
-            <input type="radio" id="insur" value="I" v-model=userType>
+            <input type="radio" id="insur" value="I" v-model=typeSelected>
             <label for="insur"> 보험사 </label>
           </span>
           <span>
-            <input type="radio" id="user" value="U" v-model=userType>
+            <input type="radio" id="user" value="U" v-model=typeSelected>
             <label for="user"> 사용자</label>
           </span>
           <span>
-            <input type="radio" id="repair" value="C" v-model=userType>
+            <input type="radio" id="repair" value="C" v-model=typeSelected>
             <label for="repair"> 공업사 </label>
           </span>
         </div>
@@ -35,7 +35,7 @@
           <tr>
             <th>가입보험사 </th>
             <td>
-              <select v-model="selected">
+              <select v-model="insurSelected">
                 <option disabled value="">가입보험사를 선택하세요</option>
                 <option  v-for="a in initInsurerInfoList" :key="a.insCd" :value="{ insCd : a.insCd, insNm: a.insNm }">
                   {{a.insNm}}
@@ -99,17 +99,14 @@ import Constant from '../Constant'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'auth-user', 
-  mounted (){
-    //
-  },
   data : function() {
         return { 
-          userType:"U",
-          selected : ""
+          typeSelected:"U",
+          insurSelected : ""
         }
   },
   watch: { 
-    userType : function(sel){
+    typeSelected : function(sel){
       this.userInfo.userCls = sel;    
       this.userInfo.userId = "";
       this.userInfo.userNm = "";
@@ -119,15 +116,15 @@ export default {
       this.userInfo.centerNm = "";
       
     },
-    selected : function(sel) { 
+    insurSelected : function(sel) { 
       this.userInfo.insCd = sel.insCd;
       this.userInfo.insNm = sel.insNm;
     }
   },
 
-  computed : mapState(['userCls','currentView','isAuthUserCheck','userCnt','userInfo','initInsurerInfoList','initCenterInfoList','contractInstance']),
+  computed : mapState(['currentView','userCnt','userInfo','initInsurerInfoList','initCenterInfoList']),
   methods : {
-      // ...mapActions([ Constant.AUTH_USER])
+
       registerAuthUser : function(payload) {
             this.$store.dispatch(Constant.REGISTER_AUTH_USER, payload);
        },

@@ -29,91 +29,104 @@ export default {
     async [Constant.INIT_USER_CHECK] (store) {
       try {
         console.log(" ■ Step 3. INIT_USER_CHECK ==> Action ")
-        await store.state.contractInstance().methods.isUser().call({
-          gas: 100000,
-          from: store.state.web3.coinbase
-        }, (err, result) => {
-          if (err) {
-            console.log(err)
-          } else {
-            
-            store.commit(Constant.IS_AUTH_USER_CHECK,result);
-            console.log(" ■ Step 3. INIT_USER_CHECK ==> Commit " , result)
 
-            // 인증된 사용자라면 정보 가져온 후 화면 전환
-            if(result){
-              store.dispatch(Constant.INIT_GET_USER);
-              console.log (" ■ Step 4. User Info Detail " ,store.state.userInfo)
+        const result = await store.state.contractInstance().methods.isUser().call({gas: 100000,from: store.state.web3.coinbase});
+        console.log(" ◆◆◆◆◆◆◆◆◆◆◆◆ ", result);
+        if(result){
+          store.commit(Constant.IS_AUTH_USER_CHECK,result);
+          store.state.contractInstance().methods.getUser().call({gas: 300000,from: store.state.web3.coinbase}, (err, result)=>{
+            if(err){
+              console.error(" 사용자 가져오기 에러 발생 : ", err);
             }
-          }
-        });
+            else{
+              const resultUserInfo = result;
+              store.commit(Constant.GET_USER,resultUserInfo);
+              if(resultUserInfo.userCls=='U'){
+                store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"SelectMenuForUser",userCls:resultUserInfo.userCls});
+              }else if(resultUserInfo.userCls=='C'){
+                // 사고접수건 가져오기
+                store.state.contractInstance().methods.getCarInfoArr().call( (err, result) => {
+                  if (err) {
+                    console.log(" ■ GET_ACCIDENTS Error !! ", err)
+                  } else {
+                    console.log (" GET_ACCIDENTS ", result)
+                    store.commit(Constant.GET_ACCIDENTS,result);
+                    store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':resultUserInfo.userCls,'centerCd':resultUserInfo.centerCd,'centerNm':resultUserInfo.centerNm});
+                    store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"StatusAccident",userCls:resultUserInfo.userCls});
+                  }
+                });
+                
+              }else if(resultUserInfo.userCls=='I'){
+                 // 사고접수건 가져오기
+                 store.state.contractInstance().methods.getCarInfoArr().call( (err, result) => {
+                  if (err) {
+                    console.log(" ■ GET_ACCIDENTS Error !! ", err)
+                  } else {
+                    console.log (" 보험사 전용 : GET_ACCIDENTS ", result)
+                    store.commit(Constant.GET_ACCIDENTS,result);// 사고접수건 가져오기
+                    store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':resultUserInfo.userCls,'insCd':resultUserInfo.insCd,'insNm':resultUserInfo.insNm});
+                    store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"StatusAccident",userCls:resultUserInfo.userCls});
+                  }
+                });
+              }
+            }
+          });
+         
+        }
       } catch (err) {
-        console.log(' ■ isAuthUser() Fail', err);
+        console.log(' ■ INIT_USER_CHECK() Fail', err);
       }
     } ,
-    async [Constant.INIT_GET_USER] (store) {
+    async [Constant.INIT_SELECT_DATA] (store) {
       try {
-        console.log(" ■ Action ==> INIT_GET_USER ");
-        await store.state.contractInstance().methods.getUser().call({
-          gas: 300000,
-          from: store.state.web3.coinbase
-        }, (err, result) => {
-          if (err) {
-            console.log(err)
-          } else {
-            
-            /*
-            userId 있을경우 ==> 사용자 
-            userId 없을경우 ==> 보험사, 공업사
-            centerId 있을경우 ==> 공업사
-            insurId 있을경우 ==> 보험사 
-            */ 
-            let paramUserInfo ={};
-            let paramChangeView = {};
-
-            if(result[1] !=""){
-              paramUserInfo.userCls = "U"
-              paramUserInfo.userId  = result[1]
-              paramUserInfo.userNm  = result[2]
-              paramUserInfo.insCd   = result[3]
-              paramUserInfo.insNm   = result[4] 
-              paramChangeView.currentView ="SelectMenuForUser";
-            }else{
-              paramChangeView.currentView ="StatusAccident";
-              if(result[3] !=""){
-                paramUserInfo.userCls = "I"
-                paramUserInfo.insCd   = result[3]
-                paramUserInfo.insNm   = result[4]
-              }
-              else{
-                paramUserInfo.userCls = "C"
-                paramUserInfo.insCd   = result[3]
-                paramUserInfo.insNm   = result[4]
-              } 
-            }
-            paramChangeView.userCls = paramUserInfo.userCls;
-            
-            store.commit(Constant.GET_USER, paramUserInfo); 
-            store.commit(Constant.CHANGE_VIEW_AND_TYPE, paramChangeView);
-          }
-        });
+        console.log(" ■ Action ==> INIT_SELECT_DATA ");
+        const userInfo = await store.state.contractInstance().methods.getUserInfoArr().call({gas: 300000,from: store.state.web3.coinbase});
+        console.log( " ■ INIT_SELECT_DATA ==> ", userInfo )
+        store.commit(Constant.INIT_SELECT_DATA, userInfo);
+        
       } catch (err) {
         console.log(' ■ getUser() Fail', err);
       }
     },
     async [Constant.REGISTER_AUTH_USER] (store,payload) {
       try {
-
         console.log(" ■ Action ==> Register Auth User ", payload);
+        const prevCnt = store.state.userCnt;
+        console.log(" ■ Prev ", prevCnt)
         await store.state.contractInstance().methods.authUser(payload.userCls,payload.userId,payload.userNm,payload.insCd,payload.insNm,payload.centerCd, payload.centerNm)
-            .send({gas: 1000000,from: store.state.web3.coinbase}, (err, result) => {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(" ■ Register Auth User() Success" , result);  
-            store.dispatch(Constant.GET_USER_COUNT);
+            .send({gas: 1000000,from: store.state.web3.coinbase});
+        const nextCnt = await store.dispatch(Constant.GET_USER_COUNT);
+        console.log(" ■ Next ", nextCnt)
+        if(prevCnt<nextCnt){
+          console.log(" 사용자 등록 완료 ", nextCnt)
+          
+          
+          store.dispatch(Constant.INIT_USER_CHECK);
+          /*
+          if(payload.userCls=='U'){
+            console.log(" 사용자 유형 : ", payload.userCls)
+            store.dispatch(Constant.INIT_USER_CHECK);
           }
-        });
+          else if(payload.userCls=='C'){
+            console.log(" 사용자 유형 : ", payload.userCls)
+            store.state.contractInstance().methods.getCarInfoArr().call( (err, result) => {
+              if (err) {
+                console.log(" ■ GET_ACCIDENTS Error !! ", err)
+              } else {
+                console.log (" GET_ACCIDENTS ", result)
+                store.commit(Constant.GET_ACCIDENTS,result);
+                store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':resultUserInfo.userCls,'centerCd':resultUserInfo.centerCd,'centerNm':resultUserInfo.centerNm});
+                store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"StatusAccident",userCls:resultUserInfo.userCls});
+              }
+            });
+          }
+          else if(payload.userCls=='I'){
+            console.log(" 사용자 유형 : ", payload.userCls)
+            store.commit(Constant.ADD_INSURER,payload.insCd, payload.insNm);
+          }*/
+            
+        }
+       
 
       } catch (err) {
         console.log(' ■ authUser() Fail', err);
@@ -145,6 +158,7 @@ export default {
           } else {
             console.log (" ■ Step 1-2. Get User Count ==> Commit", result)
             store.commit(Constant.GET_USER_COUNT, result);    
+            store.dispatch(Constant.INIT_USER_CHECK);
           }
         });
       }catch (err) {
@@ -159,7 +173,8 @@ export default {
           if (err) {
             console.log(" ■ Get Users Error !! ", err)
           } else {
-            console.log (" GET USER ", result)
+            console.log (" ■ Get User Save ==> Commit", result)
+            store.commit(Constant.GET_USER, result);    
           }
         });
       } catch (err) {
@@ -194,6 +209,7 @@ export default {
           } else {
             console.log(" ■ APPLY_ACCIDENT() Success" , result);
             alert(" 사고접수가 정상적으로 신청되었습니다.")
+            store.commit(Constant.APPLY_ACCIDENT,payload)
             store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"SelectMenuForUser",userCls:"U"});
           }
         });
@@ -206,7 +222,7 @@ export default {
     async [Constant.GET_ACCIDENTS] (store) {
       try {
         console.log(" ■ Action ==> GET_ACCIDENTS ");
-        await store.state.contractInstance().methods.getCarInfos().call( (err, result) => {
+        await store.state.contractInstance().methods.getCarInfoArr().call( (err, result) => {
           if (err) {
             console.log(" ■ GET_ACCIDENTS Error !! ", err)
           } else {
@@ -230,19 +246,19 @@ export default {
       // 임시로 DApp 호출 했다고 가정 후 수행
       store.commit(Constant.OPEN_POPUP_ACCIDENT_DETAIL,payload);
     },
-
-    // 고객전용 - 수리요청하기 팝업 호출
+   
+    // 사용자전용 - 수리요청 팝업 호출
     [Constant.OPEN_POPUP_REQUEST_REPAIR] : (store, payload) => {
       // DApp 호출 필요
       /*
         // 1. DApp 호출 : CarInfo 정보 받아오기 (파라미터 : 사고접수번호, 사용자정보 ?)
         // 2. 팝업화면 호출 (Response 데이터로 , 데이터 바인딩)
       */     
+
       // 임시로 DApp 호출 했다고 가정 후 수행
+      console.log("팝업창 띄우기 ", Constant.OPEN_POPUP_REQUEST_REPAIR)
       store.commit(Constant.OPEN_POPUP_REQUEST_REPAIR,payload);
     },
-
-    
     // 공업사전용 - 수리하기, 수리비청구 팝업 호출
     [Constant.OPEN_POPUP_REPAIR_INFO] : (store, payload) => {
       // DApp 호출 필요
@@ -268,46 +284,90 @@ export default {
       store.commit(Constant.OPEN_POPUP_PAYMENT_FEE,payload);
     },
 
-    // 고객 - 수리요청 
-    [Constant.REQUEST_REPAIR] : (store) => {
-      console.log("### Request Repair Action ");
-      /* DApp 트랜잭션 발생
-        1. 파라미터 : 사고번호 , 선택 공업사 정보
-        2. 정상처리후, 상태값 변경 -> 패치 필요
-      */
-      store.commit(Constant.REQUEST_REPAIR, store.state.carInfo);
+     // 고객전용 - 수리요청하기
+     async [Constant.REQUEST_REPAIR] (store,payload) {
+      try { 
+        console.log(" ■ Action ==> REQUEST_REPAIR ", payload);
+
+        await store.state.contractInstance().methods.repairRequest(payload.accReqNo,payload.centerCd,payload.centerNm).send({
+          gas: 1000000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            alert(" 수리요청이 정상적으로 완료 되었습니다. ")
+            store.commit(Constant.CANCEL_POPUP);
+          }
+        });
+      } catch (err) {
+        console.log(' ■ REQUEST_REPAIR Fail', err);
+      }
     },
 
     // 공업사 - 수리완료 
-    [Constant.COMPLETE_REPAIR] : (store) => {
-      /* DApp 트랜잭션 발생
-        1. 파라미터 : 사고번호, 수리 비용, 수리 내용, 은행 계좌 
-        2. 정상처리후, 상태값 변경 -> 패치 필요
-      */
-      
-      console.log("### Actions -> Mutation : 수리 완료", store.state.carInfo);
-      store.commit(Constant.COMPLETE_REPAIR, store.state.carInfo);
+    async [Constant.COMPLETE_REPAIR] (store,payload)  {
+      try { 
+        console.log(" ■ Action ==> COMPLETE_REPAIR ", payload);
+
+        await store.state.contractInstance().methods.repairComplete(payload.accReqNo,payload.repairCost,payload.repairInfo).send({
+          gas: 1000000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            alert(" 수리완료 되었습니다. ")
+            store.commit(Constant.CANCEL_POPUP);
+          }
+        });
+      } catch (err) {
+        console.log(' ■ REQUEST_REPAIR Fail', err);
+      }
     },
 
     // 공업사 - 수리비청구 
-    [Constant.REQUEST_REPAIR_FEE] : (store) => {
-      
-      /* DApp 트랜잭션 발생
-        1. 파라미터 : 사고번호
-        2. 정상처리후, 상태값 변경 -> 패치 필요
-      */
-      console.log("### Actions -> Mutation : 수리비 청구", store.state.carInfo);
-      store.commit(Constant.REQUEST_REPAIR_FEE, store.state.carInfo);
+    async [Constant.REQUEST_REPAIR_FEE]  (store,payload)  {
+      try { 
+        console.log(" ■ Action ==> REQUEST_REPAIR_FEE ", payload);
+
+        // repairCostRequest(uint _accReqNo, string _bankCd, string _bankAccount) 
+        await store.state.contractInstance().methods.repairCostRequest(payload.accReqNo,"11",payload.bankAccount).send({
+          gas: 1000000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            alert(" 수리비청구 완료 되었습니다. ")
+            store.commit(Constant.CANCEL_POPUP);
+          }
+        });
+      } catch (err) {
+        console.log(' ■ REQUEST_REPAIR Fail', err);
+      }
     },
 
     // 보험사 - 보험금 지급
-    [Constant.PAYMENT_REPAIR_FEE] : (store) => {
-      
-      /* DApp 트랜잭션 발생
-        1. 파라미터 : 사고번호
-        2. 정상처리후, 상태값 변경(50) -> 패치 필요
-      */
-      store.commit(Constant.PAYMENT_REPAIR_FEE, store.state.carInfo);
+    async [Constant.PAYMENT_REPAIR_FEE] (store,payload)  {
+      try { 
+        console.log(" ■ Action ==> PAYMENT_REPAIR_FEE ", payload);
+
+        // repairCostPay(uint _accReqNo, string _bankCd, string _bankAccount) 
+        await store.state.contractInstance().methods.repairCostPay(payload.accReqNo,"11",payload.bankAccount).send({
+          gas: 1000000,
+          from: store.state.web3.coinbase
+        }, (err, result) => {
+          if (err) {
+            console.log(err)
+          } else {
+            alert(" 보험금 지급이 완료 되었습니다. ")
+            store.commit(Constant.CANCEL_POPUP);
+          }
+        });
+      } catch (err) {
+        console.log(' ■ PAYMENT_REPAIR_FEE Fail', err);
+      }
     },
     
 

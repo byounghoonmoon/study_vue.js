@@ -43,12 +43,15 @@
                         <b-form-textarea v-model=carInfo.repairInfo placeholder="범퍼, 백미러" :rows="3" :max-rows="6"></b-form-textarea>
                     </td>
                 </tr>
-                <tr>
-                <th>은행 계좌</th>
-                    <td v-if="centerMode==3" colspan="3">
-                        {{carInfo.bankAccount}}
+                <tr v-if="centerMode==3">
+                    <th >보험사</th>
+                    <td  colspan="3">
+                        {{carInfo.insNm}}
                     </td>
-                    <td v-else colspan="3">
+                </tr>
+                <tr v-if="centerMode==3">
+                    <th >은행 계좌</th>
+                    <td  colspan="3">
                         <input  type="text" class="" placeholder="국민 760702-04-178719" v-model=carInfo.bankAccount>
                     </td>
                 </tr>
@@ -73,19 +76,34 @@ import { mapState } from 'vuex';
 export default {
     name : "PopupRepairInfo",
     computed : {
-        ...mapState([ 'popupView', 'carInfo' ,'centerMode' ])
+        ...mapState([ 'popupView', 'carInfo' ,'centerMode','userInfo' ])
     },
     methods : {
-        completeRepair : function(){
-            if(this.$store.state.carInfo.repairCost=="" || this.$store.state.carInfo.bankAccount=="")
+        async completeRepair(){
+            if(this.$store.state.carInfo.repairCost=="")
             {
-                alert("수리비용 또는 은행계좌를 반드시 입력하세요.");
+                alert("수리비용을 반드시 입력하세요.");
                 return;
             }
-            this.$store.dispatch(Constant.COMPLETE_REPAIR);
+            await this.$store.dispatch(Constant.COMPLETE_REPAIR,this.$store.state.carInfo);
+            
+            // 전체 사고 현황 조회 
+            await this.$store.dispatch(Constant.GET_ACCIDENTS);
+            // 본인 관련 사고 현황 필터
+            this.$store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':this.$store.state.userInfo.userCls,'centerCd':this.$store.state.userInfo.centerCd});
         },
-        requestRepairFee : function(){
-            this.$store.dispatch(Constant.REQUEST_REPAIR_FEE);
+        async requestRepairFee(){
+            if(this.$store.state.carInfo.bankAccount=="")
+            {
+                alert("계좌번호를 반드시 입력하세요.");
+                return;
+            }
+            await this.$store.dispatch(Constant.REQUEST_REPAIR_FEE,this.$store.state.carInfo);
+
+            // 전체 사고 현황 조회 
+            await this.$store.dispatch(Constant.GET_ACCIDENTS);
+            // 본인 관련 사고 현황 필터
+            this.$store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':this.$store.state.userInfo.userCls,'centerCd':this.$store.state.userInfo.centerCd});
         },
         cancelEvent : function() {
             this.$store.dispatch(Constant.CANCEL_POPUP);

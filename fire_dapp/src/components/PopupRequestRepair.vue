@@ -66,7 +66,7 @@ export default {
       }
     },
     computed : {
-        ...mapState([ 'initCenterInfoList','popupView', 'carInfo' ])
+        ...mapState([ 'initCenterInfoList','popupView', 'carInfo','userInfo' ])
     },
     watch : {
         selected : function(sel) { 
@@ -74,17 +74,25 @@ export default {
             this.carInfo.centerNm = sel.centerNm;
     }
     },
+    
     methods : {
-        cancelEvent : function() {
+        cancelEvent() {
             this.$store.dispatch(Constant.CANCEL_POPUP);
         },
-        requestRepair : function(){
+        async requestRepair() {
             if(this.selected==""){
                 alert("공업사를 선택하세요! ")
                 return;
             }
+            // repairRequest(uint _accReqNo, string _centerCd, string _centerNm) 
             console.info(" ■ 수리요청 트랜잭션 : ", this.$store.state.carInfo)
-            this.$store.dispatch(Constant.REQUEST_REPAIR);
+            await this.$store.dispatch(Constant.REQUEST_REPAIR,this.$store.state.carInfo);
+                
+            // 전체 사고 현황 조회 
+            await this.$store.dispatch(Constant.GET_ACCIDENTS);
+            // 본인 관련 사고 현황 필터
+            this.$store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':this.$store.state.userInfo.userCls,'userAddr':this.$store.state.userInfo.userAddr});
+            
         }
     }
 }

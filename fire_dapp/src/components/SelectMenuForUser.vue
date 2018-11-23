@@ -20,15 +20,19 @@ export default {
   name: 'select-menu-for-user', 
   computed : mapState(['userInfo']),
   methods : {
-    change(param) {
-      if(param.gubun=='2'){
-        this.$store.dispatch(Constant.GET_ACCIDENTS);
+    async change(param) {
+      if(param.gubun=='1'){
+        this.$store.commit('initCarinfo', param);
         this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
       }
-
-      else
+      else{        
+        // 전체 사고 현황 조회 
+        await this.$store.dispatch(Constant.GET_ACCIDENTS);
+        // 본인 관련 사고 현황 필터
+        const userAddr = this.$store.state.userInfo.userAddr;
+        this.$store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':this.$store.state.userCls,'userAddr':userAddr});
         this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, param);
-      console.log(' ■ 변경 ', param)
+      }
     }
   }
 }
@@ -44,7 +48,6 @@ export default {
 }
 #bottom_area{
   text-align: center;
-
 }
 
 button{

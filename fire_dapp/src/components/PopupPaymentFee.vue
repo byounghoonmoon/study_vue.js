@@ -38,10 +38,13 @@
                     </td>
                 </tr>
                 <tr>
-                <th>은행 계좌</th>
-                    <td colspan="3">
+                    <th>공업사명</th>
+                    <td>{{carInfo.centerNm}}</td>
+                    <th>은행 계좌</th>
+                    <td>
                         {{carInfo.bankAccount}}
                     </td>
+                    
                 </tr>
             </tbody>
          </table>
@@ -65,8 +68,12 @@ export default {
         ...mapState([ 'popupView', 'carInfo' ])
     },
     methods : {
-        paymentRepairFee : function(){
-            this.$store.dispatch(Constant.PAYMENT_REPAIR_FEE);
+        async paymentRepairFee(){
+            await this.$store.dispatch(Constant.PAYMENT_REPAIR_FEE,this.$store.state.carInfo);
+            // 전체 사고 현황 조회 
+            await this.$store.dispatch(Constant.GET_ACCIDENTS);
+            // 본인 관련 사고 현황 필터
+            this.$store.commit(Constant.GET_FILTER_ACCIDENTS,{'userCls':this.$store.state.userInfo.userCls,'insCd':this.$store.state.userInfo.insCd});
         },
         cancelEvent : function() {
             this.$store.dispatch(Constant.CANCEL_POPUP);
