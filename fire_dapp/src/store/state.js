@@ -20,12 +20,12 @@ export default {
     
     // 초기값 정보 셋팅
     initInsurerInfoList : [
-        {insCd:"I001", insNm : "삼성화재",  addr: ""  },
-        {insCd:"I002", insNm : "DB화재",    addr: ""   }
+        // {insCd:"I001", insNm : "삼성화재",  addr: ""  },
+        // {insCd:"I002", insNm : "DB화재",    addr: ""   }
     ],
     initCenterInfoList : [
-        {centerCd:"C001", centerNm : "삼성센터",  addr : "" },
-        {centerCd:"C002", centerNm : "미라콤센터",  addr : "" }
+        // {centerCd:"C001", centerNm : "삼성센터",  addr : "" },
+        // {centerCd:"C002", centerNm : "미라콤센터",  addr : "" }
     ],
     initCarInfoList : [
         

@@ -79,7 +79,7 @@ export default {
   data : function() {
         return { 
           selected : "",
-          accidentInfo :{ date:"", time:""}
+          accidentInfo :{ date: "", time:""}
         }
   },
   watch : {
@@ -141,6 +141,7 @@ export default {
 }
 .table_list th {
   text-align: center;
+  vertical-align:middle;
 }
 .userInfo{
   text-align: center;

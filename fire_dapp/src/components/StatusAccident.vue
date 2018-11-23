@@ -2,8 +2,17 @@
    
   <div id="StatusAccident">
     <keep-alive >
+        <transition name="component-fade" mode="out-in">
           <component v-bind:is="popupView" style="width:1200px;"></component>
+        </transition>
     </keep-alive>
+    <div style="float:right; font-size:18px">
+      <p>
+          <strong v-if="userInfo.userCls==='U'">{{userInfo.userNm}} 고객님</strong>
+          <strong v-if="userInfo.userCls==='C'">{{userInfo.centerNm}} 공업사</strong> 
+          <strong v-if="userInfo.userCls==='I'">{{userInfo.insNm}} 보험사</strong>  접수현황
+      </p>
+    </div>
       <table class="table table_list">
         <thead>
           <tr>
@@ -15,11 +24,13 @@
             <th v-if="userInfo.userCls==='C'" scope="col">수리내용</th>
             <th v-if="userInfo.userCls==='C'" scope="col">수리비청구</th>
             <th v-if="userInfo.userCls==='I'" scope="col">보험금지급</th>
-            <th scope="col">현황</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="a in carInfos" :key="a.accReqNo" :id="a.accReqNo">
+          <tr v-if="carInfos.length==0">
+            <td colspan="8">조회된 목록이 없습니다.</td>
+          </tr>
+          <tr v-else v-for="a in carInfos" :key="a.accReqNo" :id="a.accReqNo">
             <td scope="row">{{a.accReqNo}}</td>
             <td>{{a.userNm}}</td>
             <td>{{a.carNo}}</td>
@@ -87,11 +98,11 @@
                   <button disabled="disabled" class="btn btn-danger btn-sm" >지급완료</button>  
                 </span>
             </td>
-            <td>
+            <!-- <td>
               <span> 
                   {{a.status}}
                 </span>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -189,4 +200,11 @@ a {
   text-align: center;
 }
 
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

@@ -140,4 +140,8 @@ export default {
 .bottom_area{
     text-align: center;
 }
+.table_list th {
+  text-align: center;
+  vertical-align:middle;
+}
 </style>

@@ -53,7 +53,7 @@
         <tbody>
           <tr >
             <th>보험사코드 </th>
-            <td><input  type="text" class="form-control" placeholder="I001" v-model.trim=userInfo.insCd></td>
+            <td><input  type="text" class="form-control" placeholder="" v-model.trim=userInfo.insCd></td>
           </tr>
           <tr>
             <th>보험사명 </th>

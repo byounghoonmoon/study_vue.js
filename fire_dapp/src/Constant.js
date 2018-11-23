@@ -56,7 +56,7 @@ export default {    // 블록체인 관련 정보
 
     // 컨트랙트 정보
 
-    ADDRESS : "0x0a646C91Ef4e424edF5796D7163f577493274790",
+    ADDRESS : "0x9f71a296D7cFD4c4a1F89856D3041063Cb044a17",
     ABI :[
 
 {            "constant": true,
