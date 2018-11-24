@@ -117,7 +117,7 @@
 
 
 
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import Constant from '../Constant'
 import PopupAccidentInfo from './PopupAccidentInfo.vue'
 import PopupRequestRepair from './PopupRequestRepair.vue'
@@ -144,7 +144,7 @@ export default {
   },
 
   methods: {
-    goToBack : function(payload){
+    goToBack : function(){
         this.$store.commit(Constant.CHANGE_VIEW_AND_TYPE, {currentView:"SelectMenuForUser",userCls:this.userInfo.userCls});
     },
     // 사고상세 팝업

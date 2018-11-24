@@ -42,7 +42,7 @@ import Constant from './Constant'
 
 
 export default {
-  name: 'App',
+  name: 'CarHub',
   components : {Reveal,HelloMetamask,AuthUser,ApplyAccident,StatusAccident,SelectMenuForUser},
 
   async beforeCreate () {

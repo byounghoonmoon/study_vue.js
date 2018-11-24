@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 
+// Web3 를 이용하여 현재 접속된 계정 가져오기
 
 let getWeb3 = new Promise((resolve, reject) => {
 	var web3  = new Web3(window.web3.currentProvider);

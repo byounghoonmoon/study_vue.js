@@ -20,11 +20,6 @@ export default {    // 블록체인 관련 정보
     INIT_GET_ACCIDENT_STATUS : "initGetAccidentStatus",
     INIT_SELECT_DATA : "initSelectData",
 
-    // 보험사, 공업사 리스트 추가 
-    ADD_INSURER :"addInsurer",
-    ADD_CENTER :"addCenter",
-    
-
     // 팝업관련 정보
 
     OPEN_POPUP_ACCIDENT_DETAIL : "openPopupAccidentDetail",
