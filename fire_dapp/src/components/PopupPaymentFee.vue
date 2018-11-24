@@ -114,4 +114,8 @@ export default {
   text-align: center;
   vertical-align:middle;
 }
+
+.table_list td {
+  vertical-align:middle;
+}
 </style>
